@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAP Widget Demo</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background: #f8f9fa;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+        
+        .demo-section {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .demo-section h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        
+        .chat-interface {
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+        
+        .chat-input {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .chat-input textarea {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            resize: vertical;
+            font-family: inherit;
+        }
+        
+        .chat-input button {
+            padding: 12px 24px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .chat-input button:hover {
+            background: #0056b3;
+        }
+        
+        .form-interface {
+            margin-top: 30px;
+        }
+        
+        .form-interface form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .form-interface input,
+        .form-interface textarea {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: inherit;
+        }
+        
+        .form-interface button {
+            padding: 12px 24px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .form-interface button:hover {
+            background: #218838;
+        }
+        
+        .instructions {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .instructions h3 {
+            margin-top: 0;
+            color: #1976d2;
+        }
+        
+        .instructions ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        
+        .instructions li {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🌍 SAP Widget Demo</h1>
+        <p>Test the Sustainable AI Protocol embeddable widget</p>
+    </div>
+    
+    <div class="instructions">
+        <h3>📋 Instructions</h3>
+        <ul>
+            <li>The SAP widget should appear in the top-right corner</li>
+            <li>Click "Start Tracking" to begin monitoring</li>
+            <li>Type in the text areas below to test tracking</li>
+            <li>Watch the widget update with real-time statistics</li>
+            <li>Try different AI-like interfaces to see auto-detection</li>
+        </ul>
+    </div>
+    
+    <div class="demo-section">
+        <h2>💬 Chat Interface Demo</h2>
+        <p>This simulates a typical AI chat interface:</p>
+        
+        <div class="chat-interface">
+            <div class="chat-input">
+                <textarea placeholder="Ask AI anything... (This will be tracked by SAP widget)"></textarea>
+                <button>Generate Response</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="demo-section">
+        <h2>📝 Form Interface Demo</h2>
+        <p>This simulates an AI form interface:</p>
+        
+        <div class="form-interface">
+            <form>
+                <input type="text" placeholder="Enter your prompt here..." />
+                <textarea placeholder="Additional context or instructions..."></textarea>
+                <button type="submit">Submit to AI</button>
+            </form>
+        </div>
+    </div>
+    
+    <div class="demo-section">
+        <h2>🤖 AI Assistant Demo</h2>
+        <p>This simulates an AI assistant interface:</p>
+        
+        <div class="chat-interface">
+            <div class="chat-input">
+                <textarea placeholder="What would you like me to help you with?"></textarea>
+                <button>Ask Assistant</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="demo-section">
+        <h2>🔧 Integration Code</h2>
+        <p>To integrate SAP widget into your application, add this single line:</p>
+        <pre style="background: #2c3e50; color: #ecf0f1; padding: 20px; border-radius: 5px; overflow-x: auto;">
+&lt;script src="https://your-sap-domain.com/sap/embed.js"&gt;&lt;/script&gt;</pre>
+    </div>
+    
+    <!-- SAP Widget - This is the magic line! -->
+    <script src="/sap/embed.js"></script>
+    
+    <script>
+        // Add some interactivity to the demo
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click handlers to buttons
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const textarea = this.parentElement.querySelector('textarea');
+                    const input = this.parentElement.querySelector('input');
+                    const text = textarea ? textarea.value : input ? input.value : '';
+                    
+                    if (text.trim()) {
+                        alert(`Demo: "${text}" would be processed by AI and tracked by SAP widget!`);
+                    } else {
+                        alert('Please enter some text to test the SAP widget tracking.');
+                    }
+                });
+            });
+            
+            // Add form submission handler
+            const forms = document.querySelectorAll('form');
+            forms.forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const input = this.querySelector('input');
+                    const textarea = this.querySelector('textarea');
+                    const text = input ? input.value : textarea ? textarea.value : '';
+                    
+                    if (text.trim()) {
+                        alert(`Demo: Form submitted with "${text}" - would be tracked by SAP widget!`);
+                    } else {
+                        alert('Please enter some text to test the SAP widget tracking.');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
