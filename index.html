@@ -3284,14 +3284,96 @@
             font-weight: 600;
         }
 
-        .chart-section, .hourly-section, .timeline-section {
+        .chart-section, .hourly-section, .timeline-section, .environmental-section, .climate-action-section {
             margin-bottom: 30px;
         }
 
-        .chart-section h3, .hourly-section h3, .timeline-section h3 {
+        .chart-section h3, .hourly-section h3, .timeline-section h3, .environmental-section h3, .climate-action-section h3 {
             margin: 0 0 16px 0;
             font-size: 18px;
             font-weight: 600;
+        }
+
+        /* Environmental Metrics */
+        .env-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .env-metric {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+            border: 1px solid #e9ecef;
+        }
+
+        .env-label {
+            font-size: 12px;
+            color: #6c757d;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .env-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: #00C853;
+        }
+
+        /* Climate Action Grid */
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .action-item {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+            border: 1px solid #e9ecef;
+            transition: all 0.2s ease;
+        }
+
+        .action-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 200, 83, 0.15);
+        }
+
+        .action-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: #1a1a1a;
+        }
+
+        .action-desc {
+            font-size: 12px;
+            color: #6c757d;
+            margin-bottom: 12px;
+        }
+
+        .action-btn {
+            background: #00C853;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+        }
+
+        .action-btn:hover {
+            background: #00A041;
+            transform: translateY(-1px);
         }
 
         .chart-container, .hourly-chart {
@@ -4661,8 +4743,8 @@ function incrementPersonalCounter() {
         <div class="dashboard-popup">
             <div class="dashboard-header">
                 <div class="dashboard-title-section">
-                    <h2 class="dashboard-title">🌍 SAP Global Impact</h2>
-                    <p class="dashboard-subtitle">Real-time AI energy consumption worldwide</p>
+                    <h2 class="dashboard-title">🌍 Environmental Command Center</h2>
+                    <p class="dashboard-subtitle">Real-time AI impact • Environmental correlations • Climate action</p>
                 </div>
                 <button class="dashboard-close" onclick="closeDashboard()">&times;</button>
             </div>
@@ -4699,6 +4781,29 @@ function incrementPersonalCounter() {
                                 <span class="detail-label">CO₂:</span>
                                 <span class="detail-value" id="personal-co2">0g</span>
                         </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Environmental Correlations -->
+                <div class="environmental-section">
+                    <h3>🌡️ Environmental Impact</h3>
+                    <div class="env-metrics">
+                        <div class="env-metric">
+                            <div class="env-label">Ozone Impact</div>
+                            <div class="env-value" id="ozone-impact">+0.003 ppm</div>
+                        </div>
+                        <div class="env-metric">
+                            <div class="env-label">Greenhouse Gas</div>
+                            <div class="env-value" id="ghg-impact">+2.9g CO₂e</div>
+                        </div>
+                        <div class="env-metric">
+                            <div class="env-label">Water Usage</div>
+                            <div class="env-value" id="water-usage">12L</div>
+                        </div>
+                        <div class="env-metric">
+                            <div class="env-label">Environmental Score</div>
+                            <div class="env-value" id="env-score">7.2/10</div>
                         </div>
                     </div>
                 </div>
@@ -4759,13 +4864,40 @@ function incrementPersonalCounter() {
                         <p class="count-subtext">Track your personal AI usage and contribute to global metrics</p>
                 </div>
 
+                <!-- Climate Action Center -->
+                <div class="climate-action-section">
+                    <h3>🌱 Take Climate Action</h3>
+                    <div class="action-grid">
+                        <div class="action-item">
+                            <div class="action-title">💰 Offset CO₂</div>
+                            <div class="action-desc">50g CO₂ for $0.08</div>
+                            <button class="action-btn" onclick="offsetCO2()">Offset Now</button>
+                        </div>
+                        <div class="action-item">
+                            <div class="action-title">🌳 Plant Tree</div>
+                            <div class="action-desc">$2.50 per tree</div>
+                            <button class="action-btn" onclick="plantTree()">Plant Now</button>
+                        </div>
+                        <div class="action-item">
+                            <div class="action-title">🔋 Solar Fund</div>
+                            <div class="action-desc">$5.00 contribution</div>
+                            <button class="action-btn" onclick="fundSolar()">Fund Now</button>
+                        </div>
+                        <div class="action-item">
+                            <div class="action-title">🌊 Ocean Cleanup</div>
+                            <div class="action-desc">$10.00 contribution</div>
+                            <button class="action-btn" onclick="cleanOcean()">Clean Now</button>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Call to Action -->
                 <div class="cta-section">
                         <button class="dashboard-cta" onclick="joinSAP('lifetime-beta')">
                         <span class="cta-icon">🚀</span>
                             Get $2.50 Beta Access (50% OFF)
                     </button>
-                        <p class="cta-subtext">Global counter + personal cache during beta dev period</p>
+                        <p class="cta-subtext">Join the environmental force multiplier • Global counter + personal cache</p>
                 </div>
             </div>
         </div>
@@ -5753,6 +5885,23 @@ function incrementPersonalCounter() {
             }
             
             // Note: Counter increment is handled by updateLocalData in sendMessage
+        }
+
+        // Climate Action Functions
+        function offsetCO2() {
+            alert('🌱 CO₂ Offset: $0.08 for 50g CO₂\n\nThis will be implemented with real climate project funding in Phase 2!');
+        }
+
+        function plantTree() {
+            alert('🌳 Plant a Tree: $2.50\n\nThis will be implemented with real tree planting programs in Phase 2!');
+        }
+
+        function fundSolar() {
+            alert('🔋 Solar Fund: $5.00\n\nThis will be implemented with real solar energy projects in Phase 2!');
+        }
+
+        function cleanOcean() {
+            alert('🌊 Ocean Cleanup: $10.00\n\nThis will be implemented with real ocean cleanup initiatives in Phase 2!');
         }
 
         // Join SAP membership
