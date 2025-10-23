@@ -3,63 +3,6145 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sustainable AI Protocol - Redirect</title>
+    <title>SAP - Sustainable AI Protocol</title>
+    <script async src="https://tally.so/widgets/embed.js"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://phewsh.com/sap">
+    <meta property="og:title" content="SAP - Sustainable AI Protocol">
+    <meta property="og:description" content="The Missing Button from Every AI Chat Interface. One small button. Enormous change. The Sustainable AI Protocol (SAP) brings transparency and accountability to every AI interaction.">
+    <meta property="og:image" content="https://phewsh.com/assets/SAPLogo.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="SAP - Sustainable AI Protocol">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://phewsh.com/sap">
+    <meta property="twitter:title" content="SAP - Sustainable AI Protocol">
+    <meta property="twitter:description" content="The Missing Button from Every AI Chat Interface. One small button. Enormous change. The Sustainable AI Protocol (SAP) brings transparency and accountability to every AI interaction.">
+    <meta property="twitter:image" content="https://phewsh.com/assets/SAPLogo.png">
+    
+    <!-- Additional meta tags -->
+    <meta name="description" content="The Missing Button from Every AI Chat Interface. One small button. Enormous change. The Sustainable AI Protocol (SAP) brings transparency and accountability to every AI interaction.">
+    <meta name="keywords" content="AI, sustainability, energy, transparency, protocol, SAP, artificial intelligence, carbon footprint">
+    <meta name="author" content="SAP Foundation">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        * {
             margin: 0;
             padding: 0;
-            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background: #ffffff;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            body {
+                color: #ffffff;
+                background: #0a0a0a;
+            }
+            
+            .protocol-section,
+            .how-it-works,
+            .ecosystem-section,
+            .roadmap-section {
+                background: #0a0a0a;
+            }
+            
+            .membership-section {
+                background: white;
+            }
+            
+            .protocol-title,
+            .how-title,
+            .ecosystem-title,
+            .roadmap-title {
+                color: #ffffff;
+            }
+            
+            .membership-title {
+                color: #1a1a1a;
+            }
+            
+            .protocol-subtitle,
+            .ecosystem-subtitle {
+                color: #cccccc;
+            }
+            
+            .membership-subtitle {
+                color: #1a1a1a;
+            }
+            
+            .component-card,
+            .step,
+            .platform-card {
+                background: #1a1a1a;
+                border-color: #333;
+            }
+            
+            .component-title,
+            .step-title {
+                color: #ffffff;
+            }
+            
+            .component-description,
+            .step-description {
+                color: #cccccc;
+            }
+            
+            .accordion-item {
+                background: #1a1a1a;
+                border-color: #333;
+            }
+            
+            .accordion-header {
+                color: #ffffff;
+            }
+            
+            .accordion-content {
+                color: #cccccc;
+            }
+            
+            .footer {
+                background: #000000;
+            }
+            
+            .footer-section h4 {
+                color: #ffffff;
+            }
+            
+            .footer-section a {
+                color: #cccccc;
+            }
+            
+            .footer-section a:hover {
+                color: #ffffff;
+            }
+            
+            .footer-bottom {
+                color: #999999;
+                border-color: #333;
+            }
+            
+            .demo-title {
+                color: #ffffff;
+            }
+            
+            .demo-subtitle {
+                color: #cccccc;
+            }
+            
+            .message.ai {
+                background: #1a1a1a;
+                border-left-color: #00C853;
+                color: #ffffff;
+            }
+            
+            .message.user {
+                background: #2a2a2a;
+                color: #ffffff;
+            }
+            
+            .chat-input-container {
+                background: #1a1a1a;
+                border-color: #333;
+            }
+            
+            .chat-input {
+                background: #0a0a0a;
+                border-color: #333;
+                color: #ffffff;
+            }
+            
+            .chat-input:focus {
+                border-color: #00C853;
+            }
+            
+            .chat-input::placeholder {
+                color: #999999;
+            }
+            
+            .btn-secondary {
+                color: #ffffff;
+                border-color: #333;
+            }
+            
+            .btn-secondary:hover {
+                background: #1a1a1a;
+                color: #ffffff;
+            }
+            
+            .membership-note {
+                color: #cccccc;
+            }
+            
+            .get-in-touch h3 {
+                color: #ffffff;
+            }
+            
+            .get-in-touch p {
+                color: #cccccc;
+            }
+            
+            .hero-title {
+                color: #ffffff;
+            }
+            
+            .hero-subtitle {
+                color: #ffffff;
+            }
+            
+            .power-control-title {
+                color: #ffffff;
+            }
+            
+            .power-control-subtitle {
+                color: #d1d5db;
+            }
+            
+            .feature-item h3 {
+                color: #ffffff;
+            }
+            
+            .feature-item p {
+                color: #9ca3af;
+            }
+            
+            .membership-title {
+                color: #ffffff;
+            }
+            
+            .membership-subtitle {
+                color: #cccccc;
+            }
+            
+            .membership-note {
+                color: #cccccc;
+            }
+            
+            .funding-breakdown h3 {
+                color: #ffffff;
+            }
+            
+            .funding-item strong {
+                color: #ffffff;
+            }
+            
+            .get-in-touch h3 {
+                color: #ffffff !important;
+            }
+            
+            .get-in-touch p {
+                color: #cccccc !important;
+            }
+            
+            .hero-title {
+                color: #ffffff !important;
+            }
+            
+            .hero-subtitle {
+                color: #ffffff !important;
+            }
+            
+            .power-control-title {
+                color: #ffffff !important;
+            }
+            
+            .power-control-subtitle {
+                color: #d1d5db !important;
+            }
+            
+            .feature-item h3 {
+                color: #ffffff !important;
+            }
+            
+            .feature-item p {
+                color: #9ca3af !important;
+            }
+            
+            .membership-title {
+                color: #ffffff !important;
+            }
+            
+            .membership-subtitle {
+                color: #cccccc !important;
+            }
+            
+            .membership-note {
+                color: #cccccc !important;
+            }
+            
+            .funding-breakdown h3 {
+                color: #1a1a1a !important;
+            }
+            
+            .funding-item strong {
+                color: #1a1a1a !important;
+            }
+            
+            .power-control-title {
+                color: #ffffff;
+            }
+            
+            .power-control-subtitle {
+                color: #d1d5db;
+            }
+            
+            .feature-item h3 {
+                color: #ffffff;
+            }
+            
+            .feature-item p {
+                color: #9ca3af;
+            }
+            
+            .sap-button-bg {
+                filter: brightness(0) invert(1) drop-shadow(0 4px 8px rgba(255, 255, 255, 0.3)) !important;
+            }
+            
+            .sap-button-main:hover .sap-button-bg {
+                filter: brightness(0) invert(1) drop-shadow(0 8px 16px rgba(255, 255, 255, 0.5)) !important;
+            }
+            
+            .chat-input::placeholder {
+                color: #ffffff !important;
+            }
+            
+            .not-adopted {
+                color: #999999;
+            }
+            
+            .platform-name {
+                color: #999999;
+            }
+            
+            .platform-logo {
+                background: #333;
+                color: #999999;
+            }
+            
+            .dashboard-description p[style*="color: #00C853"] {
+                color: #00C853 !important;
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #e5e5e5;
+            z-index: 99999;
+            padding: 16px 0;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .header {
+                background: rgba(10, 10, 10, 0.95);
+                border-bottom: 1px solid #333;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                padding: 8px 0;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .logo-section {
+                justify-content: center;
+                width: 100%;
+            }
+            
+            .ticker {
+                font-size: 12px;
+                text-align: center;
+                width: 100%;
+                order: 2;
+            }
+            
+            .ticker span:first-child {
+                display: none;
+            }
+            
+        .ticker .ticker-value {
+            font-size: 14px;
+            font-weight: 700;
+        }
+        
+        .ticker-subline {
+            font-size: 10px;
+            color: #9ca3af;
+            margin-top: 4px;
+            font-style: italic;
+        }
+            
+            .sap-button-layout {
+                gap: 20px;
+            }
+            
+            .sap-text-left,
+            .sap-text-right {
+                font-size: 14px;
+                letter-spacing: 1px;
+            }
+            
+            .sap-text-bottom {
+                font-size: 24px;
+                letter-spacing: 2px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .sap-button-layout {
+                gap: 2px;
+            }
+            
+            .sap-text-left,
+            .sap-text-right {
+                font-size: 4px;
+            }
+            
+            .sap-text-bottom {
+                font-size: 20px;
+            }
+        }
+        
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        .logo-img {
+            width: 40px;
+            height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
+            padding: 0;
         }
-        .container {
+
+        .logo-img img {
+            width: 40px;
+            height: 40px;
+            filter: brightness(0) saturate(100%) invert(0%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(0%) contrast(100%);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .logo-img img {
+                filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(93deg) brightness(103%) contrast(103%);
+            }
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .logo {
+                color: #e6eef8;
+            }
+        }
+
+        .ticker {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .ticker {
+                color: #cccccc;
+            }
+        }
+
+        .ticker-value {
+            font-weight: 600;
+            color: #00C853;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 120px 0 80px;
             text-align: center;
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        @media (max-width: 768px) {
+            .hero {
+                padding: 80px 0 20px;
+            }
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to right, rgba(0, 200, 83, 0.05) 1px, transparent 1px),
+                        linear-gradient(to bottom, rgba(0, 200, 83, 0.05) 1px, transparent 1px);
+            background-size: 4rem 4rem;
+            z-index: 1;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, rgba(0, 200, 83, 0.1), transparent, rgba(248, 249, 250, 0.9));
+            z-index: 2;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .hero {
+                background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            }
+            
+            .hero::after {
+                background: linear-gradient(to bottom, rgba(0, 200, 83, 0.1), transparent, rgba(10, 10, 10, 0.9));
+            }
+        }
+
+        .hero-title {
+            font-size: 64px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            color: #1a1a1a;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .hero h1 {
+                color: #e6eef8;
+            }
+        }
+
+        .hero-subtitle {
+            font-size: 20px;
+            color: #1a1a1a;
+            margin-bottom: 40px;
             max-width: 600px;
-            padding: 40px;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: 400;
         }
-        h1 {
-            font-size: 3rem;
+
+        @media (prefers-color-scheme: dark) {
+            .hero-subtitle {
+                color: #cccccc;
+            }
+        }
+
+        .hero-sap-logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            cursor: pointer;
+            transition: transform 0.3s ease;
         }
-        p {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
+
+        .hero-sap-logo:hover {
+            transform: scale(1.05);
+        }
+
+        .sap-logo-large {
+            width: 80px;
+            height: 80px;
+            background: transparent;
+            border: 3px solid #00C853;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 20px rgba(0, 200, 83, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .sap-logo-large:hover {
+            border-color: #00A041;
+            box-shadow: 0 6px 25px rgba(0, 200, 83, 0.25);
+            transform: scale(1.05);
+        }
+
+        .sap-logo-large img {
+            width: 50px;
+            height: 50px;
+            filter: brightness(0) saturate(100%) invert(0%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(0%) contrast(100%);
+        }
+
+        .sap-logo-text {
+            font-size: 12px;
+            color: #666;
+            font-weight: 500;
+        }
+        
+        @media (max-width: 480px) {
+            .sap-logo-text {
+                font-size: 6px;
+            }
+            
+            .sap-text-left,
+            .sap-text-right {
+                font-size: 6px;
+                letter-spacing: 0.5px;
+            }
+        }
+        
+        
+        @media (max-width: 320px) {
+            .sap-text-left,
+            .sap-text-right {
+                display: none;
+            }
+        }
+        
+        
+        
+
+        /* SAP Button - Clean & Simple */
+        .sap-button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+            margin: 20px 0 30px 0;
+            padding: 0 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .sap-button-container {
+                margin: 10px 0 15px 0;
+                padding: 0 10px;
+            }
+        }
+        
+        .sap-text-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            margin-top: 15px;
+            padding: 0 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .sap-text-container {
+                margin-top: 8px;
+                padding: 0 5px;
+            }
+        }
+        
+        .sap-text-display {
+            font-size: 18px;
+            font-weight: 700;
+            color: #10b981;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-align: center;
+            user-select: none;
+            -webkit-user-select: none;
             opacity: 0.9;
         }
-        .button {
-            display: inline-block;
-            background: rgba(255,255,255,0.2);
+        
+        .sap-prompt-button {
+            background: linear-gradient(135deg, #00C853, #00A041);
             color: white;
-            padding: 15px 30px;
+            border: none;
+            padding: 12px 24px;
             border-radius: 25px;
-            text-decoration: none;
-            font-weight: bold;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 15px;
             transition: all 0.3s ease;
-            border: 2px solid rgba(255,255,255,0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(0, 200, 83, 0.3);
         }
-        .button:hover {
-            background: rgba(255,255,255,0.3);
+        
+        .sap-prompt-button:hover {
             transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 200, 83, 0.4);
+        }
+        
+        .sap-prompt-button:active {
+            transform: translateY(0);
+        }
+        
+        .sap-prompt-button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .sap-prompt-button-container {
+                margin-top: 5px;
+            }
+        }
+        
+        /* Force buttons to be clickable */
+        .sap-button-main, .sap-prompt-button {
+            pointer-events: auto !important;
+            cursor: pointer !important;
+            position: relative !important;
+            z-index: 10 !important;
+        }
+        
+        .sap-number {
+            font-size: 24px;
+            font-weight: 800;
+            color: #10b981;
+            margin: 0 8px;
+            display: inline-block;
+        }
+        
+        @media (max-width: 480px) {
+            .sap-text-display {
+                font-size: 14px;
+                letter-spacing: 0.5px;
+            }
+            
+            .sap-number {
+                font-size: 18px;
+                margin: 0 4px;
+            }
+        }
+
+        /* Chat Demo Container */
+        .chat-demo-container {
+            margin-top: 20px;
+            max-width: 100%;
+            margin-left: 0;
+            margin-right: 0;
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        @media (max-width: 768px) {
+            .chat-demo-container {
+                margin-top: 5px;
+            }
+        }
+
+        .chat-demo-header {
+            padding: 12px 16px;
+            background: rgba(16, 185, 129, 0.1);
+            border-bottom: 1px solid rgba(16, 185, 129, 0.2);
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .chat-demo-info-button {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+            transition: all 0.2s ease;
+        }
+
+        .chat-demo-info-button:hover {
+            background: rgba(16, 185, 129, 0.3);
+        }
+        
+        .chat-demo-info-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .chat-demo-info-content {
+            background: #1a1a1a;
+            border: 1px solid #10b981;
+            border-radius: 12px;
+            padding: 24px;
+            max-width: 400px;
+            text-align: center;
+        }
+        
+        .chat-demo-info-content h3 {
+            color: #10b981;
+            margin-bottom: 16px;
+        }
+        
+        .chat-demo-info-content p {
+            color: #cccccc;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        
+        .chat-demo-info-close {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            .chat-demo-info-button {
+                color: #10b981;
+                background: rgba(16, 185, 129, 0.3);
+            }
+            
+            .chat-demo-info-button:hover {
+                background: rgba(16, 185, 129, 0.5);
+            }
+        }
+
+        .chat-demo-content {
+            padding: 20px;
+        }
+
+        .chat-messages {
+            min-height: 0;
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .chat-messages.has-messages {
+            display: block;
+            min-height: 200px;
+        }
+
+        .message {
+            margin-bottom: 16px;
+            padding: 12px 16px;
+            border-radius: 8px;
+        }
+
+        .sap-message {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 3px solid #10b981;
+        }
+
+        .user-message {
+            background: rgba(59, 130, 246, 0.1);
+            border-left: 3px solid #3b82f6;
+            margin-left: 20px;
+        }
+
+        .chat-input-container {
+            position: relative;
+        }
+
+        .chat-input-wrapper {
+            display: flex;
+            align-items: center;
+            background: rgba(31, 41, 55, 0.8);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 12px;
+            padding: 8px 12px;
+            gap: 12px;
+            min-height: 40px;
+            transition: all 0.2s ease;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .chat-input {
+            flex: 1;
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 14px;
+            outline: none;
+            resize: none;
+            height: 24px;
+            max-height: 120px;
+            overflow-y: auto;
+            line-height: 24px;
+            font-family: inherit;
+            cursor: text;
+            pointer-events: auto;
+            z-index: 5;
+        }
+
+        .chat-input::placeholder {
+            color: #1a1a1a;
+            font-weight: 400;
+        }
+
+        .chat-input:focus {
+            outline: none;
+        }
+
+        .chat-input-wrapper:focus-within {
+            border-color: rgba(16, 185, 129, 0.6);
+            box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.1);
+        }
+
+        .sap-button {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+            z-index: 10;
+        }
+
+        .sap-button:hover {
+            background: rgba(16, 185, 129, 0.3);
+            border-color: rgba(16, 185, 129, 0.6);
+        }
+
+        .sap-button img {
+            width: 24px;
+            height: 24px;
+        }
+
+        .send-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            background: #10b981;
+            border: none;
+            color: #000000;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+            z-index: 10;
+        }
+
+        .send-btn:hover {
+            background: #059669;
+        }
+
+        .send-btn i {
+            font-size: 14px;
+        }
+
+        /* Mobile responsive chat input */
+        @media (max-width: 768px) {
+            .hero .container {
+                padding: 0;
+            }
+            
+            /* Hide ticker on mobile to save space */
+            .ticker {
+                display: none;
+            }
+            
+            .chat-demo-container {
+                margin: 10px 0;
+                max-width: none;
+                margin-left: 0;
+                margin-right: 0;
+                border-radius: 0;
+            }
+            
+            .chat-input-wrapper {
+                max-width: none;
+                margin: 0;
+                padding: 8px 12px;
+                gap: 8px;
+            }
+            
+            .chat-input {
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
+        }
+        
+        @media (max-width: 390px) {
+            .hero .container {
+                padding: 0;
+            }
+            
+            .chat-demo-container {
+                margin: 5px 0;
+                border-radius: 0;
+            }
+            
+            .chat-input-wrapper {
+                padding: 6px 8px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .sap-button, .send-btn {
+                width: 28px;
+                height: 28px;
+            }
+            
+            .sap-button img {
+                width: 16px;
+                height: 16px;
+            }
+            
+            .send-btn i {
+                font-size: 12px;
+            }
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(16, 185, 129, 0.3);
+            z-index: 10003;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            display: block;
+        }
+
+        .bottom-nav.visible {
+            transform: translateY(0);
+        }
+
+        .bottom-nav-content {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 8px 0;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #9ca3af;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            min-width: 60px;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            color: #10b981;
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .nav-item i {
+            font-size: 18px;
+            margin-bottom: 4px;
+        }
+
+        .nav-item span {
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .bottom-nav-content {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+            
+            .nav-item {
+                min-width: 50px;
+                padding: 6px 8px;
+            }
+            
+            .nav-item span {
+                font-size: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .bottom-nav-content {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 4px;
+            }
+            
+            .nav-item {
+                min-width: auto;
+                padding: 8px 4px;
+            }
+        }
+
+        /* Power Control Section */
+        .power-control-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(10, 10, 10, 0.95) 100%);
+            border-top: 1px solid rgba(16, 185, 129, 0.2);
+            border-bottom: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .power-control-content {
+            text-align: center;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .power-control-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 24px;
+            line-height: 1.2;
+        }
+
+        .power-control-subtitle {
+            font-size: 1.2rem;
+            color: #1a1a1a;
+            line-height: 1.6;
+            margin-bottom: 60px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: 400;
+        }
+
+        .power-control-features {
+            margin-bottom: 80px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 30px 20px;
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-item:hover {
+            transform: translateY(-5px);
+            background: rgba(16, 185, 129, 0.1);
+            border-color: rgba(16, 185, 129, 0.4);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+        }
+
+        .feature-item h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 12px;
+        }
+
+        .feature-item p {
+            color: #1a1a1a;
+            line-height: 1.5;
+            font-weight: 400;
+        }
+
+        .power-control-cta {
+            background: rgba(16, 185, 129, 0.08);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 16px;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .cta-content h3 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #10b981;
+            margin-bottom: 16px;
+        }
+
+        .cta-content p {
+            color: #d1d5db;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 32px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-primary,
+        .cta-secondary {
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .cta-primary {
+            background: #10b981;
+            color: #000000;
+        }
+
+        .cta-primary:hover {
+            background: #059669;
+            transform: translateY(-2px);
+        }
+
+        .cta-secondary {
+            background: transparent;
+            color: #10b981;
+            border: 2px solid #10b981;
+        }
+
+        .cta-secondary:hover {
+            background: #10b981;
+            color: #000000;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .power-control-title {
+                font-size: 2rem;
+            }
+            
+            .power-control-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .feature-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+            
+            .power-control-cta {
+                padding: 30px 20px;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .cta-primary,
+            .cta-secondary {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        .sap-button-main {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            transition: transform 0.2s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 180px;
+            height: 180px;
+            flex-shrink: 0;
+            justify-self: center;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .sap-button-main:hover {
+            transform: scale(1.05);
+        }
+        
+        .sap-button-main:active {
+            transform: scale(0.95);
+        }
+        
+        .sap-button-main.rotating {
+            animation: buttonRotate 0.6s ease-in-out;
+        }
+        
+        .sap-button-main.spinning {
+            animation: buttonSpin 0.8s ease-in-out;
+        }
+        
+        @keyframes buttonRotate {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.1); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+        
+        @keyframes buttonSpin {
+            0% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(90deg) scale(1.1); }
+            50% { transform: rotate(180deg) scale(1.2); }
+            75% { transform: rotate(270deg) scale(1.1); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+
+
+        .sap-button-wrapper {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sap-button-bg {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: brightness(0) invert(0) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+            transition: all 0.3s ease;
+            opacity: 0.9; /* Make it visible but subtle */
+        }
+
+        .sap-button-main:hover .sap-button-bg {
+            filter: brightness(0) invert(0) drop-shadow(0 8px 16px rgba(0, 0, 0, 0.5));
+            opacity: 1;
+        }
+
+        /* Add hollow green circle overlay - expanded radius */
+        .sap-button-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
+            border: 4px solid #00C853;
+            border-radius: 50%;
+            background: transparent;
+            z-index: 5;
+            transition: all 0.3s ease;
+        }
+
+        .sap-button-main:hover .sap-button-wrapper::before {
+            border-color: #00A041;
+            box-shadow: 0 0 20px rgba(0, 200, 83, 0.3);
+        }
+
+        .sap-counter-display {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: #00C853;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+            z-index: 10;
+            pointer-events: none;
+            user-select: none; /* Make text non-selectable */
+            transition: all 0.3s ease;
+        }
+
+        .sap-button-label {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .sap-button-main.long-press .sap-button-bg {
+            animation: pulse 0.6s ease-in-out;
+        }
+
+        .sap-button-main.long-press .sap-counter-display {
+            animation: pulse 0.6s ease-in-out;
+        }
+
+        .sap-button-main.clicking .sap-button-wrapper::before {
+            animation: spin 0.8s ease-in-out;
+        }
+
+        .sap-button-main.clicking .sap-counter-display {
+            animation: spin 0.8s ease-in-out;
+        }
+
+        .sap-button-main.clicking .sap-button-bg {
+            animation: fullSpin 0.8s ease-in-out;
+            transform-origin: center;
+        }
+        
+        .sap-button-main.clicking {
+            transform: scale(1.05);
+            transition: transform 0.1s ease-out;
+        }
+        
+        .sap-button-main.clicking .sap-button-wrapper::before {
+            border-color: #10b981;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
+        }
+
+        .sap-button.clicking {
+            animation: fullSpin 0.8s ease-in-out;
+        }
+
+        @keyframes pulse {
+            0% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.1); }
+            100% { transform: translate(-50%, -50%) scale(1); }
+        }
+
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        @keyframes fullSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Confirmation popup */
+        .sap-confirmation-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border: 2px solid #00C853;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            text-align: center;
+            max-width: 400px;
+            animation: popupSlide 0.3s ease-out;
+        }
+
+        .sap-confirmation-popup h3 {
+            margin: 0 0 12px 0;
+            color: #1a1a1a;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .sap-confirmation-popup p {
+            margin: 0 0 20px 0;
+            color: #666;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .sap-confirmation-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .sap-confirm-btn, .sap-cancel-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .sap-confirm-btn {
+            background: #00C853;
+            color: white;
+        }
+
+        .sap-confirm-btn:hover {
+            background: #00A041;
+        }
+
+        .sap-cancel-btn {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        .sap-cancel-btn:hover {
+            background: #e5e7eb;
+        }
+
+        .sap-popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        @keyframes popupSlide {
+            0% { 
+                transform: translate(-50%, -50%) scale(0.8);
+                opacity: 0;
+            }
+            100% { 
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .sap-confirmation-popup {
+                background: #1a1a1a;
+                border-color: #00C853;
+            }
+
+            .sap-confirmation-popup h3 {
+                color: #ffffff;
+            }
+
+            .sap-confirmation-popup p {
+                color: #cccccc;
+            }
+
+            .sap-cancel-btn {
+                background: #374151;
+                color: #d1d5db;
+            }
+
+            .sap-cancel-btn:hover {
+                background: #4b5563;
+            }
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .sap-button-label {
+                color: #cccccc;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sap-button-main {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .sap-button-wrapper {
+                width: 150px;
+                height: 150px;
+            }
+
+            .sap-button-wrapper::before {
+                width: 150px;
+                height: 150px;
+            }
+
+            .sap-counter-display {
+                font-size: 16px;
+            }
+
+            .sap-button-label {
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sap-button-main {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .sap-button-wrapper {
+                width: 120px;
+                height: 120px;
+            }
+
+            .sap-button-wrapper::before {
+                width: 120px;
+                height: 120px;
+            }
+
+            .sap-counter-display {
+                font-size: 14px;
+            }
+        }
+
+        /* Removed Three SAP Buttons */
+        .sap-buttons-container {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        /* Removed duplicate sap-button-main CSS that was causing green background */
+
+        .sap-button-dev {
+            background: #1a1a1a;
+            color: #00C853;
+            border-color: #00C853;
+        }
+
+        .sap-button-dev:hover {
+            background: #00C853;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .sap-button-info {
+            background: #f8f9fa;
+            color: #1a1a1a;
+            border-color: #e5e7eb;
+        }
+
+        .sap-button-info:hover {
+            background: #1a1a1a;
+            color: white;
+            border-color: #1a1a1a;
+            transform: translateY(-2px);
+        }
+
+        .btn-icon {
+            font-size: 16px;
+        }
+
+        .btn-text {
+            font-weight: 600;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .sap-button-info {
+                background: #1a1a1a;
+                color: #ffffff;
+                border-color: #374151;
+            }
+
+            .sap-button-info:hover {
+                background: #374151;
+                border-color: #374151;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sap-buttons-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .sap-button-main,
+            .sap-button-dev,
+            .sap-button-info {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+        }
+
+        /* Developer Section */
+        .dev-section {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+
+        .dev-content {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .code-block {
+            background: #1a1a1a;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 24px;
+            background: #2a2a2a;
+            border-bottom: 1px solid #374151;
+        }
+
+        .code-title {
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .copy-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #00C853;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            background: #00A041;
+            transform: translateY(-1px);
+        }
+
+        .copy-btn i {
+            font-size: 16px;
+            margin-right: 8px;
+        }
+
+        .code-content {
+            padding: 24px;
+            margin: 0;
+            background: #1a1a1a;
+            color: #e5e7eb;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            overflow-x: auto;
+        }
+
+        .dev-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-icon {
+            font-size: 32px;
+            margin-bottom: 16px;
+        }
+
+        .feature-card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+
+        .feature-card p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .dev-section {
+                background: #0a0a0a;
+            }
+
+            .feature-card {
+                background: #1a1a1a;
+                border: 1px solid #374151;
+            }
+
+            .feature-card h3 {
+                color: #ffffff;
+            }
+
+            .feature-card p {
+                color: #9ca3af;
+            }
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .sap-logo-text {
+                color: #cccccc;
+            }
+            
+            .sap-logo-large {
+                border-color: #00C853;
+                box-shadow: 0 4px 20px rgba(0, 200, 83, 0.2);
+            }
+            
+            .sap-logo-large:hover {
+                border-color: #00A041;
+                box-shadow: 0 6px 25px rgba(0, 200, 83, 0.3);
+            }
+            
+            .sap-logo-large img {
+                filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(93deg) brightness(103%) contrast(103%);
+            }
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: #00C853;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #00A041;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #1a1a1a;
+            border: 1px solid #e5e5e5;
+        }
+
+        .btn-secondary:hover {
+            background: #f8f9fa;
+        }
+
+        /* Demo Section */
+        .demo-section {
+            padding: 80px 0;
+            background: #ffffff;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .demo-section {
+                background: #0a0a0a;
+            }
+        }
+
+        .demo-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 32px;
+            border: 1px solid #e5e5e5;
+            box-shadow: 0 0 30px rgba(0, 200, 83, 0.1);
+            position: relative;
+        }
+
+        .demo-container::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #00C853, #00A041, #00C853);
+            border-radius: 14px;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .demo-container {
+                background: #1a1a1a;
+                border: 1px solid #333;
+                box-shadow: 0 0 30px rgba(0, 200, 83, 0.2);
+            }
+        }
+
+        .demo-header {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 16px;
+        }
+
+        .demo-info-button {
+            width: 24px;
+            height: 24px;
+            background: #00C853;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .demo-info-button:hover {
+            background: #00A041;
+            transform: scale(1.1);
+        }
+
+        .demo-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #000;
+        }
+
+        .demo-subtitle {
+            color: #000;
+            font-size: 16px;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .demo-title {
+                color: #ffffff;
+            }
+            
+            .demo-subtitle {
+                color: #ffffff;
+            }
+        }
+
+        .chat-container {
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e5e5e5;
+            overflow: hidden;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .chat-container {
+                background: #1a1a1a;
+                border: 1px solid #333;
+            }
+        }
+
+        .chat-messages {
+            padding: 24px;
+            min-height: 200px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .message {
+            margin-bottom: 16px;
+            padding: 12px 16px;
+            border-radius: 8px;
+        }
+
+        .message.ai {
+            background: #f8f9fa;
+            border-left: 3px solid #00C853;
+            color: #000;
+        }
+
+        .message.user {
+            background: #e3f2fd;
+            margin-left: 40px;
+            color: #000;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .message.ai {
+                background: #1a1a1a;
+                border-left-color: #00C853;
+                color: #ffffff;
+            }
+            
+            .message.user {
+                background: #2a2a2a;
+                color: #ffffff;
+            }
+        }
+
+        .chat-input-container {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            border-top: 1px solid #e5e5e5;
+            background: #f8f9fa;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .chat-input-container {
+                background: #1a1a1a;
+                border-color: #333;
+            }
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+            background: white;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .chat-input {
+                background: #0a0a0a;
+                border-color: #333;
+                color: #ffffff;
+            }
+        }
+
+        .chat-input:focus {
+            border-color: #00C853;
+        }
+
+        .sap-button {
+            width: 32px;
+            height: 32px;
+            background: transparent;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin: 0 8px;
+            transition: all 0.2s ease;
+            padding: 0;
+        }
+
+        .sap-button:hover {
+            transform: scale(1.1);
+        }
+
+        .sap-button img {
+            width: 32px;
+            height: 32px;
+            filter: brightness(0) saturate(100%) invert(0%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(0%) contrast(100%);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .sap-button img {
+                filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(93deg) brightness(103%) contrast(103%);
+            }
+        }
+
+        .send-btn {
+            width: 40px;
+            height: 40px;
+            background: #1a1a1a;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: all 0.2s ease;
+        }
+
+        .send-btn:hover {
+            background: #333;
+        }
+
+        /* Mission Section */
+        .mission-section {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .mission-section {
+                background: #1a1a1a;
+            }
+        }
+
+        .mission-title {
+            text-align: center;
+            font-size: 36px;
+            font-weight: 300;
+            margin-bottom: 60px;
+            color: #1a1a1a;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .mission-title {
+                color: #e6eef8;
+            }
+        }
+
+        .mission-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .mission-card {
+            text-align: center;
+        }
+
+        .mission-card h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #1a1a1a;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .mission-card h3 {
+                color: #e6eef8;
+            }
+        }
+
+        .mission-card p {
+            color: #333;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .mission-card p {
+                color: #cccccc;
+            }
+        }
+
+        /* Protocol Section */
+        .protocol-section {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .protocol-title {
+            text-align: center;
+            font-size: 36px;
+            font-weight: 300;
+            margin-bottom: 16px;
+            color: #1a1a1a;
+        }
+
+        .protocol-subtitle {
+            text-align: center;
+            font-size: 18px;
+            color: #1a1a1a;
+            margin-bottom: 60px;
+            font-weight: 400;
+        }
+
+        .protocol-components {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .component-card {
+            text-align: center;
+            padding: 32px 24px;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            background: #f8f9fa;
+        }
+
+        .component-icon {
+            width: 48px;
+            height: 48px;
+            background: #00C853;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 24px;
+            color: white;
+        }
+
+        .component-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #1a1a1a;
+        }
+
+        .component-description {
+            color: #1a1a1a;
+            font-size: 14px;
+            line-height: 1.5;
+            font-weight: 400;
+        }
+
+        /* How It Works */
+        .how-it-works {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+
+        .how-title {
+            text-align: center;
+            font-size: 36px;
+            font-weight: 300;
+            margin-bottom: 60px;
+            color: #1a1a1a;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .step {
+            text-align: center;
+        }
+
+        .step-number {
+            width: 48px;
+            height: 48px;
+            background: #00C853;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 600;
+            margin: 0 auto 16px;
+        }
+
+        .step-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #000;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .step-title {
+                color: #ffffff;
+            }
+        }
+
+        .step-description {
+            color: #000;
+            font-size: 14px;
+            line-height: 1.5;
+            font-weight: 500;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .step-description {
+                color: #ffffff;
+                font-weight: 500;
+            }
+        }
+
+        /* Ecosystem Section */
+        .ecosystem-section {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .ecosystem-title {
+            text-align: center;
+            font-size: 36px;
+            font-weight: 300;
+            margin-bottom: 16px;
+            color: #1a1a1a;
+        }
+
+        .ecosystem-subtitle {
+            text-align: center;
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 60px;
+        }
+
+        .platforms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 32px;
+            margin-bottom: 40px;
+        }
+
+        .platform-card {
+            text-align: center;
+            padding: 24px 16px;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            background: #f8f9fa;
+            opacity: 0.5;
+        }
+
+        .platform-logo {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 12px;
+            background: #e5e5e5;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .platform-name {
+            font-size: 12px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .not-adopted {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* Roadmap Section */
+        .roadmap-section {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+
+        .roadmap-title {
+            text-align: center;
+            font-size: 36px;
+            font-weight: 300;
+            margin-bottom: 60px;
+            color: #1a1a1a;
+        }
+
+        .roadmap-accordion {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .accordion-item {
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            background: white;
+        }
+
+        .accordion-header {
+            padding: 24px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .accordion-content {
+            padding: 0 24px 24px;
+            color: #666;
+            line-height: 1.6;
+            display: none;
+        }
+
+        .accordion-content.active {
+            display: block;
+        }
+
+        /* Membership Section */
+        .membership-section {
+            padding: 80px 0;
+            background: white;
+            text-align: center;
+        }
+
+        .membership-title {
+            font-size: 36px;
+            font-weight: 300;
+            margin-bottom: 16px;
+            color: #1a1a1a;
+        }
+
+        .membership-subtitle {
+            font-size: 18px;
+            color: #1a1a1a;
+            margin-bottom: 40px;
+            font-weight: 400;
+        }
+
+        .membership-cta {
+            margin-bottom: 24px;
+        }
+
+        .membership-note {
+            font-size: 14px;
+            color: #1a1a1a;
+            max-width: 600px;
+            margin: 0 auto;
+            font-weight: 400;
+        }
+
+        /* Pricing Grid */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin: 40px 0;
+        }
+
+        .pricing-card {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 32px;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .pricing-card.popular {
+            border-color: #00C853;
+            transform: scale(1.05);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #00C853;
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .lifetime-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ff6b35;
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .pricing-card.lifetime {
+            border-color: #ff6b35;
+            transform: scale(1.05);
+        }
+
+        .price {
+            position: relative;
+        }
+
+        .beta-stamp {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: #dc2626;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 18px;
+            font-weight: 700;
+            transform: rotate(-30deg);
+            z-index: 10;
+            box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3);
+            border: 2px solid #991b1b;
+        }
+
+        .price-text {
+            font-size: 48px;
+            font-weight: 700;
+            color: #00C853;
+            margin-bottom: 8px;
+        }
+
+        .price-text span {
+            font-size: 16px;
+            color: #666;
+            font-weight: 400;
+        }
+
+        /* Beta Notice */
+        .beta-notice {
+            background: linear-gradient(135deg, #fff5f0, #ffffff);
+            border: 2px solid #ff6b35;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .beta-badge {
+            display: inline-block;
+            background: #ff6b35;
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .beta-text {
+            margin: 0;
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .beta-notice {
+                background: linear-gradient(135deg, #2a1a0f, #1a1a1a);
+            }
+
+            .beta-text {
+                color: #cccccc;
+            }
+        }
+
+        .pricing-header h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #1a1a1a;
+        }
+
+        .price {
+            font-size: 48px;
+            font-weight: 700;
+            color: #00C853;
+            margin-bottom: 24px;
+        }
+
+        .price span {
+            font-size: 16px;
+            color: #666;
+            font-weight: 400;
+        }
+
+        .pricing-features {
+            list-style: none;
+            padding: 0;
+            margin: 24px 0;
+            text-align: left;
+        }
+
+        .pricing-features li {
+            padding: 8px 0;
+            color: #374151;
+            font-size: 14px;
+        }
+
+        .pricing-btn {
+            width: 100%;
+            padding: 12px 24px;
+            background: #00C853;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .pricing-btn:hover {
+            background: #00A041;
+            transform: translateY(-2px);
+        }
+
+        .pricing-btn.primary {
+            background: #00C853;
+            box-shadow: 0 4px 15px rgba(0, 200, 83, 0.3);
+        }
+
+        .funding-breakdown {
+            margin-top: 60px;
+            text-align: center;
+        }
+
+        .funding-breakdown h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 32px;
+            color: #1a1a1a;
+        }
+
+        .funding-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+        }
+
+        .funding-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        .funding-icon {
+            font-size: 24px;
+            min-width: 40px;
+        }
+
+        .funding-item strong {
+            display: block;
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+        }
+
+        .funding-item p {
+            font-size: 14px;
+            color: #666;
+            margin: 0;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .pricing-card {
+                background: #1a1a1a;
+                border-color: #374151;
+            }
+
+            .pricing-card:hover {
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            }
+
+            .pricing-header h3 {
+                color: #ffffff;
+            }
+
+            .pricing-features li {
+                color: #d1d5db;
+            }
+
+            .funding-breakdown h3 {
+                color: #ffffff;
+            }
+
+            .funding-item {
+                background: #374151;
+            }
+
+            .funding-item strong {
+                color: #ffffff;
+            }
+
+            .funding-item p {
+                color: #9ca3af;
+            }
+        }
+
+        /* Footer */
+        .footer {
+            padding: 60px 0;
+            background: #1a1a1a;
+            color: white;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h4 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .footer-section a {
+            color: #cccccc;
+            text-decoration: none;
+            font-size: 14px;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .footer-section a:hover {
+            color: #ffffff;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid #333;
+            color: #cccccc;
+            font-size: 14px;
+        }
+
+        /* Dashboard Modal */
+        .dashboard-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .dashboard-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .dashboard-popup {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .dashboard-overlay.active .dashboard-popup {
+            transform: scale(1);
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+
+        .dashboard-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .dashboard-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 24px 16px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #00C853;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .dashboard-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 32px;
+        }
+
+        .dashboard-cta {
+            width: 100%;
+            padding: 16px;
+            background: #00C853;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        /* New Dashboard Design */
+        .dashboard-title-section {
+            flex: 1;
+        }
+
+        .dashboard-subtitle {
+            font-size: 14px;
+            color: #9aa9b8;
+            margin: 4px 0 0 0;
+            font-weight: 400;
+        }
+
+        .live-stats-section {
+            margin-bottom: 32px;
+        }
+
+        .live-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #00C853;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background: #00C853;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .global-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .impact-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .impact-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(0, 200, 83, 0.3);
+            box-shadow: 0 8px 25px rgba(0, 200, 83, 0.1);
+        }
+
+        .impact-card.primary {
+            border-left: 4px solid #00C853;
+        }
+
+        .impact-card.secondary {
+            border-left: 4px solid #ff6b6b;
+        }
+
+        .impact-card.tertiary {
+            border-left: 4px solid #4ecdc4;
+        }
+
+        .impact-card.quaternary {
+            border-left: 4px solid #45b7d1;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .card-icon {
+            font-size: 16px;
+        }
+
+        .card-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #e6eef8;
+        }
+
+        .card-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #ffffff;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+
+        .card-unit {
+            font-size: 12px;
+            color: #9aa9b8;
+            margin-bottom: 8px;
+        }
+
+        .card-context {
+            font-size: 11px;
+            color: #00C853;
+            font-style: italic;
+        }
+
+        .activity-section, .personal-section, .green-options-section, .funding-section {
+            margin-bottom: 32px;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            color: #e6eef8;
+            margin-bottom: 16px;
+        }
+
+        .section-icon {
+            font-size: 20px;
+        }
+
+        .activity-feed {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 16px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .activity-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-time {
+            font-size: 11px;
+            color: #9aa9b8;
+            min-width: 60px;
+        }
+
+        .activity-text {
+            font-size: 13px;
+            color: #e6eef8;
+            flex: 1;
+            margin: 0 12px;
+        }
+
+        .activity-impact {
+            font-size: 11px;
+            color: #00C853;
+            font-weight: 600;
+        }
+
+        .login-card {
+            background: rgba(0, 200, 83, 0.1);
+            border: 1px solid rgba(0, 200, 83, 0.3);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .login-card h4 {
+            color: #e6eef8;
+            margin-bottom: 8px;
+        }
+
+        .login-card p {
+            color: #9aa9b8;
+            margin-bottom: 16px;
+            font-size: 14px;
+        }
+
+        .login-btn {
+            background: #00C853;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .login-btn:hover {
+            background: #00A041;
+            transform: translateY(-1px);
+        }
+
+        .personal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 16px;
+        }
+
+        .personal-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .personal-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #00C853;
+            margin-bottom: 4px;
+        }
+
+        .personal-label {
+            font-size: 12px;
+            color: #9aa9b8;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+        }
+
+        .option-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .option-card:hover {
+            border-color: rgba(0, 200, 83, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .option-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .option-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #e6eef8;
+            margin-bottom: 4px;
+        }
+
+        .option-desc {
+            font-size: 11px;
+            color: #9aa9b8;
+            margin-bottom: 8px;
+        }
+
+        .option-status {
+            font-size: 10px;
+            color: #00C853;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .funding-breakdown {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .funding-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+        }
+
+        .funding-icon {
+            font-size: 20px;
+            min-width: 24px;
+        }
+
+        .funding-details {
+            flex: 1;
+        }
+
+        .funding-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #e6eef8;
+            margin-bottom: 2px;
+        }
+
+        .funding-amount {
+            font-size: 16px;
+            font-weight: 700;
+            color: #00C853;
+            margin-bottom: 2px;
+        }
+
+        .funding-desc {
+            font-size: 11px;
+            color: #9aa9b8;
+        }
+
+        .cta-section {
+            text-align: center;
+            margin-top: 32px;
+        }
+
+        .cta-icon {
+            margin-right: 8px;
+        }
+
+        .cta-subtext {
+            font-size: 12px;
+            color: #9aa9b8;
+            margin-top: 8px;
+            font-style: italic;
+        }
+
+        /* New Dashboard Design */
+        .dashboard-content {
+            padding: 24px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        /* New Dashboard Styles */
+        .stats-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stats-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            border: 2px solid #e5e7eb;
+        }
+
+        .stats-card.global {
+            border-color: #00C853;
+        }
+
+        .stats-card.personal {
+            border-color: #3b82f6;
+        }
+
+        .stats-card h3 {
+            margin: 0 0 12px 0;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .stat-value {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .stats-card.global .stat-value {
+            color: #00C853;
+        }
+
+        .stats-card.personal .stat-value {
+            color: #3b82f6;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 16px;
+        }
+
+        .stat-details {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+        }
+
+        .detail-label {
+            color: #666;
+        }
+
+        .detail-value {
+            font-weight: 600;
+        }
+
+        .chart-section, .hourly-section, .timeline-section {
+            margin-bottom: 30px;
+        }
+
+        .chart-section h3, .hourly-section h3, .timeline-section h3 {
+            margin: 0 0 16px 0;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .chart-container, .hourly-chart {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .chart-legend {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+        }
+
+        .legend-color.global {
+            background: #00C853;
+        }
+
+        .legend-color.personal {
+            background: #3b82f6;
+        }
+
+        .timeline {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 16px;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 16px;
+            padding: 12px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .timeline-item:last-child {
+            border-bottom: none;
+        }
+
+        .timeline-time {
+            font-size: 12px;
+            color: #666;
+            min-width: 60px;
+        }
+
+        .timeline-content {
+            flex: 1;
+        }
+
+        .timeline-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .timeline-impact {
+            font-size: 12px;
+            color: #666;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .stats-card {
+                background: #1a1a1a;
+                border-color: #374151;
+            }
+
+            .stats-card.global {
+                border-color: #00C853;
+            }
+
+            .stats-card.personal {
+                border-color: #3b82f6;
+            }
+
+            .stat-label {
+                color: #cccccc;
+            }
+
+            .detail-label {
+                color: #cccccc;
+            }
+
+            .chart-container, .hourly-chart, .timeline {
+                background: #1a1a1a;
+            }
+
+            .timeline-item {
+                border-bottom-color: #374151;
+            }
+
+            .timeline-time {
+                color: #cccccc;
+            }
+
+            .timeline-impact {
+                color: #cccccc;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .stats-comparison {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .live-stats-section {
+            margin-bottom: 32px;
+        }
+
+        .live-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 24px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #00C853;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background: #00C853;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .global-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+            .impact-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .impact-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .impact-card.primary {
+            border-left: 4px solid #fbbf24;
+        }
+
+        .impact-card.secondary {
+            border-left: 4px solid #ef4444;
+        }
+
+        .impact-card.tertiary {
+            border-left: 4px solid #3b82f6;
+        }
+
+        .impact-card.quaternary {
+            border-left: 4px solid #00C853;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .card-icon {
+            font-size: 20px;
+        }
+
+        .card-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .card-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+
+        .card-unit {
+            font-size: 14px;
+            color: #9ca3af;
+            margin-bottom: 8px;
+        }
+
+        .card-context {
+            font-size: 12px;
+            color: #6b7280;
+            font-style: italic;
+        }
+
+        .activity-section,
+        .personal-section,
+        .green-options-section,
+        .funding-section {
+            margin-bottom: 32px;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 16px;
+        }
+
+        .section-icon {
+            font-size: 20px;
+        }
+
+        .activity-feed {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 16px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .activity-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-time {
+            font-size: 12px;
+            color: #9ca3af;
+            min-width: 60px;
+        }
+
+        .activity-text {
+            flex: 1;
+            font-size: 14px;
+            color: #ffffff;
+            margin: 0 12px;
+        }
+
+        .activity-impact {
+            font-size: 12px;
+            color: #00C853;
+            font-weight: 600;
+        }
+
+        .login-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .login-card h4 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .login-card p {
+            font-size: 14px;
+            color: #9ca3af;
+            margin-bottom: 16px;
+        }
+
+        .login-btn {
+            background: #00C853;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .login-btn:hover {
+            background: #00A041;
+            transform: translateY(-2px);
+        }
+
+        .personal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+        }
+
+        .personal-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .personal-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #00C853;
+            margin-bottom: 4px;
+        }
+
+        .personal-label {
+            font-size: 12px;
+            color: #9ca3af;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .option-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .option-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .option-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+
+        .option-desc {
+            font-size: 12px;
+            color: #9ca3af;
+            margin-bottom: 8px;
+        }
+
+        .option-status {
+            font-size: 10px;
+            color: #fbbf24;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .funding-breakdown {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .funding-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .funding-item strong {
+            color: #1a1a1a;
+            font-weight: 600;
+        }
+
+        .funding-item p {
+            color: #666;
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .funding-icon {
+            font-size: 24px;
+            min-width: 32px;
+        }
+
+        .funding-details {
+            flex: 1;
+        }
+
+        .funding-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 2px;
+        }
+
+        .funding-amount {
+            font-size: 18px;
+            font-weight: 700;
+            color: #00C853;
+            margin-bottom: 2px;
+        }
+
+        .funding-desc {
+            font-size: 12px;
+            color: #9ca3af;
+        }
+
+        .count-section {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(0, 200, 83, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(0, 200, 83, 0.2);
+        }
+
+        .count-button {
+            background: linear-gradient(135deg, #00C853, #00A041);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .count-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 200, 83, 0.4);
+        }
+
+        .count-subtext {
+            margin-top: 12px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .cta-section {
+            text-align: center;
+            margin-top: 32px;
+        }
+
+        .dashboard-cta {
+            background: linear-gradient(135deg, #00C853, #00A041);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 200, 83, 0.3);
+        }
+
+        .dashboard-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 200, 83, 0.4);
+        }
+
+        .cta-icon {
+            margin-right: 8px;
+        }
+
+        .cta-subtext {
+            font-size: 12px;
+            color: #9ca3af;
+            margin-top: 8px;
+            font-style: italic;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .impact-card {
+                background: rgba(255, 255, 255, 0.05);
+            }
+            
+            .activity-feed {
+                background: rgba(255, 255, 255, 0.05);
+            }
+            
+            .login-card {
+                background: rgba(255, 255, 255, 0.05);
+            }
+
+            .personal-card {
+                background: rgba(255, 255, 255, 0.05);
+            }
+
+            .option-card {
+                background: rgba(255, 255, 255, 0.05);
+            }
+
+            .funding-item {
+                background: rgba(255, 255, 255, 0.05);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero-subtitle {
+                font-size: 18px;
+            }
+
+            .hero-cta {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .demo-container {
+                padding: 24px;
+            }
+
+            .mission-grid,
+            .protocol-components,
+            .steps {
+                grid-template-columns: 1fr;
+            }
+
+            .platforms-grid {
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            }
+
+            .chat-input-container {
+                flex-direction: row;
+                gap: 8px;
+                padding: 8px;
+            }
+
+            .chat-input {
+                flex: 1;
+                min-width: 0;
+                font-size: 14px;
+            }
+
+            .sap-button, .send-btn {
+                width: 36px;
+                height: 36px;
+                flex-shrink: 0;
+            }
+
+            .sap-button img {
+                width: 26px;
+                height: 26px;
+            }
+
+            .send-btn {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .chat-input-container {
+                gap: 6px;
+                padding: 6px;
+            }
+
+            .sap-button, .send-btn {
+                width: 32px;
+                height: 32px;
+            }
+
+            .sap-button img {
+                width: 24px;
+                height: 24px;
+            }
+
+            .send-btn {
+                font-size: 14px;
+            }
+        }
+
+        /* Loading animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #e5e5e5;
+            border-radius: 50%;
+            border-top-color: #00C853;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        /* Removed duplicate spin animation that was causing positioning issues */
+
+        .sap-button.rotating img {
+            animation: spin 0.5s ease-in-out;
+        }
+
+        /* Demo Info Popup */
+        .demo-info-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .demo-info-popup.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .demo-info-content {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            max-width: 400px;
+            text-align: center;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .demo-info-popup.active .demo-info-content {
+            transform: scale(1);
+        }
+
+        .demo-info-content h3 {
+            margin-bottom: 12px;
+            color: #1a1a1a;
+        }
+
+        .demo-info-content p {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .demo-info-content button {
+            background: #00C853;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .demo-info-content button:hover {
+            background: #00A041;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .demo-info-content {
+                background: #1a1a1a;
+            }
+            
+            .demo-info-content h3 {
+                color: #ffffff;
+            }
+            
+            .demo-info-content p {
+                color: #cccccc;
+            }
+        }
+        
+        /* Hamburger Menu Styles */
+        .hamburger-menu {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        @media (min-width: 769px) {
+            .hamburger-menu {
+                display: flex;
+            }
+        }
+        
+        .hamburger-icon {
+            width: 24px;
+            height: 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .hamburger-icon span {
+            display: block;
+            height: 2px;
+            width: 100%;
+            background: #1a1a1a;
+            border-radius: 1px;
+            transition: all 0.3s ease;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            .hamburger-icon span {
+                background: #ffffff;
+            }
+        }
+        
+        .hamburger-menu:hover .hamburger-icon span {
+            background: #10b981;
+        }
+        
+        .hamburger-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 99999;
+            display: none;
+            backdrop-filter: blur(4px);
+        }
+        
+        
+        .hamburger-menu-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 300px;
+            height: 100vh;
+            background: #0a0a0a;
+            border-right: 1px solid #1f2937;
+            padding: 0;
+            overflow-y: auto;
+            z-index: 100000;
+        }
+        
+        .hamburger-header {
+            padding: 20px;
+            border-bottom: 1px solid #1f2937;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .hamburger-header h3 {
+            color: #ffffff;
+            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .hamburger-close {
+            background: none;
+            border: none;
+            color: #9ca3af;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .hamburger-close:hover {
+            color: #ffffff;
+        }
+        
+        .hamburger-nav {
+            padding: 20px 0;
+        }
+        
+        .hamburger-nav a {
+            display: block;
+            padding: 15px 20px;
+            color: #d1d5db;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+        
+        .hamburger-nav a:hover {
+            background: #1f2937;
+            color: #10b981;
+            border-left-color: #10b981;
+        }
+        
+        @media (max-width: 768px) {
+            .hamburger-menu-content {
+                width: 100%;
+                height: 100vh;
+                overflow-y: auto;
+            }
+            
+            .hamburger-nav {
+                padding: 20px 0 40px 0;
+            }
+            
+            .hamburger-nav a {
+                padding: 18px 20px;
+                font-size: 18px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🌍 SAP Protocol</h1>
-        <p>Redirecting to the Sustainable AI Protocol interface...</p>
-        <a href="/sap" class="button">Go to SAP Interface</a>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <button class="hamburger-menu" onclick="toggleHamburgerMenu()">
+                        <div class="hamburger-icon">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </button>
+                    <div class="logo-img">
+                        <img src="assets/SAPLogo.png" alt="SAP" onerror="this.style.display='none'">
+                    </div>
+                    <div class="logo">SAP</div>
+                </div>
+                <div class="ticker">
+                    <span>SAP Demo: </span>
+                    <span class="ticker-value" id="global-ticker">241</span>
+                    <span>interactions tracked ⚡</span>
+                    <div class="ticker-subline">~0.096 kWh estimated • Real global data coming in Phase 2</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Hamburger Menu -->
+        <div class="hamburger-overlay" id="hamburger-overlay" onclick="closeHamburgerMenu()">
+            <div class="hamburger-menu-content" onclick="event.stopPropagation()">
+                <div class="hamburger-header">
+                    <h3>SAP Navigation</h3>
+                    <button class="hamburger-close" onclick="closeHamburgerMenu()">&times;</button>
+                </div>
+                <nav class="hamburger-nav">
+                    <a href="#hero" onclick="closeHamburgerMenu()">Home</a>
+                    <a href="#power-control" onclick="closeHamburgerMenu()">Power Control</a>
+                    <a href="#mission" onclick="closeHamburgerMenu()">Mission</a>
+                    <a href="#protocol" onclick="closeHamburgerMenu()">SAP Protocol</a>
+                    <a href="#ecosystem" onclick="closeHamburgerMenu()">Ecosystem</a>
+                    <a href="#roadmap" onclick="closeHamburgerMenu()">Roadmap</a>
+                    <a href="#dev-section" onclick="closeHamburgerMenu()">For Developers</a>
+                    <a href="#pricing" onclick="closeHamburgerMenu()">Support</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="container">
+            <h1 class="hero-title">The Missing Button from Every AI Chat Interface</h1>
+            <p class="hero-subtitle">
+                One small button. Enormous change.<br>
+                The Sustainable AI Protocol (SAP) brings transparency and accountability to every AI interaction.
+            </p>
+            <!-- SAP Button - Clean Layout -->
+            <div class="sap-button-container">
+                <button class="sap-button-main" onclick="openDashboard();" title="SAP Button - Click to open dashboard">
+                    <div class="sap-button-wrapper">
+                        <img src="assets/SAPButton.svg" alt="SAP" class="sap-button-bg" onerror="this.style.display='none'">
+                        <div class="sap-counter-display" id="sap-counter">0</div>
+                </div>
+                </button>
+                
+                <!-- Text layout under button -->
+                <div class="sap-text-container">
+                    <div class="sap-text-display">
+                        <span class="sap-number" id="sap-display-number">0</span> PROMPTS TRACKED TODAY
+            </div>
+        </div>
+                
+                <div class="sap-prompt-button-container">
+                    <button class="sap-prompt-button" onclick="simulatePrompt();">
+                        <i class="fa-solid fa-arrow-up"></i> I just prompted
+                    </button>
+                </div>
+            </div>
+            
+            
+            <!-- Chat Demo - Moved under button -->
+            <div class="chat-demo-container">
+            
+                <!-- Demo Info Popup -->
+                <div class="chat-demo-info-popup" id="chat-demo-info-popup">
+                    <div class="chat-demo-info-content">
+                        <h3>About This Demo</h3>
+                        <p>This interactive demo shows how SAP tracks energy consumption in real-time. Every message you send is measured and logged to demonstrate the protocol's transparency.</p>
+                        <button onclick="toggleChatDemoInfo()" class="chat-demo-info-close">Close</button>
+                    </div>
+                </div>
+                <div class="chat-demo-content">
+                    <div class="chat-messages" id="chat-messages">
+                        <div class="message sap-message">
+                            <div class="message-content">
+                                <p>Hello. Every response here is powered by measurable compute. Click the SAP button anytime to view this session's energy use and carbon equivalent.</p>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="chat-input-container">
+                        <div class="chat-input-wrapper">
+                            <div class="sap-button" onclick="event.stopPropagation(); openDashboard();" title="SAP Button - Click to track AI usage">
+                            <img src="assets/SAPButton.svg" alt="SAP" onerror="this.style.display='none'">
+                            </div>
+                            <input type="text" class="chat-input" id="chat-input" placeholder="Ask anything, see impact..." onkeypress="handleKeyPress(event)">
+                            <button class="send-btn" onclick="event.stopPropagation(); sendMessage();">
+                                <i class="fa-solid fa-arrow-up"></i>
+                        </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- Power Control Section -->
+    <section class="power-control-section" id="power-control">
+        <div class="container">
+            <div class="power-control-content">
+                <h2 class="power-control-title">Take Control of Your AI's Environmental Impact</h2>
+                <p class="power-control-subtitle">
+                    SAP gives users control over the invisible costs of AI — the power, data centers, and carbon behind every prompt.
+                </p>
+                
+                <div class="power-control-features">
+                    <div class="feature-grid">
+                        <div class="feature-item">
+                            <div class="feature-icon">🌱</div>
+                            <h3>Green Dial Control</h3>
+                            <p>Adjust how much power your queries use</p>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">🌍</div>
+                            <h3>Data Center Selection</h3>
+                            <p>Pick renewable data centers</p>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">⚖️</div>
+                            <h3>Named Tradeoffs</h3>
+                            <p>See tradeoffs like cost vs. carbon</p>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">🔧</div>
+                            <h3>Manual Controls</h3>
+                            <p>Accept or reject compute resources</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="power-control-cta">
+                    <div class="cta-content">
+                        <h3>Every click helps build a more transparent AI future</h3>
+                        <p>Fund the open standard that lets anyone see AI's true cost</p>
+                        <div class="cta-buttons">
+                            <button class="cta-primary" onclick="scrollToSection('pricing')">Support SAP Development</button>
+                            <button class="cta-secondary" onclick="scrollToSection('demo')">Try Live Demo</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Developer Section -->
+    <section class="dev-section" id="dev-section">
+        <div class="container">
+            <h2 class="section-title">For Developers</h2>
+            <p class="section-subtitle">Integrate SAP into your AI applications in minutes</p>
+            
+            <div class="dev-content">
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-title">One-Line Integration</span>
+                        <button class="copy-btn" onclick="copyCode()">
+                            <i class="fa-solid fa-copy"></i>
+                            Copy Code
+                        </button>
+                    </div>
+                    <pre class="code-content" id="code-content"><code>// Multi-Purpose SAP Button - Embed anywhere
+&lt;button class="sap-button" 
+        onclick="incrementPersonalCounter()" 
+        onmousedown="startLongPress()" 
+        onmouseup="endLongPress()"&gt;
+  &lt;svg viewBox="0 0 120 120"&gt;
+    &lt;circle cx="60" cy="60" r="55" fill="none" stroke="#00C853" stroke-width="4"/&gt;
+    &lt;circle cx="60" cy="60" r="45" fill="rgba(0, 200, 83, 0.1)"/&gt;
+    &lt;text x="60" y="70" text-anchor="middle" id="sap-counter"&gt;0&lt;/text&gt;
+  &lt;/svg&gt;
+&lt;/button&gt;
+
+// JavaScript for multi-purpose behavior
+function incrementPersonalCounter() {
+  const count = parseInt(localStorage.getItem('sap_counter') || '0') + 1;
+  localStorage.setItem('sap_counter', count);
+  document.getElementById('sap-counter').textContent = formatCount(count);
+}
+
+// Single tap = count • Long press = dashboard
+// Works offline • Cached experience • Universal protocol</code></pre>
+                </div>
+                
+                <div class="dev-features">
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h3>Real-time Tracking</h3>
+                        <p>Automatic energy and carbon measurement for every AI interaction</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🌍</div>
+                        <h3>Global Network</h3>
+                        <p>Contribute to and benefit from worldwide AI sustainability data</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <h3>User Dashboards</h3>
+                        <p>Personal impact tracking across all SAP-enabled platforms</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission Section -->
+    <section class="mission-section" id="mission">
+        <div class="container">
+            <h2 class="mission-title">Why AI Needs Accountability</h2>
+            <div class="mission-grid">
+                <div class="mission-card">
+                    <h3>Energy Intensive</h3>
+                    <p>GPT-class models consume megawatt-hours daily without user awareness.</p>
+                </div>
+                <div class="mission-card">
+                    <h3>No Standardization</h3>
+                    <p>No unified way to measure, report, or offset compute impact.</p>
+                </div>
+                <div class="mission-card">
+                    <h3>Hidden Footprint</h3>
+                    <p>Every prompt consumes measurable energy — currently invisible.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Protocol Section -->
+    <section class="protocol-section" id="protocol">
+        <div class="container">
+            <h2 class="protocol-title">The SAP Protocol</h2>
+            <p class="protocol-subtitle">The SAP Protocol is an open standard for transparent AI energy tracking.<br>
+            It consists of three interoperable components:</p>
+            
+            <div class="protocol-components">
+                <div class="component-card">
+                    <div class="component-icon">🔘</div>
+                    <h3 class="component-title">SAP Button</h3>
+                    <p class="component-description">Local, per-query measurement</p>
+                </div>
+                <div class="component-card">
+                    <div class="component-icon">📈</div>
+                    <h3 class="component-title">Global Ticker</h3>
+                    <p class="component-description">Aggregated network telemetry</p>
+                </div>
+                <div class="component-card">
+                    <div class="component-icon">🔗</div>
+                    <h3 class="component-title">Open Schema</h3>
+                    <p class="component-description">Universal data format for sustainability reporting</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works">
+        <div class="container">
+            <h2 class="how-title">How It Works</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3 class="step-title">Add SAP to your AI chat UI</h3>
+                    <p class="step-description">Simple integration with one line of code</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3 class="step-title">SAP tracks prompt telemetry automatically</h3>
+                    <p class="step-description">Every interaction is measured and logged</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3 class="step-title">Users see their real-time energy data</h3>
+                    <p class="step-description">Both locally and globally aggregated</p>
+                </div>
+            </div>
+            <p style="text-align: center; color: #666; margin-top: 40px; font-style: italic;">
+                "Protocol-first transparency that integrates with any AI interface."
+            </p>
+        </div>
+    </section>
+
+    <!-- Ecosystem Section -->
+    <section class="ecosystem-section" id="ecosystem">
+        <div class="container">
+            <h2 class="ecosystem-title">Every AI platform will show its footprint — eventually.</h2>
+            <p class="ecosystem-subtitle">The SAP network grows stronger with every integration.</p>
+            
+            <div class="platforms-grid">
+                <div class="platform-card">
+                    <div class="platform-logo">GPT</div>
+                    <div class="platform-name">ChatGPT</div>
+                </div>
+                <div class="platform-card">
+                    <div class="platform-logo">Claude</div>
+                    <div class="platform-name">Anthropic</div>
+                </div>
+                <div class="platform-card">
+                    <div class="platform-logo">Gemini</div>
+                    <div class="platform-name">Google</div>
+                </div>
+                <div class="platform-card">
+                    <div class="platform-logo">Perplexity</div>
+                    <div class="platform-name">Perplexity</div>
+                </div>
+                <div class="platform-card">
+                    <div class="platform-logo">Grok</div>
+                    <div class="platform-name">xAI</div>
+                </div>
+                <div class="platform-card">
+                    <div class="platform-logo">DeepSeek</div>
+                    <div class="platform-name">DeepSeek</div>
+                </div>
+            </div>
+            
+            <p class="not-adopted">Not yet adopted</p>
+        </div>
+    </section>
+
+    <!-- Roadmap Section -->
+    <section class="roadmap-section" id="roadmap">
+        <div class="container">
+            <h2 class="roadmap-title">Roadmap</h2>
+            <div class="roadmap-accordion">
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        Phase 1 – Public Demo & Awareness
+                        <span>+</span>
+                    </div>
+                    <div class="accordion-content">
+                        <p>Launch public demo, gather community feedback, establish core protocol standards, and onboard early adopters.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        Phase 2 – Early Partnerships
+                        <span>+</span>
+                    </div>
+                    <div class="accordion-content">
+                        <p>Partner with AI companies to integrate SAP, develop enterprise features, and expand the global telemetry network.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        Phase 3 – Global Standardization via SAP Foundation
+                        <span>+</span>
+                    </div>
+                    <div class="accordion-content">
+                        <p>Establish SAP Foundation, create industry standards, enable carbon offset markets, and achieve widespread adoption across all AI platforms.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Membership Section -->
+    <section class="membership-section" id="pricing">
+        <div class="container">
+            <h2 class="membership-title">Support SAP and help make AI measurable</h2>
+            <p class="membership-subtitle">Your contribution funds carbon offsets, research, and development of the open protocol</p>
+            
+            <div class="beta-notice">
+                <div class="beta-badge">BETA DEV PERIOD</div>
+                <p class="beta-text">Currently in development: Global AI usage counter and personal cache counter. User profiles and advanced features coming soon.</p>
+            </div>
+            
+                <div class="pricing-grid">
+                    <div class="pricing-card lifetime">
+                        <div class="lifetime-badge">50% OFF BETA</div>
+                        <div class="pricing-header">
+                            <h3>Early Supporter (Lifetime Access)</h3>
+                            <div class="price">
+                                <div class="beta-stamp">$2.50</div>
+                                <div class="price-text">$5<span> one-time</span></div>
+                            </div>
+                        </div>
+                        <ul class="pricing-features">
+                            <li>✓ Global AI usage counter</li>
+                            <li>✓ Personal cache counter</li>
+                            <li>✓ Beta dev period access</li>
+                            <li>✓ Contribute to SAP development</li>
+                        </ul>
+                        <button class="pricing-btn primary" onclick="joinSAP('lifetime-beta')">Get Beta Access</button>
+                    </div>
+                    
+                    <div class="pricing-card">
+                        <div class="pricing-header">
+                            <h3>Supporter</h3>
+                            <div class="price">$10<span>/month</span></div>
+                        </div>
+                        <ul class="pricing-features">
+                            <li>✓ Everything in Lifetime Basic</li>
+                            <li>✓ Offset 10kg CO₂/month</li>
+                            <li>✓ Community access</li>
+                            <li>✓ Monthly impact reports</li>
+                        </ul>
+                        <button class="pricing-btn" onclick="joinSAP('supporter')">Select Plan</button>
+                    </div>
+                    
+                    <div class="pricing-card popular">
+                        <div class="popular-badge">POPULAR</div>
+                        <div class="pricing-header">
+                            <h3>Advocate</h3>
+                            <div class="price">$50<span>/month</span></div>
+                        </div>
+                        <ul class="pricing-features">
+                            <li>✓ Everything in Supporter</li>
+                            <li>✓ API access for developers</li>
+                            <li>✓ Offset 100kg CO₂/month</li>
+                            <li>✓ Early access to features</li>
+                            <li>✓ Priority support</li>
+                        </ul>
+                        <button class="pricing-btn primary" onclick="joinSAP('advocate')">Select Plan</button>
+                    </div>
+                    
+                    <div class="pricing-card">
+                        <div class="pricing-header">
+                            <h3>Pioneer</h3>
+                            <div class="price">$250<span>/month</span></div>
+                        </div>
+                        <ul class="pricing-features">
+                            <li>✓ Everything in Advocate</li>
+                            <li>✓ Founding member status</li>
+                            <li>✓ Offset 1000kg CO₂/month</li>
+                            <li>✓ Direct input on roadmap</li>
+                            <li>✓ Exclusive events</li>
+                        </ul>
+                        <button class="pricing-btn" onclick="joinSAP('pioneer')">Select Plan</button>
+                    </div>
+                </div>
+            
+            <div class="funding-breakdown">
+                <h3>Your contribution funds:</h3>
+                <div class="funding-items">
+                    <div class="funding-item">
+                        <span class="funding-icon">🌱</span>
+                        <div>
+                            <strong>Carbon Offsets</strong>
+                            <p>Verified climate projects</p>
+                        </div>
+                    </div>
+                    <div class="funding-item">
+                        <span class="funding-icon">🔬</span>
+                        <div>
+                            <strong>R&D & Partnerships</strong>
+                            <p>Making green AI accessible</p>
+                        </div>
+                    </div>
+                    <div class="funding-item">
+                        <span class="funding-icon">🛠️</span>
+                        <div>
+                            <strong>Protocol Maintenance</strong>
+                            <p>Keeping SAP running</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Get in Touch Section -->
+            <div class="get-in-touch" style="margin-top: 60px; text-align: center;">
+                <h3 style="font-size: 24px; font-weight: 300; margin-bottom: 16px; color: #1a1a1a;">Get in Touch</h3>
+                <p style="color: #666; margin-bottom: 24px; font-size: 16px;">Help us build the future of sustainable AI.</p>
+                <button class="contact-button" data-tally-open="mKKAMA" data-tally-emoji-text="👋" data-tally-emoji-animation="wave" style="background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; border: none; padding: 12px 24px; border-radius: 30px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);">Get in Touch</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>SAP Foundation</h4>
+                    <a href="#">Mission</a>
+                    <a href="#">Transparency Report</a>
+                    <a href="#">Contact</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Developers</h4>
+                    <a href="#">GitHub</a>
+                    <a href="#">Documentation</a>
+                    <a href="#">API Reference</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Community</h4>
+                    <a href="#">Discord</a>
+                    <a href="#">Twitter</a>
+                    <a href="#">Newsletter</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; Sustainable AI Protocol — Making AI measurable.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Dashboard Modal -->
+    <div class="dashboard-overlay" id="dashboard-overlay">
+        <div class="dashboard-popup">
+            <div class="dashboard-header">
+                <div class="dashboard-title-section">
+                    <h2 class="dashboard-title">🌍 SAP Global Impact</h2>
+                    <p class="dashboard-subtitle">Real-time AI energy consumption worldwide</p>
+                </div>
+                <button class="dashboard-close" onclick="closeDashboard()">&times;</button>
+            </div>
+            
+            <div class="dashboard-content">
+                <!-- Global vs Personal Stats -->
+                <div class="stats-comparison">
+                    <div class="stats-card global">
+                        <h3>🌍 Global Usage</h3>
+                        <div class="stat-value" id="global-count">0</div>
+                        <div class="stat-label">Total AI Interactions</div>
+                        <div class="stat-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Energy:</span>
+                                <span class="detail-value" id="global-energy">0 kWh</span>
+                    </div>
+                            <div class="detail-item">
+                                <span class="detail-label">CO₂:</span>
+                                <span class="detail-value" id="global-co2">0g</span>
+                            </div>
+                        </div>
+                        </div>
+                        
+                    <div class="stats-card personal">
+                        <h3>👤 Your Usage</h3>
+                        <div class="stat-value" id="personal-count">0</div>
+                        <div class="stat-label">Your AI Interactions</div>
+                        <div class="stat-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Energy:</span>
+                                <span class="detail-value" id="personal-energy">0 kWh</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">CO₂:</span>
+                                <span class="detail-value" id="personal-co2">0g</span>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Daily Usage Chart -->
+                <div class="chart-section">
+                    <h3>📊 Daily Usage (Last 7 Days)</h3>
+                    <div class="chart-container">
+                        <canvas id="usage-chart" width="400" height="200"></canvas>
+                        </div>
+                    <div class="chart-legend">
+                        <div class="legend-item">
+                            <div class="legend-color global"></div>
+                            <span>Global Usage</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color personal"></div>
+                            <span>Your Usage</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hourly Breakdown -->
+                <div class="hourly-section">
+                    <h3>⏰ Today's Activity by Hour</h3>
+                    <div class="hourly-chart">
+                        <canvas id="hourly-chart" width="400" height="150"></canvas>
+                            </div>
+                        </div>
+
+                <!-- Time Log -->
+                <div class="timeline-section">
+                    <h3>📝 Recent Activity</h3>
+                    <div class="timeline" id="activity-timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-time">12:34 PM</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">AI Chat Response</div>
+                                <div class="timeline-impact">+0.0004 kWh, +0.2g CO₂</div>
+                            </div>
+                            </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">12:30 PM</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">Image Generation</div>
+                                <div class="timeline-impact">+0.05 kWh, +25g CO₂</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                    <!-- Count Button -->
+                    <div class="count-section">
+                        <button class="count-button" onclick="incrementPersonalCounter()">
+                            <span class="count-icon">📊</span>
+                            Count This Interaction
+                        </button>
+                        <p class="count-subtext">Track your personal AI usage and contribute to global metrics</p>
+                </div>
+
+                <!-- Call to Action -->
+                <div class="cta-section">
+                        <button class="dashboard-cta" onclick="joinSAP('lifetime-beta')">
+                        <span class="cta-icon">🚀</span>
+                            Get $2.50 Beta Access (50% OFF)
+                    </button>
+                        <p class="cta-subtext">Global counter + personal cache during beta dev period</p>
+                </div>
+            </div>
+        </div>
     </div>
-    
+
+    <!-- Demo Info Popup -->
+    <div class="demo-info-popup" id="demo-info-popup">
+        <div class="demo-info-content">
+            <h3>Live Demo</h3>
+            <p>Every response here is powered by measurable compute. This demo shows how SAP tracks environmental impact in real-time.</p>
+            <button onclick="closeDemoInfo()">Got it</button>
+        </div>
+    </div>
+
     <script>
-        // Auto-redirect after 3 seconds
-        setTimeout(() => {
-            window.location.href = '/sap';
-        }, 3000);
+        // Configuration
+        const API_BASE_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://localhost:3001' : 'https://phewsh.com';
+        const IS_PRODUCTION = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+        let messageCount = 0;
+
+        // Supabase configuration
+        const SUPABASE_URL = 'https://fpnpfnahwaztdlxuayyv.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZwbnBmbmFod2F6dGRseHVheXl2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA1NDY2NTcsImV4cCI6MjA3NjEyMjY1N30.Q6mn8RIvXujBXbd10aFkeY7yGHVsAQPEHM5OzoPMsFQ';
+        
+        // Initialize Supabase client
+        const { createClient } = supabase;
+        const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Load ticker data on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadTickerData();
+            setInterval(loadTickerData, 10000); // Update every 10 seconds
+            
+            // Update counter display every 1 second
+            setInterval(updateCounterDisplay, 1000);
+            
+            // Initial counter display
+            updateCounterDisplay();
+            
+            // Handle payment success
+            handlePaymentSuccess();
+            
+            // Check member status
+            validateMemberStatus().then(status => {
+                if (status.isMember) {
+                    console.log('User is a member:', status.membershipType);
+                }
+            });
+        });
+
+        // Load ticker data with fallback
+        async function loadTickerData() {
+            // Always use local storage fallback for now since server isn't deployed
+                const localData = JSON.parse(localStorage.getItem('sap-demo-data') || '{"text_count":0,"image_count":0,"audio_count":0,"video_count":0,"total_count":0,"total_kwh":0,"total_co2":0}');
+                updateTickerDisplay(localData);
+                return;
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/ticker`);
+                if (response.ok) {
+                    const data = await response.json();
+                    updateTickerDisplay(data);
+                } else {
+                    throw new Error('API not available');
+                }
+            } catch (error) {
+                console.log('Using local fallback for ticker data');
+                const localData = JSON.parse(localStorage.getItem('sap-demo-data') || '{"text_count":0,"image_count":0,"audio_count":0,"video_count":0,"total_count":0,"total_kwh":0,"total_co2":0}');
+                updateTickerDisplay(localData);
+            }
+        }
+
+        // Update ticker display
+        function updateTickerDisplay(data) {
+            const ticker = document.getElementById('global-ticker');
+            if (ticker) {
+                ticker.textContent = data.total_count || 0;
+            }
+            updateDashboardStats(data);
+        }
+
+        // Update dashboard stats
+        function updateDashboardStats(data) {
+            const totalEl = document.getElementById('dashboard-total');
+            const energyEl = document.getElementById('dashboard-energy');
+            const co2El = document.getElementById('dashboard-co2');
+            const todayEl = document.getElementById('dashboard-today');
+            
+            if (totalEl) totalEl.textContent = data.total_count || 0;
+            if (energyEl) energyEl.textContent = (data.total_kwh || 0).toFixed(3);
+            if (co2El) co2El.textContent = (data.total_co2 || 0).toFixed(1);
+            if (todayEl) todayEl.textContent = data.today_count || 0;
+        }
+
+        // Scroll to demo
+        function scrollToDemo() {
+            document.getElementById('demo').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Scroll to section
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Open dashboard
+        function openDashboard() {
+            console.log('Opening dashboard...');
+            const overlay = document.getElementById('dashboard-overlay');
+            if (!overlay) {
+                console.error('Dashboard overlay not found!');
+                return;
+            }
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            loadTickerData(); // Update stats when opening
+            initializeCharts(); // Initialize charts
+            console.log('Dashboard opened successfully');
+        }
+        
+        // Test function to verify dashboard works
+        function testDashboard() {
+            console.log('Testing dashboard...');
+            openDashboard();
+        }
+        
+        // Make testDashboard available globally for debugging
+        window.testDashboard = testDashboard;
+        
+        // Simulate prompt function - works like chat demo
+        function simulatePrompt() {
+            console.log('🎯 Simulating prompt...');
+            
+            // Use the same logic as chat demo
+            updateLocalData('text');
+            
+            // Actually send to Supabase
+            pushPersonalCounterToSupabase();
+            
+            // Spin both buttons
+            const bigButton = document.querySelector('.sap-button-main');
+            const smallButton = document.querySelector('.sap-button');
+            
+            if (bigButton) {
+                bigButton.classList.add('spinning');
+                setTimeout(() => bigButton.classList.remove('spinning'), 800);
+            }
+            
+            if (smallButton) {
+                smallButton.classList.add('clicking');
+                setTimeout(() => smallButton.classList.remove('clicking'), 800);
+            }
+        }
+        
+        // SAP Hero Section - Initialize numbers from Supabase
+        window.addEventListener('load', function() {
+            console.log('🔍 Initializing SAP numbers...');
+            
+            // Load initial counter from Supabase
+            updateCounterDisplay();
+            
+            // Update every 5 seconds to stay synced
+            setInterval(updateCounterDisplay, 5000);
+        });
+
+        // Close dashboard
+        function closeDashboard() {
+            const overlay = document.getElementById('dashboard-overlay');
+            overlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close dashboard when clicking overlay
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('dashboard-overlay')) {
+                closeDashboard();
+            }
+        });
+
+        // Show login prompt
+        function showLogin() {
+            console.log('Show login clicked');
+            // For now, just show an alert
+            alert('Login functionality coming soon! This will connect to Supabase for user authentication.');
+        }
+
+        // Update dashboard stats with real data
+        function updateDashboardStats() {
+            // Update energy
+            const energyElement = document.getElementById('dashboard-energy');
+            const co2Element = document.getElementById('dashboard-co2');
+            const waterElement = document.getElementById('dashboard-water');
+            const totalElement = document.getElementById('dashboard-total');
+            
+            if (energyElement) {
+                const energy = (Math.random() * 1000 + 500).toFixed(1);
+                energyElement.textContent = energy;
+                
+                // Update context
+                const energyContext = document.getElementById('energy-context');
+                if (energyContext) {
+                    const lightbulbHours = (energy * 10).toFixed(0);
+                    energyContext.textContent = `~${lightbulbHours} lightbulb hours`;
+                }
+            }
+            
+            if (co2Element) {
+                const co2 = (Math.random() * 500 + 250).toFixed(1);
+                co2Element.textContent = co2;
+                
+                const co2Context = document.getElementById('co2-context');
+                if (co2Context) {
+                    const carMiles = (co2 * 0.1).toFixed(1);
+                    co2Context.textContent = `~${carMiles} car miles`;
+                }
+            }
+            
+            if (waterElement) {
+                const water = (Math.random() * 100 + 50).toFixed(1);
+                waterElement.textContent = water;
+                
+                const waterContext = document.getElementById('water-context');
+                if (waterContext) {
+                    const glasses = (water * 4).toFixed(0);
+                    waterContext.textContent = `~${glasses} glasses`;
+                }
+            }
+            
+            if (totalElement) {
+                const total = Math.floor(Math.random() * 10000 + 50000);
+                totalElement.textContent = total.toLocaleString();
+            }
+        }
+
+        // Add new activity to feed
+        function addActivityToFeed(text, impact) {
+            const feed = document.getElementById('activity-feed');
+            if (!feed) return;
+            
+            const activityItem = document.createElement('div');
+            activityItem.className = 'activity-item';
+            activityItem.innerHTML = `
+                <div class="activity-time">Just now</div>
+                <div class="activity-text">${text}</div>
+                <div class="activity-impact">${impact}</div>
+            `;
+            
+            // Add to top of feed
+            feed.insertBefore(activityItem, feed.firstChild);
+            
+            // Remove old items if too many
+            const items = feed.querySelectorAll('.activity-item');
+            if (items.length > 5) {
+                feed.removeChild(items[items.length - 1]);
+            }
+        }
+
+        // Simulate real-time activity
+        function simulateActivity() {
+            const activities = [
+                { text: 'Someone generated an image using AI', impact: '+0.05 kWh, +25g CO₂' },
+                { text: 'Text generation completed', impact: '+0.0004 kWh, +0.2g CO₂' },
+                { text: 'AI chat response generated', impact: '+0.0004 kWh, +0.2g CO₂' },
+                { text: 'Code completion requested', impact: '+0.001 kWh, +0.5g CO₂' },
+                { text: 'Document analysis finished', impact: '+0.002 kWh, +1g CO₂' }
+            ];
+            
+            const randomActivity = activities[Math.floor(Math.random() * activities.length)];
+            addActivityToFeed(randomActivity.text, randomActivity.impact);
+        }
+
+        // Start activity simulation when dashboard opens
+        let activityInterval;
+        function startActivitySimulation() {
+            activityInterval = setInterval(simulateActivity, 3000);
+        }
+
+        function stopActivitySimulation() {
+            if (activityInterval) {
+                clearInterval(activityInterval);
+            }
+        }
+
+        // Update openDashboard to include new functionality
+        const originalOpenDashboard = openDashboard;
+        openDashboard = function() {
+            originalOpenDashboard();
+            updateDashboardStats();
+            startActivitySimulation();
+        };
+
+        // Update closeDashboard to stop simulation
+        const originalCloseDashboard = closeDashboard;
+        closeDashboard = function() {
+            originalCloseDashboard();
+            stopActivitySimulation();
+        };
+
+        // Scroll to dev section
+        function scrollToDevSection() {
+            const devSection = document.getElementById('dev-section');
+            if (devSection) {
+                devSection.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                // If dev section doesn't exist, scroll to demo
+                document.getElementById('demo').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Scroll to info section
+        function scrollToInfoSection() {
+            const infoSection = document.getElementById('info-section');
+            if (infoSection) {
+                infoSection.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                // If info section doesn't exist, scroll to protocol section
+                document.querySelector('.protocol-section').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Copy code to clipboard
+        function copyCode() {
+            const codeContent = document.getElementById('code-content');
+            const codeText = codeContent.textContent;
+            
+            navigator.clipboard.writeText(codeText).then(function() {
+                // Show success feedback
+                const copyBtn = document.querySelector('.copy-btn');
+                const originalText = copyBtn.innerHTML;
+                copyBtn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
+                copyBtn.style.background = '#00A041';
+                
+                setTimeout(() => {
+                    copyBtn.innerHTML = originalText;
+                    copyBtn.style.background = '#00C853';
+                }, 2000);
+            }).catch(function(err) {
+                console.error('Failed to copy code: ', err);
+                alert('Failed to copy code. Please try again.');
+            });
+        }
+
+        // Multi-Purpose SAP Button Behavior
+        let longPressTimer = null;
+        let isLongPress = false;
+
+        // Check if it's a new day (12AM EST reset)
+        function isNewDay() {
+            const now = new Date();
+            const est = new Date(now.toLocaleString("en-US", {timeZone: "America/New_York"}));
+            const today = est.toDateString();
+            const lastReset = localStorage.getItem('sap_last_reset');
+            
+            if (lastReset !== today) {
+                localStorage.setItem('sap_last_reset', today);
+                return true;
+            }
+            return false;
+        }
+
+        // Personal counter (stored in localStorage for offline functionality)
+        function getPersonalCounter() {
+            // Reset if new day
+            if (isNewDay()) {
+                return 0;
+            }
+            return parseInt(localStorage.getItem('sap_personal_counter') || '0');
+        }
+
+        function setPersonalCounter(value) {
+            localStorage.setItem('sap_personal_counter', value.toString());
+        }
+
+        function formatCounter(value) {
+            if (value < 1000) return value.toString();
+            if (value < 1000000) return (value / 1000).toFixed(1) + 'K';
+            if (value < 1000000000) return (value / 1000000).toFixed(1) + 'M';
+            return (value / 1000000000).toFixed(1) + 'B';
+        }
+
+        async function updateCounterDisplay() {
+            const personalCounter = getPersonalCounter();
+            const globalCounter = await getGlobalCounter();
+            const totalCounter = personalCounter + globalCounter;
+            
+            const counterElement = document.getElementById('sap-counter');
+            const displayNumber = document.getElementById('sap-display-number');
+            
+            if (counterElement) {
+                counterElement.textContent = formatCounter(totalCounter);
+            }
+            
+            if (displayNumber) {
+                displayNumber.textContent = formatCounter(totalCounter);
+            }
+            
+            console.log('📊 Counter updated:', totalCounter);
+        }
+
+        // Get global counter from Supabase
+        async function getGlobalCounter() {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('global_stats')
+                    .select('total_count')
+                    .eq('id', 1)
+                    .single();
+
+                if (error) {
+                    console.log('Error fetching global counter:', error);
+                    // Fallback to local storage
+                    const localData = JSON.parse(localStorage.getItem('sap-demo-data') || '{"total_count":0}');
+                    return localData.total_count || 0;
+                }
+
+                return data?.total_count || 0;
+            } catch (error) {
+                console.log('Error fetching global counter:', error);
+                // Fallback to local storage
+                const localData = JSON.parse(localStorage.getItem('sap-demo-data') || '{"total_count":0}');
+                return localData.total_count || 0;
+            }
+        }
+
+        // Update counter with both personal and global
+        async function updateCounterWithGlobal() {
+            const personalCounter = getPersonalCounter();
+            const globalCounter = await getGlobalCounter();
+            const totalCounter = personalCounter + globalCounter;
+            
+            const counterElement = document.getElementById('sap-counter');
+            if (counterElement) {
+                counterElement.textContent = formatCounter(totalCounter);
+            }
+        }
+
+        // Single tap - increment personal counter (accountability tracker only)
+        function incrementPersonalCounter() {
+            console.log('🚀 incrementPersonalCounter called - START');
+            if (isLongPress) return; // Don't increment if it's a long press
+            
+            // IMMEDIATE PHYSICAL FEEDBACK - Update UI first (SYNCHRONOUS)
+            const currentCount = getPersonalCounter();
+            const newCount = currentCount + 1;
+            setPersonalCounter(newCount);
+            console.log('📊 Counter updated:', newCount);
+            
+            // Update display immediately with personal count only (no waiting for global)
+            const counterElement = document.getElementById('sap-counter');
+            if (counterElement) {
+                counterElement.textContent = formatCounter(newCount);
+                console.log('🎯 Display updated to:', formatCounter(newCount));
+            } else {
+                console.log('❌ Counter element not found!');
+            }
+            
+            // Add spin animation to main button immediately (SYNCHRONOUS)
+            const mainButton = document.getElementById('sap-main-button');
+            if (mainButton) {
+                console.log('🔄 Adding spin animation to main button');
+                mainButton.classList.add('clicking');
+                setTimeout(() => {
+                    mainButton.classList.remove('clicking');
+                    console.log('✅ Spin animation completed');
+                }, 800);
+            } else {
+                console.log('❌ Main button not found!');
+            }
+            
+            // Add spin animation to chat demo button immediately (SYNCHRONOUS)
+            const chatButton = document.querySelector('.sap-button');
+            if (chatButton) {
+                console.log('🔄 Adding spin animation to chat button');
+                chatButton.classList.add('clicking');
+                setTimeout(() => {
+                    chatButton.classList.remove('clicking');
+                }, 800);
+            }
+            
+            console.log('✅ Personal counter incremented:', newCount);
+            
+            // Background sync to Supabase (completely non-blocking)
+            setTimeout(() => {
+                console.log('🌐 Starting background sync...');
+                pushPersonalCounterToSupabase();
+                updateCounterDisplay();
+            }, 0);
+        }
+
+        function showConfirmationPopup() {
+            // Create overlay
+            const overlay = document.createElement('div');
+            overlay.className = 'sap-popup-overlay';
+            
+            // Create popup
+            const popup = document.createElement('div');
+            popup.className = 'sap-confirmation-popup';
+            popup.innerHTML = `
+                <h3>Track AI Usage?</h3>
+                <p>This will increment the global AI usage counter. We want accurate measurements until SAP is mandated in all AI models.</p>
+                <div class="sap-confirmation-buttons">
+                    <button class="sap-confirm-btn" onclick="confirmIncrement()">Yes, Track It</button>
+                    <button class="sap-cancel-btn" onclick="cancelIncrement()">Cancel</button>
+                </div>
+            `;
+            
+            // Add to page
+            document.body.appendChild(overlay);
+            document.body.appendChild(popup);
+            
+            // Store references for cleanup
+            window.sapPopupOverlay = overlay;
+            window.sapPopup = popup;
+        }
+
+        async function confirmIncrement() {
+            // Add spin animation to main button
+            const mainButton = document.getElementById('sap-main-button');
+            if (mainButton) {
+                mainButton.classList.add('clicking');
+                setTimeout(() => {
+                    mainButton.classList.remove('clicking');
+                }, 800);
+            }
+            
+            // Add spin animation to chat demo button
+            const chatButton = document.querySelector('.sap-button');
+            if (chatButton) {
+                chatButton.classList.add('clicking');
+                setTimeout(() => {
+                    chatButton.classList.remove('clicking');
+                }, 800);
+            }
+            
+            // Increment counter
+            const currentCount = getPersonalCounter();
+            const newCount = currentCount + 1;
+            setPersonalCounter(newCount);
+            
+            await updateCounterDisplay();
+            logPersonalPrompt();
+            
+            // Close popup
+            closeConfirmationPopup();
+        }
+
+        function cancelIncrement() {
+            closeConfirmationPopup();
+        }
+
+        function closeConfirmationPopup() {
+            if (window.sapPopupOverlay) {
+                window.sapPopupOverlay.remove();
+            }
+            if (window.sapPopup) {
+                window.sapPopup.remove();
+            }
+        }
+
+        // Long press - open dashboard
+        function startLongPress() {
+            isLongPress = false;
+            longPressTimer = setTimeout(() => {
+                isLongPress = true;
+                const button = document.getElementById('sap-main-button');
+                button.classList.add('long-press');
+                openDashboard();
+            }, 500); // 500ms for long press
+        }
+
+        function endLongPress() {
+            if (longPressTimer) {
+                clearTimeout(longPressTimer);
+                longPressTimer = null;
+            }
+            const button = document.getElementById('sap-main-button');
+            button.classList.remove('long-press');
+        }
+
+        // Log personal prompt to server
+        async function logPersonalPrompt() {
+            // For now, just log locally since server isn't deployed
+            console.log('Personal prompt logged locally');
+        }
+
+        // Push personal counter to Supabase
+        async function pushPersonalCounterToSupabase() {
+            try {
+                const personalCount = getPersonalCounter();
+                
+                // Use new RPC function for long-term tracking
+                const { error } = await supabaseClient.rpc('increment_sap_stats');
+
+                if (error) {
+                    console.log('Error updating SAP stats:', error);
+                    // Fallback to old function if new one doesn't exist yet
+                    const { error: fallbackError } = await supabaseClient.rpc('increment_global_stats');
+                    if (fallbackError) {
+                        // Fallback to local storage
+                        const localData = JSON.parse(localStorage.getItem('sap-demo-data') || '{"total_count":0}');
+                        localData.total_count = (localData.total_count || 0) + 1;
+                        localStorage.setItem('sap-demo-data', JSON.stringify(localData));
+                        console.log('Updated local global counter:', localData.total_count);
+                    } else {
+                        console.log('Updated global counter via fallback RPC');
+                    }
+                } else {
+                    console.log('Updated SAP stats in Supabase via RPC');
+                }
+
+                console.log('Personal counter updated:', personalCount);
+            } catch (error) {
+                console.log('Error updating counters:', error);
+                // Fallback to local storage
+                const localData = JSON.parse(localStorage.getItem('sap-demo-data') || '{"total_count":0}');
+                localData.total_count = (localData.total_count || 0) + 1;
+                localStorage.setItem('sap-demo-data', JSON.stringify(localData));
+            }
+        }
+
+        // Create user account with Supabase
+        async function createUserAccount(email, password) {
+            try {
+                const { data, error } = await supabaseClient.auth.signUp({
+                    email: email,
+                    password: password,
+                    options: {
+                        data: {
+                            membership_type: 'lifetime_beta',
+                            membership_status: 'active',
+                            created_at: new Date().toISOString()
+                        }
+                    }
+                });
+
+                if (error) {
+                    console.error('Error creating user account:', error);
+                    return { success: false, error: error.message };
+                }
+
+                console.log('User account created successfully:', data);
+                return { success: true, data: data };
+            } catch (error) {
+                console.error('Error creating user account:', error);
+                return { success: false, error: error.message };
+            }
+        }
+
+        // Validate member status
+        async function validateMemberStatus() {
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                
+                if (user) {
+                    // Check if user has active membership
+                    const { data: profile, error } = await supabaseClient
+                        .from('profiles')
+                        .select('membership_type, membership_status')
+                        .eq('id', user.id)
+                        .single();
+
+                    if (error) {
+                        console.log('No profile found, creating one...');
+                        return await createMemberProfile(user);
+                    }
+
+                    return {
+                        isMember: profile.membership_status === 'active',
+                        membershipType: profile.membership_type,
+                        user: user
+                    };
+                }
+
+                return { isMember: false, user: null };
+            } catch (error) {
+                console.error('Error validating member status:', error);
+                return { isMember: false, user: null };
+            }
+        }
+
+        // Create member profile
+        async function createMemberProfile(user) {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('profiles')
+                    .insert({
+                        id: user.id,
+                        email: user.email,
+                        membership_type: 'lifetime_beta',
+                        membership_status: 'active',
+                        created_at: new Date().toISOString(),
+                        personal_counter: 0
+                    });
+
+                if (error) {
+                    console.error('Error creating member profile:', error);
+                    return { success: false, error: error.message };
+                }
+
+                return { success: true, data: data };
+            } catch (error) {
+                console.error('Error creating member profile:', error);
+                return { success: false, error: error.message };
+            }
+        }
+
+        // Handle successful payment
+        function handlePaymentSuccess() {
+            // Check if user came from Stripe payment
+            const urlParams = new URLSearchParams(window.location.search);
+            const sessionId = urlParams.get('session_id');
+            const success = urlParams.get('success');
+
+            if (success === 'true' && sessionId) {
+                // Show success message and prompt for account creation
+                showPaymentSuccessModal();
+            }
+        }
+
+        // Show payment success modal
+        function showPaymentSuccessModal() {
+            const modal = document.createElement('div');
+            modal.className = 'payment-success-modal';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <h2>🎉 Payment Successful!</h2>
+                    <p>Welcome to SAP Beta! You now have lifetime access to the global AI usage counter and personal cache counter.</p>
+                    <p>Create your account to save your progress and access your personal dashboard:</p>
+                    <form id="account-creation-form">
+                        <input type="email" id="user-email" placeholder="Your email address" required>
+                        <input type="password" id="user-password" placeholder="Create a password" required>
+                        <button type="submit">Create Account</button>
+                    </form>
+                    <p class="skip-text">Or <a href="#" onclick="skipAccountCreation()">skip for now</a> and create an account later.</p>
+                </div>
+            `;
+
+            // Add CSS for modal
+            const style = document.createElement('style');
+            style.textContent = `
+                .payment-success-modal {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0, 0, 0, 0.8);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 10000;
+                }
+                .modal-content {
+                    background: white;
+                    padding: 40px;
+                    border-radius: 12px;
+                    max-width: 500px;
+                    text-align: center;
+                }
+                .modal-content h2 {
+                    color: #00C853;
+                    margin-bottom: 20px;
+                }
+                .modal-content form {
+                    margin: 20px 0;
+                }
+                .modal-content input {
+                    width: 100%;
+                    padding: 12px;
+                    margin: 8px 0;
+                    border: 1px solid #ddd;
+                    border-radius: 6px;
+                }
+                .modal-content button {
+                    background: #00C853;
+                    color: white;
+                    border: none;
+                    padding: 12px 24px;
+                    border-radius: 6px;
+                    cursor: pointer;
+                    font-size: 16px;
+                }
+                .skip-text {
+                    margin-top: 20px;
+                    color: #666;
+                }
+                .skip-text a {
+                    color: #00C853;
+                    text-decoration: none;
+                }
+            `;
+            document.head.appendChild(style);
+            document.body.appendChild(modal);
+
+            // Handle form submission
+            document.getElementById('account-creation-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const email = document.getElementById('user-email').value;
+                const password = document.getElementById('user-password').value;
+
+                const result = await createUserAccount(email, password);
+                if (result.success) {
+                    alert('Account created successfully! You can now access your personal dashboard.');
+                    modal.remove();
+                } else {
+                    alert('Error creating account: ' + result.error);
+                }
+            });
+        }
+
+        // Skip account creation
+        function skipAccountCreation() {
+            const modal = document.querySelector('.payment-success-modal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+
+        // Initialize counter on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCounterDisplay();
+            
+            // Update counter every 30 seconds to show global changes
+            setInterval(updateCounterDisplay, 30000);
+        });
+
+        // Handle key press in chat input
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        // Send message with SAP tracking
+        async function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const message = input.value.trim();
+            
+            if (!message) return;
+
+            console.log('Sending message:', message);
+            console.log('IS_PRODUCTION:', IS_PRODUCTION);
+
+            // Add user message to chat
+            addMessage(message, 'user');
+            input.value = '';
+
+            // Show loading
+            const loadingId = addMessage('<div class="loading"></div> SAP AI is thinking...', 'ai');
+
+            // In production, use demo mode since server isn't deployed
+            if (IS_PRODUCTION) {
+                setTimeout(() => {
+                    removeMessage(loadingId);
+                    const responses = [
+                        "That's a great question! This response used approximately 0.0004 kWh of energy and produced 0.2g CO₂. The SAP protocol tracks every AI interaction for transparency.",
+                        "Interesting point! This AI response consumed about 0.0004 kWh and emitted 0.2g CO₂. SAP makes AI's environmental impact visible to everyone.",
+                        "Thanks for asking! This interaction used 0.0004 kWh of energy and 0.2g CO₂. With SAP, every AI conversation is environmentally accountable.",
+                        "Good question! This response required 0.0004 kWh and produced 0.2g CO₂. SAP ensures AI sustainability through complete transparency."
+                    ];
+                    const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                    addMessage(`<strong>SAP AI:</strong> ${randomResponse}`, 'ai');
+                    updateLocalData('text');
+                    pushPersonalCounterToSupabase();
+                    rotateSapButton();
+                }, 1000);
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/generate`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        model_type: 'text'
+                    })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    removeMessage(loadingId);
+                    addMessage(`<strong>SAP AI:</strong> ${data.response}`, 'ai');
+                    updateLocalData('text');
+                } else {
+                    throw new Error('API not available');
+                }
+            } catch (error) {
+                // Fallback to demo mode
+                removeMessage(loadingId);
+                const responses = [
+                    "That's a great question! This response used approximately 0.0004 kWh of energy and produced 0.2g CO₂. The SAP protocol tracks every AI interaction for transparency.",
+                    "Interesting point! This AI response consumed about 0.0004 kWh and emitted 0.2g CO₂. SAP makes AI's environmental impact visible to everyone.",
+                    "Thanks for asking! This interaction used 0.0004 kWh of energy and 0.2g CO₂. With SAP, every AI conversation is environmentally accountable.",
+                    "Good question! This response required 0.0004 kWh and produced 0.2g CO₂. SAP ensures AI sustainability through complete transparency."
+                ];
+                const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                addMessage(`<strong>SAP AI:</strong> ${randomResponse}`, 'ai');
+                updateLocalData('text');
+                pushPersonalCounterToSupabase();
+                rotateSapButton();
+            }
+        }
+
+        // Add message to chat
+        function addMessage(content, type) {
+            const messagesContainer = document.getElementById('chat-messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
+            messageDiv.innerHTML = content;
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.classList.add('has-messages');
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            return messageDiv;
+        }
+
+        // Remove message from chat
+        function removeMessage(messageElement) {
+            if (messageElement && messageElement.parentNode) {
+                messageElement.parentNode.removeChild(messageElement);
+            }
+        }
+
+        // Update local data
+        function updateLocalData(type) {
+            const localData = JSON.parse(localStorage.getItem('sap-demo-data') || '{"text_count":0,"image_count":0,"audio_count":0,"video_count":0,"total_count":0,"total_kwh":0,"total_co2":0}');
+            
+            localData[`${type}_count`] = (localData[`${type}_count`] || 0) + 1;
+            localData.total_count = (localData.total_count || 0) + 1;
+            
+            const energy = type === 'text' ? 0.0004 : type === 'image' ? 0.002 : type === 'audio' ? 0.001 : 0.01;
+            const co2 = type === 'text' ? 0.2 : type === 'image' ? 1.0 : type === 'audio' ? 0.5 : 5.0;
+            
+            localData.total_kwh = (localData.total_kwh || 0) + energy;
+            localData.total_co2 = (localData.total_co2 || 0) + co2;
+            
+            localStorage.setItem('sap-demo-data', JSON.stringify(localData));
+            
+            // Update main button counter
+            const counterDisplay = document.getElementById('sap-counter');
+            const displayNumber = document.getElementById('sap-display-number');
+            if (counterDisplay && displayNumber) {
+                counterDisplay.textContent = localData.total_count;
+                displayNumber.textContent = localData.total_count;
+                
+                // Also trigger the main button spin animation
+                const mainButton = document.getElementById('sap-main-button');
+                if (mainButton) {
+                    mainButton.classList.add('spinning');
+                    setTimeout(() => mainButton.classList.remove('spinning'), 800);
+                }
+            }
+            
+            // Trigger unified counter update if it exists
+            if (typeof updateUnifiedCounter === 'function') {
+                updateUnifiedCounter();
+            }
+            
+            // Also update the Supabase counter system
+            updateCounterDisplay();
+            
+            rotateSapButton(); // Make SAP button rotate
+            loadTickerData(); // Update display
+        }
+
+        // Rotate SAP button
+        function rotateSapButton() {
+            const sapButton = document.querySelector('.sap-button');
+            if (sapButton) {
+                sapButton.classList.add('clicking');
+                setTimeout(() => {
+                    sapButton.classList.remove('clicking');
+                }, 800);
+            }
+            
+            // Also rotate the main button
+            const mainButton = document.getElementById('sap-main-button');
+            if (mainButton) {
+                mainButton.classList.add('rotating');
+                setTimeout(() => mainButton.classList.remove('rotating'), 600);
+            }
+            
+            // Note: Counter increment is handled by updateLocalData in sendMessage
+        }
+
+        // Join SAP membership
+        async function joinSAP(plan = 'supporter') {
+            console.log(`Joining SAP with plan: ${plan}`);
+            
+            // Use real Stripe payment link for beta lifetime plan
+            if (plan === 'lifetime-beta') {
+                window.open('https://buy.stripe.com/4gMbJ22PT7R4gYC8Gu6kg00', '_blank');
+                return;
+            }
+            
+            // In production, show demo message for other plans since server isn't deployed
+            if (IS_PRODUCTION) {
+                if (plan === 'lifetime') {
+                    alert(`Thank you for choosing the Lifetime Basic plan! This $5 one-time payment gives you lifetime access to track your personal AI usage everywhere. This will redirect to Stripe checkout in the full implementation.`);
+                } else {
+                    alert(`Thank you for your interest in the ${plan} plan! This will redirect to Stripe checkout in the full implementation.`);
+                }
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/create-checkout-session`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        product: plan === 'lifetime-beta' || plan === 'lifetime' ? 'prod_TFRX8pmmjnV0hT' : 'prod_TH4dZ097bIM1qI',
+                        plan: plan,
+                        lookup_key: plan === 'lifetime-beta' ? 'lifetime_beta' :
+                                   plan === 'lifetime' ? 'lifetime_standard' :
+                                   plan === 'supporter' ? 'supporter_monthly' :
+                                   plan === 'advocate' ? 'advocate_monthly' :
+                                   plan === 'pioneer' ? 'pioneer_monthly' : 'supporter_monthly'
+                    })
+                });
+
+                const data = await response.json();
+                if (data.url) {
+                    window.location.href = data.url;
+                } else {
+                    alert('Error creating checkout session');
+                }
+            } catch (error) {
+                console.error('Error creating checkout session:', error);
+                showDemoModeMessage();
+            }
+        }
+
+        // Show demo mode message
+        function showDemoModeMessage() {
+            const message = document.createElement('div');
+            message.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: white;
+                padding: 24px;
+                border-radius: 8px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+                z-index: 10001;
+                text-align: center;
+                max-width: 400px;
+            `;
+            message.innerHTML = `
+                <h3 style="margin-bottom: 16px; color: #1a1a1a;">Demo Mode</h3>
+                <p style="color: #666; margin-bottom: 16px;">This is a demo. In production, this would redirect to Stripe checkout for SAP membership.</p>
+                <button onclick="this.parentElement.remove()" style="background: #00C853; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">Got it</button>
+            `;
+            document.body.appendChild(message);
+        }
+
+        // Toggle accordion
+        function toggleAccordion(header) {
+            const content = header.nextElementSibling;
+            const isActive = content.classList.contains('active');
+            
+            // Close all accordions
+            document.querySelectorAll('.accordion-content').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Toggle current accordion
+            if (!isActive) {
+                content.classList.add('active');
+            }
+        }
+
+        // Demo info popup functions
+        function toggleDemoInfo() {
+            const popup = document.getElementById('demo-info-popup');
+            popup.classList.toggle('active');
+        }
+
+        function closeDemoInfo() {
+            const popup = document.getElementById('demo-info-popup');
+            popup.classList.remove('active');
+        }
+
+        // Hamburger Menu Functions
+        function toggleHamburgerMenu() {
+            const overlay = document.getElementById('hamburger-overlay');
+            overlay.style.display = overlay.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function closeHamburgerMenu() {
+            const overlay = document.getElementById('hamburger-overlay');
+            overlay.style.display = 'none';
+        }
+
+        // Close hamburger menu on escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeHamburgerMenu();
+            }
+        });
+
+        // Demo Info Popup Functions
+        function toggleChatDemoInfo() {
+            const popup = document.getElementById('chat-demo-info-popup');
+            if (popup.style.display === 'flex') {
+                popup.style.display = 'none';
+            } else {
+                popup.style.display = 'flex';
+            }
+        }
+
+        // Test function for debugging double-click
+        function testDashboard() {
+            console.log('Test dashboard function called');
+            openDashboard();
+        }
+
+        // Smart navigation - only one nav visible at a time
+        let lastScrollY = window.scrollY;
+        let scrollDirection = 'down';
+        let scrollTimeout;
+        
+        window.addEventListener('scroll', function() {
+            const currentScrollY = window.scrollY;
+            const bottomNav = document.getElementById('bottom-nav');
+            const header = document.querySelector('.header');
+            
+            // Clear existing timeout
+            clearTimeout(scrollTimeout);
+            
+            // Determine scroll direction
+            if (currentScrollY > lastScrollY && currentScrollY > 100) {
+                // Scrolling down - show bottom nav, hide top nav
+                scrollDirection = 'down';
+                if (bottomNav) {
+                    bottomNav.classList.add('visible');
+                }
+                if (header) {
+                    header.style.transform = 'translateY(-100%)';
+                }
+            } else if (currentScrollY < lastScrollY || currentScrollY <= 100) {
+                // Scrolling up or near top - show top nav, hide bottom nav
+                scrollDirection = 'up';
+                if (bottomNav) {
+                    bottomNav.classList.remove('visible');
+                }
+                if (header) {
+                    header.style.transform = 'translateY(0)';
+                }
+            }
+            
+            // Set a small delay to prevent flickering
+            scrollTimeout = setTimeout(() => {
+                lastScrollY = currentScrollY;
+            }, 10);
+        });
+
+        // Chat input auto-expand
+        function setupChatInput() {
+            const chatInput = document.getElementById('chat-input');
+            if (chatInput) {
+                // Set initial height
+                chatInput.style.height = '24px';
+                
+                function adjustHeight() {
+                    // Reset height to get correct scrollHeight
+                    chatInput.style.height = 'auto';
+                    // Calculate new height, cap at 120px
+                    const newHeight = Math.min(chatInput.scrollHeight, 120);
+                    chatInput.style.height = newHeight + 'px';
+                }
+                
+                chatInput.addEventListener('input', adjustHeight);
+                chatInput.addEventListener('paste', () => setTimeout(adjustHeight, 0));
+                
+                // Focus the input when clicking the wrapper
+                const wrapper = chatInput.closest('.chat-input-wrapper');
+                if (wrapper) {
+                    wrapper.addEventListener('click', () => {
+                        chatInput.focus();
+                    });
+                }
+            }
+        }
+
+        // Initialize chat input on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            setupChatInput();
+        });
+
+        // Chart initialization
+        let usageChart = null;
+        let hourlyChart = null;
+        
+        function initializeCharts() {
+            // Daily Usage Chart
+            const usageCtx = document.getElementById('usage-chart');
+            if (usageCtx && !usageChart) {
+                usageChart = new Chart(usageCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                        datasets: [{
+                            label: 'Global Usage',
+                            data: [120, 150, 180, 200, 160, 140, 100],
+                            borderColor: '#10b981',
+                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        }, {
+                            label: 'Your Usage',
+                            data: [5, 8, 12, 15, 10, 7, 3],
+                            borderColor: '#3b82f6',
+                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    color: '#ffffff'
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                ticks: {
+                                    color: '#9ca3af'
+                                },
+                                grid: {
+                                    color: 'rgba(156, 163, 175, 0.1)'
+                                }
+                            },
+                            y: {
+                                ticks: {
+                                    color: '#9ca3af'
+                                },
+                                grid: {
+                                    color: 'rgba(156, 163, 175, 0.1)'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Hourly Chart
+            const hourlyCtx = document.getElementById('hourly-chart');
+            if (hourlyCtx && !hourlyChart) {
+                hourlyChart = new Chart(hourlyCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['6AM', '9AM', '12PM', '3PM', '6PM', '9PM', '12AM'],
+                        datasets: [{
+                            label: 'Interactions',
+                            data: [2, 8, 15, 12, 18, 10, 3],
+                            backgroundColor: 'rgba(16, 185, 129, 0.8)',
+                            borderColor: '#10b981',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    color: '#ffffff'
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                ticks: {
+                                    color: '#9ca3af'
+                                },
+                                grid: {
+                                    color: 'rgba(156, 163, 175, 0.1)'
+                                }
+                            },
+                            y: {
+                                ticks: {
+                                    color: '#9ca3af'
+                                },
+                                grid: {
+                                    color: 'rgba(156, 163, 175, 0.1)'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        // Touch event handlers for mobile
+        let touchStartTime = 0;
+        let touchStartPos = { x: 0, y: 0 };
+        
+        function handleTouchStart(event) {
+            touchStartTime = Date.now();
+            const touch = event.touches[0];
+            touchStartPos = { x: touch.clientX, y: touch.clientY };
+        }
+        
+        function handleTouchEnd(event) {
+            const touchEndTime = Date.now();
+            const touchDuration = touchEndTime - touchStartTime;
+            const touch = event.changedTouches[0];
+            const touchEndPos = { x: touch.clientX, y: touch.clientY };
+            
+            // Calculate distance moved
+            const distance = Math.sqrt(
+                Math.pow(touchEndPos.x - touchStartPos.x, 2) + 
+                Math.pow(touchEndPos.y - touchStartPos.y, 2)
+            );
+            
+            // If it's a quick tap (less than 300ms) and didn't move much (less than 10px)
+            if (touchDuration < 300 && distance < 10) {
+                event.preventDefault();
+                incrementPersonalCounter();
+            }
+            // If it's a longer touch (more than 500ms), open dashboard
+            else if (touchDuration > 500) {
+                event.preventDefault();
+                openDashboard();
+            }
+        }
     </script>
+
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav" id="bottom-nav">
+        <div class="bottom-nav-content">
+            <a href="#hero" class="nav-item" onclick="scrollToSection('hero')">
+                <i class="fa-solid fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="#power-control" class="nav-item" onclick="scrollToSection('power-control')">
+                <i class="fa-solid fa-bolt"></i>
+                <span>Control</span>
+            </a>
+            <a href="#mission" class="nav-item" onclick="scrollToSection('mission')">
+                <i class="fa-solid fa-bullseye"></i>
+                <span>Mission</span>
+            </a>
+            <a href="#protocol" class="nav-item" onclick="scrollToSection('protocol')">
+                <i class="fa-solid fa-cogs"></i>
+                <span>Protocol</span>
+            </a>
+            <a href="#ecosystem" class="nav-item" onclick="scrollToSection('ecosystem')">
+                <i class="fa-solid fa-globe"></i>
+                <span>Ecosystem</span>
+            </a>
+            <a href="#roadmap" class="nav-item" onclick="scrollToSection('roadmap')">
+                <i class="fa-solid fa-road"></i>
+                <span>Roadmap</span>
+            </a>
+            <a href="#dev-section" class="nav-item" onclick="scrollToSection('dev-section')">
+                <i class="fa-solid fa-code"></i>
+                <span>Developers</span>
+            </a>
+            <a href="#pricing" class="nav-item" onclick="scrollToSection('pricing')">
+                <i class="fa-solid fa-dollar-sign"></i>
+                <span>Support</span>
+            </a>
+        </div>
+    </div>
 </body>
+</html>
 </html>

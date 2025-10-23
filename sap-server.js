@@ -42,7 +42,7 @@ let globalStats = {
 
 // Serve main SAP page
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'sap.html'));
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // Serve SAP SDK
