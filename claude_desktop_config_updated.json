@@ -1,0 +1,77 @@
+{
+  "darkMode": "dark",
+  "scale": 0,
+  "quickWindowPosition": {
+    "absolutePointInWorkspace": {
+      "x": 417,
+      "y": 206
+    },
+    "monitor": {
+      "accelerometerSupport": "unknown",
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900
+      },
+      "colorDepth": 30,
+      "colorSpace": "{primaries:BT709, transfer:SRGB_HDR, matrix:RGB, range:FULL}",
+      "depthPerComponent": 10,
+      "detected": true,
+      "displayFrequency": 60.00239944458008,
+      "id": 1,
+      "internal": true,
+      "label": "Built-in Retina Display",
+      "maximumCursorSize": {
+        "width": 0,
+        "height": 0
+      },
+      "monochrome": false,
+      "nativeOrigin": {
+        "x": 0,
+        "y": 0
+      },
+      "rotation": 0,
+      "scaleFactor": 2,
+      "size": {
+        "width": 1440,
+        "height": 900
+      },
+      "workArea": {
+        "x": 0,
+        "y": 25,
+        "width": 1440,
+        "height": 833
+      },
+      "workAreaSize": {
+        "width": 1440,
+        "height": 833
+      },
+      "touchSupport": "unknown"
+    },
+    "relativePointFromMonitor": {
+      "x": 417,
+      "y": 181
+    }
+  },
+  "locale": "en-US",
+  "userThemeMode": "system",
+  "dxt:allowlistEnabled": false,
+  "dxt:allowlistLastUpdated": "2025-10-23T02:04:07.512Z",
+  "mcpServers": {
+    "sap-protocol": {
+      "command": "node",
+      "args": ["/Users/nealium/Documents/GitHub/SustainableAiProtocol/mcp-server.js"],
+      "env": {
+        "NODE_ENV": "development"
+      }
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": ["@modelcontextprotocol/server-filesystem", "/Users/nealium/Documents/GitHub/SustainableAiProtocol"],
+      "env": {
+        "NODE_ENV": "development"
+      }
+    }
+  }
+}

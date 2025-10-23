@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "sap-protocol": {
+      "command": "node",
+      "args": ["/Users/nealium/Documents/GitHub/SustainableAiProtocol/mcp-server.js"],
+      "env": {
+        "NODE_ENV": "development"
+      }
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": ["@modelcontextprotocol/server-filesystem", "/Users/nealium/Documents/GitHub/SustainableAiProtocol"],
+      "env": {
+        "NODE_ENV": "development"
+      }
+    }
+  }
+}

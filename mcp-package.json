@@ -1,0 +1,19 @@
+{
+  "name": "sap-protocol-mcp",
+  "version": "1.0.0",
+  "description": "MCP Server for SAP Protocol development",
+  "main": "mcp-server.js",
+  "bin": {
+    "sap-mcp": "./mcp-server.js"
+  },
+  "scripts": {
+    "start": "node mcp-server.js",
+    "dev": "nodemon mcp-server.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^0.5.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}
