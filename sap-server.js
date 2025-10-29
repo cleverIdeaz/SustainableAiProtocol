@@ -170,8 +170,96 @@ app.get('/api/environmental', (req, res) => {
     global_temp_rise_c: 1.1,
     arctic_ice_loss_percent: -13.0,
     sea_level_rise_mm_per_year: 3.3,
+    data_center_region: 'us-east-1',
+    aqi: 45,
+    pm25: 12.5,
+    pm10: 25.0,
+    no2: 18.5,
     last_updated: new Date().toISOString()
   });
+});
+
+// MCP Telemetry Logging Endpoint
+app.post('/api/sap/logEvent', async (req, res) => {
+  try {
+    const body = req.body;
+    
+    // Validate required fields
+    if (!body.timestamp) {
+      return res.status(400).json({ error: 'Missing required field: timestamp' });
+    }
+    
+    // Calculate energy and CO₂ if not provided
+    let estimated_kwh = body.estimated_kwh;
+    let estimated_gco2 = body.estimated_gco2;
+    
+    if (!estimated_kwh && body.metadata) {
+      estimated_kwh = body.metadata.estimated_kwh || 0.0004;
+    }
+    
+    if (!estimated_gco2 && body.metadata) {
+      estimated_gco2 = body.metadata.estimated_gco2 || (estimated_kwh * 475);
+    }
+    
+    // Update global stats
+    globalStats.totalPrompts += 1;
+    globalStats.totalEnergy += estimated_kwh || 0.0004;
+    globalStats.totalCO2 += estimated_gco2 || 0.19;
+    globalStats.lastUpdated = new Date().toISOString();
+    
+    // Log to console for debugging
+    console.log('🌍 SAP Telemetry Event:', {
+      model: body.model,
+      request_type: body.request_type,
+      tokens_input: body.tokens_input,
+      tokens_output: body.tokens_output,
+      estimated_kwh: estimated_kwh,
+      estimated_gco2: estimated_gco2,
+      data_center_region: body.metadata?.data_center_region,
+      timestamp: body.timestamp
+    });
+    
+    // Save to database if Supabase is available
+    if (supabase) {
+      const { error } = await supabase
+        .from('events')
+        .insert({
+          model: body.model || 'unknown',
+          request_type: body.request_type || 'text',
+          tokens_input: body.tokens_input || 0,
+          tokens_output: body.tokens_output || 0,
+          estimated_kwh: estimated_kwh,
+          estimated_gco2: estimated_gco2,
+          user_id: body.user_id || 'anonymous',
+          metadata: body.metadata || {},
+          created_at: body.timestamp
+        });
+      
+      if (error) {
+        console.error('Database error:', error);
+      }
+      
+      // Update global stats in database
+      await supabase
+        .from('global_stats')
+        .insert({
+          total_prompts: globalStats.totalPrompts,
+          total_energy: globalStats.totalEnergy,
+          total_co2: globalStats.totalCO2,
+          created_at: globalStats.lastUpdated
+        });
+    }
+    
+    res.json({ 
+      success: true, 
+      message: 'Telemetry logged successfully',
+      stats: globalStats
+    });
+    
+  } catch (error) {
+    console.error('Error logging telemetry:', error);
+    res.status(500).json({ error: 'Failed to log telemetry event' });
+  }
 });
 
 // Get global stats

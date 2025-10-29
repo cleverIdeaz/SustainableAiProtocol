@@ -1637,33 +1637,149 @@
             <div class="dev-content">
                 <div class="code-block">
                     <div class="code-header">
-                        <span class="code-title">One-Line Integration</span>
-                        <button class="copy-btn" onclick="copyCode()">
+                        <span class="code-title">SAP Button Component</span>
+                        <button class="copy-btn" onclick="copyCode('sap-button-code')">
                             <i class="fa-solid fa-copy"></i>
                             Copy Code
                         </button>
                     </div>
-                    <pre class="code-content" id="code-content"><code>// Multi-Purpose SAP Button - Embed anywhere
+                    <pre class="code-content" id="sap-button-code"><code>&lt;!-- SAP Button with SVG Image and Theme Support --&gt;
 &lt;button class="sap-button" 
-        onclick="incrementPersonalCounter()" 
-        onmousedown="startLongPress()" 
-        onmouseup="endLongPress()"&gt;
-  &lt;svg viewBox="0 0 120 120"&gt;
-    &lt;circle cx="60" cy="60" r="55" fill="none" stroke="#00C853" stroke-width="4"/&gt;
+        data-theme="dark" 
+        onclick="trackSAPInteraction()" 
+        onmousedown="startSpinAnimation()" 
+        onmouseup="stopSpinAnimation()"&gt;
+  &lt;svg viewBox="0 0 120 120" class="sap-svg"&gt;
+    &lt;circle cx="60" cy="60" r="55" fill="none" stroke="currentColor" stroke-width="4"/&gt;
     &lt;circle cx="60" cy="60" r="45" fill="rgba(0, 200, 83, 0.1)"/&gt;
-    &lt;text x="60" y="70" text-anchor="middle" id="sap-counter"&gt;0&lt;/text&gt;
+    &lt;text x="60" y="70" text-anchor="middle" class="sap-counter"&gt;0&lt;/text&gt;
   &lt;/svg&gt;
 &lt;/button&gt;
 
-// JavaScript for multi-purpose behavior
-function incrementPersonalCounter() {
+&lt;style&gt;
+.sap-button {
+  width: 60px;
+  height: 60px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  color: #00C853;
+}
+.sap-button:hover { transform: scale(1.1); }
+.sap-button.spinning .sap-svg { animation: sap-spin 2s linear infinite; }
+@keyframes sap-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+&lt;/style&gt;</code></pre>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-title">MCP Telemetry Integration</span>
+                        <button class="copy-btn" onclick="copyCode('mcp-telemetry-code')">
+                            <i class="fa-solid fa-copy"></i>
+                            Copy Code
+                        </button>
+                    </div>
+                    <pre class="code-content" id="mcp-telemetry-code"><code>// MCP Telemetry for Real Data Center Callbacks
+async function trackSAPInteraction(promptData = {}) {
+  // Increment local counter
   const count = parseInt(localStorage.getItem('sap_counter') || '0') + 1;
   localStorage.setItem('sap_counter', count);
-  document.getElementById('sap-counter').textContent = formatCount(count);
+  document.querySelector('.sap-counter').textContent = count;
+  
+  // Prepare telemetry packet
+  const telemetryPacket = {
+    model: promptData.model || 'unknown',
+    tokens_input: promptData.tokens_input || 0,
+    tokens_output: promptData.tokens_output || 0,
+    request_type: promptData.type || 'text',
+    user_id: localStorage.getItem('sap_user_id') || 'anonymous',
+    timestamp: new Date().toISOString(),
+    metadata: {
+      prompt_length: promptData.prompt?.length || 0,
+      estimated_kwh: calculateEnergyEstimate(promptData),
+      estimated_gco2: calculateCO2Estimate(promptData),
+      data_center_region: await getDataCenterRegion(),
+      environmental_context: await getEnvironmentalContext()
+    }
+  };
+  
+  // Send to SAP MCP Server
+  try {
+    const response = await fetch('/api/sap/logEvent', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(telemetryPacket)
+    });
+    
+    if (response.ok) {
+      console.log('🌍 SAP telemetry logged:', telemetryPacket);
+      updateGlobalTicker();
+    }
+  } catch (error) {
+    console.error('SAP telemetry error:', error);
+  }
 }
 
-// Single tap = count • Long press = dashboard
-// Works offline • Cached experience • Universal protocol</code></pre>
+// Energy estimation based on model and prompt type
+function calculateEnergyEstimate(data) {
+  const ENERGY_PER_TOKEN = {
+    'gpt-4': 0.0025 / 1000,
+    'gpt-3.5-turbo': 0.001 / 1000,
+    'claude-3-opus': 0.002 / 1000,
+    'local-llama': 0.0002 / 1000
+  };
+  
+  if (data.request_type === 'text' && data.tokens_input) {
+    return (data.tokens_input + (data.tokens_output || 0)) * 
+           (ENERGY_PER_TOKEN[data.model] || ENERGY_PER_TOKEN['gpt-3.5-turbo']);
+  }
+  
+  return 0.0004; // Default kWh for text prompts
+}
+
+// CO₂ estimation based on energy and regional grid intensity
+function calculateCO2Estimate(data) {
+  const energy = data.estimated_kwh || calculateEnergyEstimate(data);
+  const GLOBAL_AVG_GCO2_PER_KWH = 475; // gCO₂/kWh
+  return energy * GLOBAL_AVG_GCO2_PER_KWH;
+}
+
+// Get current data center region (simulated until real telemetry)
+async function getDataCenterRegion() {
+  try {
+    const response = await fetch('/api/environmental');
+    const data = await response.json();
+    return data.data_center_region || 'us-east-1';
+  } catch {
+    return 'us-east-1'; // Default region
+  }
+}
+
+// Get real-time environmental context
+async function getEnvironmentalContext() {
+  try {
+    const response = await fetch('/api/environmental');
+    return await response.json();
+  } catch {
+    return {
+      atmospheric_co2_ppm: 420.5,
+      global_temp_rise_c: 1.1,
+      aqi: 45
+    };
+  }
+}
+
+// Spin animation functions
+function startSpinAnimation() {
+  document.querySelector('.sap-button').classList.add('spinning');
+}
+
+function stopSpinAnimation() {
+  setTimeout(() => {
+    document.querySelector('.sap-button').classList.remove('spinning');
+  }, 2000);
+}</code></pre>
                 </div>
                 
                 <div class="dev-features">
@@ -1860,13 +1976,13 @@ function incrementPersonalCounter() {
         }
 
         // Copy code to clipboard
-        function copyCode() {
-            const codeContent = document.getElementById('code-content');
+        function copyCode(codeId) {
+            const codeContent = document.getElementById(codeId);
             const codeText = codeContent.textContent;
             
             navigator.clipboard.writeText(codeText).then(function() {
                 // Show success feedback
-                const copyBtn = document.querySelector('.copy-btn');
+                const copyBtn = event.target.closest('.copy-btn');
                 const originalText = copyBtn.innerHTML;
                 copyBtn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
                 copyBtn.style.background = '#00A041';
