@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAP Button Component - SVG Integration</title>
+    <link rel="icon" type="image/png" href="/assets/SAPLogo.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #00C853, #4CAF50);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .header p {
+            color: #ccc;
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .demo-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(0, 200, 83, 0.2);
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            color: #00C853;
+            text-align: center;
+        }
+        
+        .button-demo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+        
+        .sap-button {
+            width: 120px;
+            height: 120px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+        
+        .sap-button:hover {
+            transform: scale(1.1);
+        }
+        
+        .sap-button:active {
+            transform: scale(0.95);
+        }
+        
+        .sap-button svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 0 20px rgba(0, 200, 83, 0.5));
+        }
+        
+        .sap-button.spinning svg {
+            animation: spin 2s linear infinite;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .button-info {
+            text-align: center;
+            max-width: 200px;
+        }
+        
+        .button-info h3 {
+            color: #00C853;
+            margin-bottom: 10px;
+        }
+        
+        .button-info p {
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+        
+        .code-section {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+            border-left: 4px solid #00C853;
+        }
+        
+        .code-section h3 {
+            color: #00C853;
+            margin-bottom: 15px;
+        }
+        
+        pre {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            color: #fff;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .integration-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .step-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(0, 200, 83, 0.2);
+        }
+        
+        .step-number {
+            background: linear-gradient(45deg, #00C853, #4CAF50);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .step-title {
+            font-size: 1.3rem;
+            color: #00C853;
+            margin-bottom: 10px;
+        }
+        
+        .step-description {
+            color: #ccc;
+            line-height: 1.6;
+        }
+        
+        .test-area {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 40px 0;
+            border: 1px solid rgba(0, 200, 83, 0.2);
+            text-align: center;
+        }
+        
+        .test-button {
+            background: linear-gradient(45deg, #00C853, #4CAF50);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            margin: 20px;
+            transition: transform 0.3s ease;
+        }
+        
+        .test-button:hover {
+            transform: scale(1.05);
+        }
+        
+        .counter-display {
+            font-size: 2rem;
+            color: #00C853;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔘 SAP Button Component</h1>
+            <p>Universal SVG Button for AI Sustainability Tracking</p>
+        </div>
+        
+        <div class="demo-section">
+            <h2 class="section-title">Interactive Demo</h2>
+            <div class="button-demo">
+                <div class="button-info">
+                    <h3>Default State</h3>
+                    <p>Click to track interaction</p>
+                </div>
+                <button class="sap-button" onclick="trackInteraction(this)">
+                    <svg viewBox="0 0 120 120">
+                        <circle cx="60" cy="60" r="55" fill="none" stroke="#00C853" stroke-width="4"/>
+                        <circle cx="60" cy="60" r="45" fill="rgba(0, 200, 83, 0.1)"/>
+                        <text x="60" y="70" text-anchor="middle" fill="#00C853" font-size="24" font-weight="bold" id="counter-1">0</text>
+                    </svg>
+                </button>
+                
+                <div class="button-info">
+                    <h3>Spinning Animation</h3>
+                    <p>Shows active tracking</p>
+                </div>
+                <button class="sap-button spinning" onclick="trackInteraction(this)">
+                    <svg viewBox="0 0 120 120">
+                        <circle cx="60" cy="60" r="55" fill="none" stroke="#00C853" stroke-width="4"/>
+                        <circle cx="60" cy="60" r="45" fill="rgba(0, 200, 83, 0.1)"/>
+                        <text x="60" y="70" text-anchor="middle" fill="#00C853" font-size="24" font-weight="bold" id="counter-2">0</text>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="test-area">
+                <h3>Test Integration</h3>
+                <p>Click the button below to test the SAP tracking functionality</p>
+                <div class="counter-display" id="test-counter">0</div>
+                <button class="test-button" onclick="testSAPButton()">Test SAP Button</button>
+            </div>
+        </div>
+        
+        <div class="demo-section">
+            <h2 class="section-title">Integration Guide</h2>
+            
+            <div class="integration-steps">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Include SVG</div>
+                    <div class="step-description">
+                        Add the SAP button SVG to your HTML. The button is self-contained and works in any framework.
+                    </div>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Add JavaScript</div>
+                    <div class="step-description">
+                        Include the SAP tracking script to handle click events and send data to the SAP API.
+                    </div>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Customize Styling</div>
+                    <div class="step-description">
+                        Apply your own CSS to match your application's design while maintaining the core functionality.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="code-section">
+                <h3>HTML Integration</h3>
+                <pre><code>&lt;!-- SAP Button Component --&gt;
+&lt;button class="sap-button" onclick="trackSAPInteraction()"&gt;
+    &lt;svg viewBox="0 0 120 120"&gt;
+        &lt;circle cx="60" cy="60" r="55" fill="none" stroke="#00C853" stroke-width="4"/&gt;
+        &lt;circle cx="60" cy="60" r="45" fill="rgba(0, 200, 83, 0.1)"/&gt;
+        &lt;text x="60" y="70" text-anchor="middle" fill="#00C853" font-size="24" font-weight="bold"&gt;0&lt;/text&gt;
+    &lt;/svg&gt;
+&lt;/button&gt;</code></pre>
+            </div>
+            
+            <div class="code-section">
+                <h3>JavaScript Integration</h3>
+                <pre><code>// SAP Tracking Function
+function trackSAPInteraction() {
+    // Increment local counter
+    const counter = parseInt(localStorage.getItem('sap_counter') || '0') + 1;
+    localStorage.setItem('sap_counter', counter);
+    
+    // Update display
+    document.querySelector('.sap-button text').textContent = counter;
+    
+    // Send to SAP API
+    fetch('/api/track', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            prompt: 'User interaction',
+            model: 'unknown',
+            tokens: 1,
+            userId: localStorage.getItem('sap_user_id') || 'anonymous'
+        })
+    });
+}</code></pre>
+            </div>
+            
+            <div class="code-section">
+                <h3>CSS Styling</h3>
+                <pre><code>/* SAP Button Styles */
+.sap-button {
+    width: 120px;
+    height: 120px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.sap-button:hover {
+    transform: scale(1.1);
+}
+
+.sap-button svg {
+    filter: drop-shadow(0 0 20px rgba(0, 200, 83, 0.5));
+}</code></pre>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Track interaction function
+        function trackInteraction(button) {
+            const counterElement = button.querySelector('text');
+            const currentCount = parseInt(counterElement.textContent) || 0;
+            const newCount = currentCount + 1;
+            
+            counterElement.textContent = newCount;
+            
+            // Add visual feedback
+            button.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                button.style.transform = 'scale(1)';
+            }, 150);
+            
+            // Send to SAP API
+            sendToSAP({
+                prompt: 'Button interaction',
+                model: 'unknown',
+                tokens: 1,
+                userId: 'demo_user'
+            });
+        }
+        
+        // Test SAP button function
+        function testSAPButton() {
+            const counterElement = document.getElementById('test-counter');
+            const currentCount = parseInt(counterElement.textContent) || 0;
+            const newCount = currentCount + 1;
+            
+            counterElement.textContent = newCount;
+            
+            // Send to SAP API
+            sendToSAP({
+                prompt: 'Test interaction',
+                model: 'demo',
+                tokens: 1,
+                userId: 'test_user'
+            });
+            
+            // Show success message
+            counterElement.style.color = '#4CAF50';
+            setTimeout(() => {
+                counterElement.style.color = '#00C853';
+            }, 1000);
+        }
+        
+        // Send data to SAP API
+        async function sendToSAP(data) {
+            try {
+                const response = await fetch('/api/track', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                if (response.ok) {
+                    console.log('SAP tracking successful');
+                } else {
+                    console.error('SAP tracking failed');
+                }
+            } catch (error) {
+                console.error('Error sending to SAP:', error);
+            }
+        }
+        
+        // Initialize counters from localStorage
+        document.addEventListener('DOMContentLoaded', function() {
+            const counters = document.querySelectorAll('text[id^="counter-"]');
+            counters.forEach(counter => {
+                const storedCount = localStorage.getItem(`sap_counter_${counter.id}`) || '0';
+                counter.textContent = storedCount;
+            });
+            
+            const testCounter = document.getElementById('test-counter');
+            const storedTestCount = localStorage.getItem('sap_test_counter') || '0';
+            testCounter.textContent = storedTestCount;
+        });
+    </script>
+</body>
+</html>

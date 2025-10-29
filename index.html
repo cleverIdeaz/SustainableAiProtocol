@@ -3,635 +3,1929 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SAP Protocol</title>
+    <title>SAP - Sustainable AI Protocol</title>
+    <script async src="https://tally.so/widgets/embed.js"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sustainableaiprotocol.com/">
+    <meta property="og:title" content="SAP - Sustainable AI Protocol">
+    <meta property="og:description" content="The Missing Button from Every AI Chat Interface. One small button. Enormous change. The Sustainable AI Protocol (SAP) brings transparency and accountability to every AI interaction.">
+    <meta property="og:image" content="https://sustainableaiprotocol.com/assets/SAPLogo.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="SAP - Sustainable AI Protocol">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://sustainableaiprotocol.com/">
+    <meta property="twitter:title" content="SAP - Sustainable AI Protocol">
+    <meta property="twitter:description" content="The Missing Button from Every AI Chat Interface. One small button. Enormous change. The Sustainable AI Protocol (SAP) brings transparency and accountability to every AI interaction.">
+    <meta property="twitter:image" content="https://sustainableaiprotocol.com/assets/SAPLogo.png">
+    
+    <!-- Additional meta tags -->
+    <meta name="description" content="The Missing Button from Every AI Chat Interface. One small button. Enormous change. The Sustainable AI Protocol (SAP) brings transparency and accountability to every AI interaction.">
+    <meta name="keywords" content="AI, sustainability, energy, transparency, protocol, SAP, artificial intelligence, carbon footprint">
+    <meta name="author" content="SAP Foundation">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/SAPLogo.png">
+    
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #0a0a0a;
-            color: #ffffff;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background: #ffffff;
         }
-        
+
+        @media (prefers-color-scheme: dark) {
+            body {
+                color: #ffffff;
+                background: #0a0a0a;
+            }
+            
+            .protocol-section,
+            .how-it-works,
+            .ecosystem-section,
+            .roadmap-section {
+                background: #0a0a0a;
+            }
+            
+            .membership-section {
+                background: white;
+            }
+            
+            .protocol-title,
+            .how-title,
+            .ecosystem-title,
+            .roadmap-title {
+                color: #ffffff;
+            }
+            
+            .membership-title {
+                color: #1a1a1a;
+            }
+            
+            .protocol-subtitle,
+            .ecosystem-subtitle {
+                color: #cccccc;
+            }
+            
+            .membership-subtitle {
+                color: #1a1a1a;
+            }
+            
+            .component-card,
+            .step,
+            .platform-card {
+                background: #1a1a1a;
+                border-color: #333;
+            }
+            
+            .component-title,
+            .step-title {
+                color: #ffffff;
+            }
+            
+            .component-description,
+            .step-description {
+                color: #cccccc;
+            }
+            
+            .accordion-item {
+                background: #1a1a1a;
+                border-color: #333;
+            }
+            
+            .accordion-header {
+                color: #ffffff;
+            }
+            
+            .accordion-content {
+                color: #cccccc;
+            }
+            
+            .footer {
+                background: #000000;
+            }
+            
+            .footer-section h4 {
+                color: #ffffff;
+            }
+            
+            .footer-section a {
+                color: #cccccc;
+            }
+            
+            .footer-section a:hover {
+                color: #ffffff;
+            }
+            
+            .footer-bottom {
+                color: #999999;
+                border-color: #333;
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
         /* Header */
         .header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 16px 24px;
-            border-bottom: 1px solid #1a1a1a;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-        }
-        
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .collapse-btn {
-            width: 32px;
-            height: 32px;
-            border: 1px solid #333;
-            border-radius: 8px;
-            background: transparent;
-            color: #666;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease;
-        }
-        
-        .collapse-btn:hover {
-            border-color: #555;
-            color: #888;
-        }
-        
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 18px;
-            font-weight: 600;
-            color: #ffffff;
-        }
-        
-        .logo-icon {
-            width: 24px;
-            height: 24px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-        }
-        
-        .plus-btn {
-            width: 32px;
-            height: 32px;
-            border: 1px solid #333;
-            border-radius: 8px;
-            background: transparent;
-            color: #666;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease;
-        }
-        
-        .plus-btn:hover {
-            border-color: #555;
-            color: #888;
-            background: rgba(255, 255, 255, 0.05);
-        }
-        
-        /* Ticker */
-        .ticker {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            padding: 8px 16px;
-            background: rgba(0, 0, 0, 0.6);
-            border-radius: 8px;
-            font-size: 14px;
-            color: #888;
-            min-width: 200px;
-        }
-        
-        .ticker-metric {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            cursor: pointer;
-            padding: 4px 8px;
-            border-radius: 4px;
-            transition: all 0.2s ease;
-        }
-        
-        .ticker-metric:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-        
-        .ticker-metric.active {
-            background: rgba(102, 126, 234, 0.2);
-            color: #667eea;
-        }
-        
-        /* Main Chat Area */
-        .chat-container {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            max-width: 800px;
-            margin: 0 auto;
-            width: 100%;
-            padding: 24px;
-        }
-        
-        .chat-messages {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            margin-bottom: 24px;
-            overflow-y: auto;
-        }
-        
-        .message {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        
-        .message.user {
-            align-items: flex-end;
-        }
-        
-        .message.ai {
-            align-items: flex-start;
-        }
-        
-        .message-content {
-            max-width: 70%;
-            padding: 12px 16px;
-            border-radius: 12px;
-            font-size: 15px;
-            line-height: 1.5;
-        }
-        
-        .message.user .message-content {
-            background: #667eea;
-            color: white;
-        }
-        
-        .message.ai .message-content {
-            background: #1a1a1a;
-            color: #ffffff;
-            border: 1px solid #333;
-        }
-        
-        .message-time {
-            font-size: 12px;
-            color: #666;
-            margin-top: 4px;
-        }
-        
-        /* Chat Input */
-        .chat-input-container {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 16px;
-            background: #1a1a1a;
-            border: 1px solid #333;
-            border-radius: 12px;
-            transition: all 0.2s ease;
-        }
-        
-        .chat-input-container:focus-within {
-            border-color: #667eea;
-            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
-        }
-        
-        .chat-input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            color: #ffffff;
-            font-size: 15px;
-            outline: none;
-            resize: none;
-            min-height: 20px;
-            max-height: 120px;
-        }
-        
-        .chat-input::placeholder {
-            color: #666;
-        }
-        
-        .send-btn {
-            width: 32px;
-            height: 32px;
-            border: none;
-            background: #667eea;
-            color: white;
-            border-radius: 8px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease;
-        }
-        
-        .send-btn:hover {
-            background: #5a6fd8;
-        }
-        
-        .send-btn:disabled {
-            background: #333;
-            cursor: not-allowed;
-        }
-        
-        /* Popup */
-        .popup-overlay {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
-            display: none;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #e5e5e5;
+            z-index: 99999;
+            padding: 16px 0;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .header {
+                background: rgba(10, 10, 10, 0.95);
+                border-bottom: 1px solid #333;
+            }
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            z-index: 1000;
         }
-        
-        .popup {
-            background: #1a1a1a;
-            border: 1px solid #333;
-            border-radius: 12px;
-            padding: 24px;
-            max-width: 500px;
-            width: 90%;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-        
-        .popup-header {
+
+        .logo-section {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            margin-bottom: 16px;
+            gap: 12px;
         }
-        
-        .popup-title {
-            font-size: 18px;
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .logo {
+                color: #e6eef8;
+            }
+        }
+
+        .logo-img {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+        }
+
+        .logo-img img {
+            width: 40px;
+            height: 40px;
+            filter: brightness(0) saturate(100%) invert(0%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(0%) contrast(100%);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .logo-img img {
+                filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(93deg) brightness(103%) contrast(103%);
+            }
+        }
+
+        .ticker {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .ticker {
+                color: #cccccc;
+            }
+        }
+
+        .ticker-value {
             font-weight: 600;
-            color: #ffffff;
+            color: #00C853;
         }
-        
-        .popup-close {
+
+        .ticker-subline {
+            font-size: 10px;
+            color: #9ca3af;
+            margin-top: 4px;
+            font-style: italic;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 120px 0 80px;
+            text-align: center;
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .hero {
+                background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            }
+        }
+
+        .hero-title {
+            font-size: 64px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            color: #1a1a1a;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .hero-title {
+                color: #e6eef8;
+            }
+        }
+
+        .hero-subtitle {
+            font-size: 20px;
+            color: #1a1a1a;
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: 400;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .hero-subtitle {
+                color: #cccccc;
+            }
+        }
+
+        /* SAP Button - Clean & Simple */
+        .sap-button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+            margin: 20px 0 30px 0;
+            padding: 0 20px;
+        }
+
+        .sap-text-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            margin-top: 15px;
+            padding: 0 10px;
+        }
+
+        .sap-text-display {
+            font-size: 18px;
+            font-weight: 700;
+            color: #10b981;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-align: center;
+            user-select: none;
+            -webkit-user-select: none;
+            opacity: 0.9;
+        }
+
+        .sap-prompt-button {
+            background: linear-gradient(135deg, #00C853, #00A041);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(0, 200, 83, 0.3);
+        }
+
+        .sap-prompt-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 200, 83, 0.4);
+        }
+
+        .sap-prompt-button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .sap-button-main {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            transition: transform 0.2s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 180px;
+            height: 180px;
+            flex-shrink: 0;
+            justify-self: center;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .sap-button-main:hover {
+            transform: scale(1.05);
+        }
+
+        .sap-button-main:active {
+            transform: scale(0.95);
+        }
+
+        .sap-button-main.rotating {
+            animation: buttonRotate 0.6s ease-in-out;
+        }
+
+        .sap-button-main.spinning {
+            animation: buttonSpin 0.8s ease-in-out;
+        }
+
+        @keyframes buttonRotate {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.1); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+
+        @keyframes buttonSpin {
+            0% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(90deg) scale(1.1); }
+            50% { transform: rotate(180deg) scale(1.2); }
+            75% { transform: rotate(270deg) scale(1.1); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+
+        .sap-button-wrapper {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sap-button-bg {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: brightness(0) invert(0) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+            transition: all 0.3s ease;
+            opacity: 0.9;
+        }
+
+        .sap-button-main:hover .sap-button-bg {
+            filter: brightness(0) invert(0) drop-shadow(0 8px 16px rgba(0, 0, 0, 0.5));
+            opacity: 1;
+        }
+
+        .sap-button-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
+            border: 4px solid #00C853;
+            border-radius: 50%;
+            background: transparent;
+            z-index: 5;
+            transition: all 0.3s ease;
+        }
+
+        .sap-button-main:hover .sap-button-wrapper::before {
+            border-color: #00A041;
+            box-shadow: 0 0 20px rgba(0, 200, 83, 0.3);
+        }
+
+        .sap-counter-display {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: #00C853;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+            z-index: 10;
+            pointer-events: none;
+            user-select: none;
+            transition: all 0.3s ease;
+        }
+
+        .sap-number {
+            font-size: 24px;
+            font-weight: 800;
+            color: #10b981;
+            margin: 0 8px;
+            display: inline-block;
+        }
+
+        /* Chat Demo Container */
+        .chat-demo-container {
+            margin-top: 20px;
+            max-width: 100%;
+            margin-left: 0;
+            margin-right: 0;
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .chat-demo-content {
+            padding: 20px;
+        }
+
+        .chat-messages {
+            min-height: 0;
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .chat-messages.has-messages {
+            display: block;
+            min-height: 200px;
+        }
+
+        .message {
+            margin-bottom: 16px;
+            padding: 12px 16px;
+            border-radius: 8px;
+        }
+
+        .sap-message {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 3px solid #10b981;
+        }
+
+        .user-message {
+            background: rgba(59, 130, 246, 0.1);
+            border-left: 3px solid #3b82f6;
+            margin-left: 20px;
+        }
+
+        .chat-input-container {
+            position: relative;
+        }
+
+        .chat-input-wrapper {
+            display: flex;
+            align-items: center;
+            background: rgba(31, 41, 55, 0.8);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 12px;
+            padding: 8px 12px;
+            gap: 12px;
+            min-height: 40px;
+            transition: all 0.2s ease;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .chat-input {
+            flex: 1;
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 14px;
+            outline: none;
+            resize: none;
+            height: 24px;
+            max-height: 120px;
+            overflow-y: auto;
+            line-height: 24px;
+            font-family: inherit;
+            cursor: text;
+            pointer-events: auto;
+            z-index: 5;
+        }
+
+        .chat-input::placeholder {
+            color: #1a1a1a;
+            font-weight: 400;
+        }
+
+        .chat-input:focus {
+            outline: none;
+        }
+
+        .chat-input-wrapper:focus-within {
+            border-color: rgba(16, 185, 129, 0.6);
+            box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.1);
+        }
+
+        .sap-button {
             width: 32px;
             height: 32px;
-            border: none;
-            background: transparent;
-            color: #666;
+            border-radius: 50%;
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+            z-index: 10;
+        }
+
+        .sap-button:hover {
+            background: rgba(16, 185, 129, 0.3);
+            border-color: rgba(16, 185, 129, 0.6);
+        }
+
+        .sap-button img {
+            width: 24px;
+            height: 24px;
+        }
+
+        .send-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            background: #10b981;
+            border: none;
+            color: #000000;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+            z-index: 10;
+        }
+
+        .send-btn:hover {
+            background: #059669;
+        }
+
+        .send-btn i {
+            font-size: 14px;
+        }
+
+        /* Power Control Section */
+        .power-control-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(10, 10, 10, 0.95) 100%);
+            border-top: 1px solid rgba(16, 185, 129, 0.2);
+            border-bottom: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .power-control-content {
+            text-align: center;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .power-control-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 24px;
+            line-height: 1.2;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .power-control-title {
+                color: #ffffff;
+            }
+        }
+
+        .power-control-subtitle {
+            font-size: 1.2rem;
+            color: #1a1a1a;
+            line-height: 1.6;
+            margin-bottom: 60px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: 400;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .power-control-subtitle {
+                color: #d1d5db;
+            }
+        }
+
+        .power-control-features {
+            margin-bottom: 80px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 30px 20px;
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-item:hover {
+            transform: translateY(-5px);
+            background: rgba(16, 185, 129, 0.1);
+            border-color: rgba(16, 185, 129, 0.4);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+        }
+
+        .feature-item h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 12px;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .feature-item h3 {
+                color: #ffffff;
+            }
+        }
+
+        .feature-item p {
+            color: #1a1a1a;
+            line-height: 1.5;
+            font-weight: 400;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .feature-item p {
+                color: #9ca3af;
+            }
+        }
+
+        .power-control-cta {
+            background: rgba(16, 185, 129, 0.08);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 16px;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .cta-content h3 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #10b981;
+            margin-bottom: 16px;
+        }
+
+        .cta-content p {
+            color: #d1d5db;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 32px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-primary,
+        .cta-secondary {
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .cta-primary {
+            background: #10b981;
+            color: #000000;
+        }
+
+        .cta-primary:hover {
+            background: #059669;
+            transform: translateY(-2px);
+        }
+
+        .cta-secondary {
+            background: transparent;
+            color: #10b981;
+            border: 2px solid #10b981;
+        }
+
+        .cta-secondary:hover {
+            background: #10b981;
+            color: #000000;
+            transform: translateY(-2px);
+        }
+
+        /* Mission Section */
+        .mission-section {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .mission-section {
+                background: #1a1a1a;
+            }
+        }
+
+        .mission-title {
+            text-align: center;
+            font-size: 36px;
+            font-weight: 300;
+            margin-bottom: 60px;
+            color: #1a1a1a;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .mission-title {
+                color: #e6eef8;
+            }
+        }
+
+        .mission-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .mission-card {
+            text-align: center;
+        }
+
+        .mission-card h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #1a1a1a;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .mission-card h3 {
+                color: #e6eef8;
+            }
+        }
+
+        .mission-card p {
+            color: #333;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .mission-card p {
+                color: #cccccc;
+            }
+        }
+
+        /* Protocol Section */
+        .protocol-section {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .protocol-title {
+            text-align: center;
+            font-size: 36px;
+            font-weight: 300;
+            margin-bottom: 16px;
+            color: #1a1a1a;
+        }
+
+        .protocol-subtitle {
+            text-align: center;
+            font-size: 18px;
+            color: #1a1a1a;
+            margin-bottom: 60px;
+            font-weight: 400;
+        }
+
+        .protocol-components {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .component-card {
+            text-align: center;
+            padding: 32px 24px;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            background: #f8f9fa;
+        }
+
+        .component-icon {
+            width: 48px;
+            height: 48px;
+            background: #00C853;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 24px;
+            color: white;
+        }
+
+        .component-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #1a1a1a;
+        }
+
+        .component-description {
+            color: #1a1a1a;
+            font-size: 14px;
+            line-height: 1.5;
+            font-weight: 400;
+        }
+
+        /* How It Works */
+        .how-it-works {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+
+        .how-title {
+            text-align: center;
+            font-size: 36px;
+            font-weight: 300;
+            margin-bottom: 60px;
+            color: #1a1a1a;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .step {
+            text-align: center;
+        }
+
+        .step-number {
+            width: 48px;
+            height: 48px;
+            background: #00C853;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 600;
+            margin: 0 auto 16px;
+        }
+
+        .step-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #000;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .step-title {
+                color: #ffffff;
+            }
+        }
+
+        .step-description {
+            color: #000;
+            font-size: 14px;
+            line-height: 1.5;
+            font-weight: 500;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .step-description {
+                color: #ffffff;
+                font-weight: 500;
+            }
+        }
+
+        /* Ecosystem Section */
+        .ecosystem-section {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .ecosystem-title {
+            text-align: center;
+            font-size: 36px;
+            font-weight: 300;
+            margin-bottom: 16px;
+            color: #1a1a1a;
+        }
+
+        .ecosystem-subtitle {
+            text-align: center;
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 60px;
+        }
+
+        .platforms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 32px;
+            margin-bottom: 40px;
+        }
+
+        .platform-card {
+            text-align: center;
+            padding: 24px 16px;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            background: #f8f9fa;
+            opacity: 0.5;
+        }
+
+        .platform-logo {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 12px;
+            background: #e5e5e5;
             border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-        
-        .popup-close:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-        
-        /* Footer */
-        .footer {
-            padding: 16px 24px;
-            border-top: 1px solid #1a1a1a;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-        }
-        
-        .footer-content {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 24px;
-            font-size: 14px;
+            font-size: 12px;
             color: #666;
         }
-        
-        .footer-link {
-            color: #888;
-            text-decoration: none;
-            transition: color 0.2s ease;
+
+        .platform-name {
+            font-size: 12px;
+            color: #666;
+            font-weight: 500;
         }
-        
-        .footer-link:hover {
+
+        .not-adopted {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* Roadmap Section */
+        .roadmap-section {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+
+        .roadmap-title {
+            text-align: center;
+            font-size: 36px;
+            font-weight: 300;
+            margin-bottom: 60px;
+            color: #1a1a1a;
+        }
+
+        .roadmap-accordion {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .accordion-item {
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            background: white;
+        }
+
+        .accordion-header {
+            padding: 24px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .accordion-content {
+            padding: 0 24px 24px;
+            color: #666;
+            line-height: 1.6;
+            display: none;
+        }
+
+        .accordion-content.active {
+            display: block;
+        }
+
+        /* Developer Section */
+        .dev-section {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .dev-section {
+                background: #0a0a0a;
+            }
+        }
+
+        .dev-content {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .code-block {
+            background: #1a1a1a;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 24px;
+            background: #2a2a2a;
+            border-bottom: 1px solid #374151;
+        }
+
+        .code-title {
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .copy-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #00C853;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            background: #00A041;
+            transform: translateY(-1px);
+        }
+
+        .copy-btn i {
+            font-size: 16px;
+            margin-right: 8px;
+        }
+
+        .code-content {
+            padding: 24px;
+            margin: 0;
+            background: #1a1a1a;
+            color: #e5e7eb;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            overflow-x: auto;
+        }
+
+        .dev-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-icon {
+            font-size: 32px;
+            margin-bottom: 16px;
+        }
+
+        .feature-card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+
+        .feature-card p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .dev-section {
+                background: #0a0a0a;
+            }
+
+            .feature-card {
+                background: #1a1a1a;
+                border: 1px solid #374151;
+            }
+
+            .feature-card h3 {
+                color: #ffffff;
+            }
+
+            .feature-card p {
+                color: #9ca3af;
+            }
+        }
+
+        /* Membership Section */
+        .membership-section {
+            padding: 80px 0;
+            background: white;
+            text-align: center;
+        }
+
+        .membership-title {
+            font-size: 36px;
+            font-weight: 300;
+            margin-bottom: 16px;
+            color: #1a1a1a;
+        }
+
+        .membership-subtitle {
+            font-size: 18px;
+            color: #1a1a1a;
+            margin-bottom: 40px;
+            font-weight: 400;
+        }
+
+        .membership-cta {
+            margin-bottom: 24px;
+        }
+
+        .membership-note {
+            font-size: 14px;
+            color: #1a1a1a;
+            max-width: 600px;
+            margin: 0 auto;
+            font-weight: 400;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 60px 0;
+            background: #1a1a1a;
+            color: white;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h4 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .footer-section a {
+            color: #cccccc;
+            text-decoration: none;
+            font-size: 14px;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .footer-section a:hover {
             color: #ffffff;
         }
-        
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid #333;
+            color: #cccccc;
+            font-size: 14px;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
-            .header {
-                padding: 12px 16px;
+            .hero-title {
+                font-size: 36px;
             }
-            
-            .chat-container {
-                padding: 16px;
+
+            .hero-subtitle {
+                font-size: 18px;
             }
-            
-            .ticker {
-                min-width: 150px;
-                font-size: 12px;
+
+            .mission-grid,
+            .protocol-components,
+            .steps {
+                grid-template-columns: 1fr;
+            }
+
+            .platforms-grid {
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            }
+
+            .chat-input-container {
+                flex-direction: row;
+                gap: 8px;
+                padding: 8px;
+            }
+
+            .chat-input {
+                flex: 1;
+                min-width: 0;
+                font-size: 14px;
+            }
+
+            .sap-button, .send-btn {
+                width: 36px;
+                height: 36px;
+                flex-shrink: 0;
+            }
+
+            .sap-button img {
+                width: 26px;
+                height: 26px;
+            }
+
+            .send-btn {
+                font-size: 16px;
             }
         }
-        
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .message {
-            animation: fadeIn 0.3s ease;
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .chat-input-container {
+                gap: 6px;
+                padding: 6px;
+            }
+
+            .sap-button, .send-btn {
+                width: 32px;
+                height: 32px;
+            }
+
+            .sap-button img {
+                width: 24px;
+                height: 24px;
+            }
+
+            .send-btn {
+                font-size: 14px;
+            }
         }
     </style>
 </head>
 <body>
     <!-- Header -->
-    <div class="header">
-        <div class="header-left">
-            <button class="collapse-btn" onclick="toggleSidebar()">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="3" y1="6" x2="21" y2="6"></line>
-                    <line x1="3" y1="12" x2="21" y2="12"></line>
-                    <line x1="3" y1="18" x2="21" y2="18"></line>
-                </svg>
-            </button>
-            
-            <div class="logo">
-                <div class="logo-icon">🌍</div>
-                <span>SAP</span>
-            </div>
-            
-            <button class="plus-btn" onclick="openPopup()">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="12" y1="5" x2="12" y2="19"></line>
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                </svg>
-            </button>
-        </div>
-        
-        <div class="ticker">
-            <div class="ticker-metric active" onclick="switchMetric('global')">
-                <span>🌍</span>
-                <span id="globalPrompts">0</span>
-            </div>
-            <div class="ticker-metric" onclick="switchMetric('personal')">
-                <span>👤</span>
-                <span id="personalPrompts">0</span>
-            </div>
-            <div class="ticker-metric" onclick="switchMetric('energy')">
-                <span>⚡</span>
-                <span id="energyUsage">0 kWh</span>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Main Chat Area -->
-    <div class="chat-container">
-        <div class="chat-messages" id="chatMessages">
-            <div class="message ai">
-                <div class="message-content">
-                    Hello! I'm your sustainable AI assistant. I can help you understand environmental impact, answer questions about sustainability, and track the carbon footprint of our conversation.
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo-img">
+                        <img src="assets/SAPLogo.png" alt="SAP" onerror="this.style.display='none'">
+                    </div>
+                    <div class="logo">SAP</div>
                 </div>
-                <div class="message-time">Just now</div>
+                <div class="ticker">
+                    <span>SAP Demo: </span>
+                    <span class="ticker-value" id="global-ticker">241</span>
+                    <span>interactions tracked ⚡</span>
+                    <div class="ticker-subline">~0.096 kWh estimated • Real global data coming in Phase 2</div>
+                </div>
             </div>
         </div>
-        
-        <div class="chat-input-container">
-            <textarea 
-                class="chat-input" 
-                id="chatInput" 
-                placeholder="Ask me anything about sustainability..."
-                rows="1"
-            ></textarea>
-            <button class="send-btn" id="sendBtn" onclick="sendMessage()">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="22" y1="2" x2="11" y2="13"></line>
-                    <polygon points="22,2 15,22 11,13 2,9 22,2"></polygon>
-                </svg>
-            </button>
-        </div>
-    </div>
-    
-    <!-- Footer -->
-    <div class="footer">
-        <div class="footer-content">
-            <a href="#" class="footer-link">About SAP</a>
-            <a href="#" class="footer-link">Privacy</a>
-            <a href="#" class="footer-link">Terms</a>
-            <a href="#" class="footer-link">Contact</a>
-        </div>
-    </div>
-    
-    <!-- Popup -->
-    <div class="popup-overlay" id="popupOverlay">
-        <div class="popup">
-            <div class="popup-header">
-                <h3 class="popup-title">SAP Protocol</h3>
-                <button class="popup-close" onclick="closePopup()">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <line x1="18" y1="6" x2="6" y2="18"></line>
-                        <line x1="6" y1="6" x2="18" y2="18"></line>
-                    </svg>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="container">
+            <h1 class="hero-title">The Missing Button from Every AI Chat Interface</h1>
+            <p class="hero-subtitle">
+                One small button. Enormous change.<br>
+                The Sustainable AI Protocol (SAP) brings transparency and accountability to every AI interaction.
+            </p>
+            <!-- SAP Button - Clean Layout -->
+            <div class="sap-button-container">
+                <button class="sap-button-main" onclick="openDashboard();" title="SAP Button - Click to open dashboard">
+                    <div class="sap-button-wrapper">
+                        <img src="assets/SAPButton.svg" alt="SAP" class="sap-button-bg" onerror="this.style.display='none'">
+                        <div class="sap-counter-display" id="sap-counter">0</div>
+                </div>
                 </button>
-            </div>
-            <div class="popup-content">
-                <p>Welcome to the Sustainable AI Protocol. This is where we'll add more features and information about the mission.</p>
-                <br>
-                <p>For now, enjoy the clean chat experience and explore sustainability through AI.</p>
+                
+                <!-- Text layout under button -->
+                <div class="sap-text-container">
+                    <div class="sap-text-display">
+                        <span class="sap-number" id="sap-display-number">0</span> PROMPTS TRACKED TODAY
             </div>
         </div>
-    </div>
-    
+                
+                <div class="sap-prompt-button-container">
+                    <button class="sap-prompt-button" onclick="simulatePrompt();">
+                        <i class="fa-solid fa-arrow-up"></i> I just prompted
+                    </button>
+                </div>
+            </div>
+            
+            
+            <!-- Chat Demo - Moved under button -->
+            <div class="chat-demo-container">
+                <div class="chat-demo-content">
+                    <div class="chat-messages" id="chat-messages">
+                        <div class="message sap-message">
+                            <div class="message-content">
+                                <p>Hello. Every response here is powered by measurable compute. Click the SAP button anytime to view this session's energy use and carbon equivalent.</p>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="chat-input-container">
+                        <div class="chat-input-wrapper">
+                            <div class="sap-button" onclick="event.stopPropagation(); openDashboard();" title="SAP Button - Click to track AI usage">
+                            <img src="assets/SAPButton.svg" alt="SAP" onerror="this.style.display='none'">
+                            </div>
+                            <input type="text" class="chat-input" id="chat-input" placeholder="Ask anything, see impact..." onkeypress="handleKeyPress(event)">
+                            <button class="send-btn" onclick="event.stopPropagation(); sendMessage();">
+                                <i class="fa-solid fa-arrow-up"></i>
+                        </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- Power Control Section -->
+    <section class="power-control-section" id="power-control">
+        <div class="container">
+            <div class="power-control-content">
+                <h2 class="power-control-title">Take Control of Your AI's Environmental Impact</h2>
+                <p class="power-control-subtitle">
+                    SAP gives users control over the invisible costs of AI — the power, data centers, and carbon behind every prompt.
+                </p>
+                
+                <div class="power-control-features">
+                    <div class="feature-grid">
+                        <div class="feature-item">
+                            <div class="feature-icon">🌱</div>
+                            <h3>Green Dial Control</h3>
+                            <p>Adjust how much power your queries use</p>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">🌍</div>
+                            <h3>Data Center Selection</h3>
+                            <p>Pick renewable data centers</p>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">⚖️</div>
+                            <h3>Named Tradeoffs</h3>
+                            <p>See tradeoffs like cost vs. carbon</p>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">🔧</div>
+                            <h3>Manual Controls</h3>
+                            <p>Accept or reject compute resources</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="power-control-cta">
+                    <div class="cta-content">
+                        <h3>Every click helps build a more transparent AI future</h3>
+                        <p>Fund the open standard that lets anyone see AI's true cost</p>
+                        <div class="cta-buttons">
+                            <button class="cta-primary" onclick="scrollToSection('pricing')">Support SAP Development</button>
+                            <button class="cta-secondary" onclick="scrollToSection('demo')">Try Live Demo</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission Section -->
+    <section class="mission-section" id="mission">
+        <div class="container">
+            <h2 class="mission-title">Building the Environmental Operating System for AI</h2>
+            <div class="mission-grid">
+                <div class="mission-card">
+                    <h3>🌍 The AI Power Paradox</h3>
+                    <p>AI consumes massive energy invisibly, yet could solve its own energy problems. We make this visible and actionable.</p>
+                </div>
+                <div class="mission-card">
+                    <h3>⚡ Environmental Force Multiplier</h3>
+                    <p>Use AI's power to solve environmental problems. Direct funding to climate projects through every AI interaction.</p>
+                </div>
+                <div class="mission-card">
+                    <h3>🌱 Pervasive Environmental Consciousness</h3>
+                    <p>As AI becomes ubiquitous, so should environmental awareness. Every AI interaction becomes a force for good.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Protocol Section -->
+    <section class="protocol-section" id="protocol">
+        <div class="container">
+            <h2 class="protocol-title">The SAP Protocol</h2>
+            <p class="protocol-subtitle">The SAP Protocol is an open standard for transparent AI energy tracking.<br>
+            It consists of three interoperable components:</p>
+            
+            <div class="protocol-components">
+                <div class="component-card">
+                    <div class="component-icon">🔘</div>
+                    <h3 class="component-title">SAP Button</h3>
+                    <p class="component-description">Local, per-query measurement</p>
+                </div>
+                <div class="component-card">
+                    <div class="component-icon">📈</div>
+                    <h3 class="component-title">Global Ticker</h3>
+                    <p class="component-description">Aggregated network telemetry</p>
+                </div>
+                <div class="component-card">
+                    <div class="component-icon">🔗</div>
+                    <h3 class="component-title">Open Schema</h3>
+                    <p class="component-description">Universal data format for sustainability reporting</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works">
+        <div class="container">
+            <h2 class="how-title">How It Works</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3 class="step-title">Add SAP to your AI chat UI</h3>
+                    <p class="step-description">Simple integration with one line of code</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3 class="step-title">SAP tracks prompt telemetry automatically</h3>
+                    <p class="step-description">Every interaction is measured and logged</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3 class="step-title">Users see their real-time energy data</h3>
+                    <p class="step-description">Both locally and globally aggregated</p>
+                </div>
+            </div>
+            <p style="text-align: center; color: #666; margin-top: 40px; font-style: italic;">
+                "Protocol-first transparency that integrates with any AI interface."
+            </p>
+        </div>
+    </section>
+
+    <!-- Ecosystem Section -->
+    <section class="ecosystem-section" id="ecosystem">
+        <div class="container">
+            <h2 class="ecosystem-title">Every AI platform will show its footprint — eventually.</h2>
+            <p class="ecosystem-subtitle">The SAP network grows stronger with every integration.</p>
+            
+            <div class="platforms-grid">
+                <div class="platform-card">
+                    <div class="platform-logo">GPT</div>
+                    <div class="platform-name">ChatGPT</div>
+                </div>
+                <div class="platform-card">
+                    <div class="platform-logo">Claude</div>
+                    <div class="platform-name">Anthropic</div>
+                </div>
+                <div class="platform-card">
+                    <div class="platform-logo">Gemini</div>
+                    <div class="platform-name">Google</div>
+                </div>
+                <div class="platform-card">
+                    <div class="platform-logo">Perplexity</div>
+                    <div class="platform-name">Perplexity</div>
+                </div>
+                <div class="platform-card">
+                    <div class="platform-logo">Grok</div>
+                    <div class="platform-name">xAI</div>
+                </div>
+                <div class="platform-card">
+                    <div class="platform-logo">DeepSeek</div>
+                    <div class="platform-name">DeepSeek</div>
+                </div>
+            </div>
+            
+            <p class="not-adopted">Not yet adopted</p>
+        </div>
+    </section>
+
+    <!-- Roadmap Section -->
+    <section class="roadmap-section" id="roadmap">
+        <div class="container">
+            <h2 class="roadmap-title">Roadmap</h2>
+            <div class="roadmap-accordion">
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        Phase 1 – The Missing Button ✅
+                        <span>+</span>
+                    </div>
+                    <div class="accordion-content">
+                        <p><strong>Status: Live</strong><br>
+                        Universal SAP button, global environmental ticker, dashboard modal, developer SDK, and basic telemetry. Making invisible AI energy consumption visible and accountable.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        Phase 2 – Environmental Force 🚀
+                        <span>+</span>
+                    </div>
+                    <div class="accordion-content">
+                        <p><strong>In Development</strong><br>
+                        Environmental correlations (ozone, greenhouse gas), direct climate project funding, AI efficiency optimization, verified telemetry, and model-specific energy profiles. Use AI to solve AI's own energy problems.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        Phase 3 – Global Movement 🌍
+                        <span>+</span>
+                    </div>
+                    <div class="accordion-content">
+                        <p><strong>Future Vision</strong><br>
+                        SAP Foundation, environmental operating system for the AI age, pervasive environmental consciousness, real-world environmental change, and global environmental force multiplier.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Developer Section -->
+    <section class="dev-section" id="dev-section">
+        <div class="container">
+            <h2 class="section-title">For Developers</h2>
+            <p class="section-subtitle">Integrate SAP into your AI applications in minutes</p>
+            
+            <div class="dev-content">
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-title">One-Line Integration</span>
+                        <button class="copy-btn" onclick="copyCode()">
+                            <i class="fa-solid fa-copy"></i>
+                            Copy Code
+                        </button>
+                    </div>
+                    <pre class="code-content" id="code-content"><code>// Multi-Purpose SAP Button - Embed anywhere
+&lt;button class="sap-button" 
+        onclick="incrementPersonalCounter()" 
+        onmousedown="startLongPress()" 
+        onmouseup="endLongPress()"&gt;
+  &lt;svg viewBox="0 0 120 120"&gt;
+    &lt;circle cx="60" cy="60" r="55" fill="none" stroke="#00C853" stroke-width="4"/&gt;
+    &lt;circle cx="60" cy="60" r="45" fill="rgba(0, 200, 83, 0.1)"/&gt;
+    &lt;text x="60" y="70" text-anchor="middle" id="sap-counter"&gt;0&lt;/text&gt;
+  &lt;/svg&gt;
+&lt;/button&gt;
+
+// JavaScript for multi-purpose behavior
+function incrementPersonalCounter() {
+  const count = parseInt(localStorage.getItem('sap_counter') || '0') + 1;
+  localStorage.setItem('sap_counter', count);
+  document.getElementById('sap-counter').textContent = formatCount(count);
+}
+
+// Single tap = count • Long press = dashboard
+// Works offline • Cached experience • Universal protocol</code></pre>
+                </div>
+                
+                <div class="dev-features">
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h3>Real-time Tracking</h3>
+                        <p>Automatic energy and carbon measurement for every AI interaction</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🌍</div>
+                        <h3>Global Network</h3>
+                        <p>Contribute to and benefit from worldwide AI sustainability data</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <h3>User Dashboards</h3>
+                        <p>Personal impact tracking across all SAP-enabled platforms</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Membership Section -->
+    <section class="membership-section" id="pricing">
+        <div class="container">
+            <h2 class="membership-title">Support SAP and help make AI measurable</h2>
+            <p class="membership-subtitle">Your contribution funds carbon offsets, research, and development of the open protocol</p>
+            
+            <div class="membership-cta">
+                <button class="cta-primary" onclick="joinSAP('lifetime-beta')">Get Beta Access</button>
+            </div>
+            
+            <div class="membership-note">
+                Join the environmental force multiplier • Global counter + personal cache
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>SAP Foundation</h4>
+                    <a href="#">Mission</a>
+                    <a href="#">Transparency Report</a>
+                    <a href="#">Contact</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Developers</h4>
+                    <a href="#">GitHub</a>
+                    <a href="#">Documentation</a>
+                    <a href="#">API Reference</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Community</h4>
+                    <a href="#">Discord</a>
+                    <a href="#">Twitter</a>
+                    <a href="#">Newsletter</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; Sustainable AI Protocol — Making AI measurable.</p>
+            </div>
+        </div>
+    </footer>
+
     <script>
-        // Global variables
-        let userId = 'user_' + Math.random().toString(36).substr(2, 9);
-        let currentMetric = 'global';
-        let personalPrompts = 0;
+        // Configuration
+        const API_BASE_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://localhost:3001' : 'https://sustainableaiprotocol.com';
+        const IS_PRODUCTION = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+        let messageCount = 0;
+
+        // Supabase configuration
+        const SUPABASE_URL = 'https://fpnpfnahwaztdlxuayyv.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZwbnBmbmFod2F6dGRseHVheXl2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA1NDY2NTcsImV4cCI6MjA3NjEyMjY1N30.Q6mn8RIvXujBXbd10aFkeY7yGHVsAQPEHM5OzoPMsFQ';
         
-        // Initialize
+        // Initialize Supabase client
+        const { createClient } = supabase;
+        const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Load ticker data on page load
         document.addEventListener('DOMContentLoaded', function() {
-            loadGlobalStats();
-            setupChatInput();
-            setupTicker();
+            loadTickerData();
+            setInterval(loadTickerData, 10000); // Update every 10 seconds
+            
+            // Update counter display every 1 second
+            setInterval(updateCounterDisplay, 1000);
+            
+            // Initial counter display
+            updateCounterDisplay();
         });
-        
-        // Chat functionality
-        function setupChatInput() {
-            const input = document.getElementById('chatInput');
-            const sendBtn = document.getElementById('sendBtn');
-            
-            input.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    sendMessage();
+
+        // Load ticker data with fallback
+        async function loadTickerData() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/stats`);
+                if (response.ok) {
+                    const data = await response.json();
+                    updateTickerDisplay(data);
+                } else {
+                    throw new Error('API not available');
                 }
-            });
-            
-            input.addEventListener('input', function() {
-                this.style.height = 'auto';
-                this.style.height = Math.min(this.scrollHeight, 120) + 'px';
-            });
+            } catch (error) {
+                console.log('Using local fallback for ticker data');
+                const localData = JSON.parse(localStorage.getItem('sap-demo-data') || '{"text_count":0,"image_count":0,"audio_count":0,"video_count":0,"total_count":0,"total_kwh":0,"total_co2":0}');
+                updateTickerDisplay(localData);
+            }
         }
-        
-        async function sendMessage() {
-            const input = document.getElementById('chatInput');
+
+        // Update ticker display
+        function updateTickerDisplay(data) {
+            const ticker = document.getElementById('global-ticker');
+            if (ticker) {
+                ticker.textContent = data.total_count || 241;
+            }
+        }
+
+        // Scroll to section
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Open dashboard popup
+        function openDashboard() {
+            alert('Dashboard popup will open here - this will be the embeddable widget with real-time environmental data');
+        }
+
+        // Simulate prompt tracking
+        function simulatePrompt() {
+            const counter = document.getElementById('sap-counter');
+            const displayNumber = document.getElementById('sap-display-number');
+            const currentCount = parseInt(counter.textContent) + 1;
+            
+            counter.textContent = currentCount;
+            displayNumber.textContent = currentCount;
+            
+            // Add animation
+            counter.style.transform = 'scale(1.2)';
+            setTimeout(() => {
+                counter.style.transform = 'scale(1)';
+            }, 200);
+            
+            console.log(`Prompt tracked: ${currentCount}`);
+        }
+
+        // Handle key press in chat input
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        // Send message with SAP tracking
+        function sendMessage() {
+            const input = document.getElementById('chat-input');
             const message = input.value.trim();
             
             if (!message) return;
-            
-            // Add user message
-            addMessage('user', message);
+
+            // Add user message to chat
+            addMessage(message, 'user');
             input.value = '';
-            input.style.height = 'auto';
-            
-            // Disable send button
-            const sendBtn = document.getElementById('sendBtn');
-            sendBtn.disabled = true;
-            sendBtn.innerHTML = '<div style="width: 16px; height: 16px; border: 2px solid #fff; border-top: 2px solid transparent; border-radius: 50%; animation: spin 1s linear infinite;"></div>';
-            
-            try {
-                // Generate AI response
-                const response = await generateAIResponse(message);
-                addMessage('ai', response);
+
+            // Simulate AI response
+            setTimeout(() => {
+                const responses = [
+                    "That's a great question! This response used approximately 0.0004 kWh of energy and produced 0.2g CO₂. The SAP protocol tracks every AI interaction for transparency.",
+                    "Interesting point! This AI response consumed about 0.0004 kWh and emitted 0.2g CO₂. SAP makes AI's environmental impact visible to everyone.",
+                    "Thanks for asking! This interaction used 0.0004 kWh of energy and 0.2g CO₂. With SAP, every AI conversation is environmentally accountable.",
+                    "Good question! This response required 0.0004 kWh and produced 0.2g CO₂. SAP ensures AI sustainability through complete transparency."
+                ];
+                const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                addMessage(`<strong>SAP AI:</strong> ${randomResponse}`, 'ai');
                 
-                // Track the prompt
-                await trackPrompt(message);
-                personalPrompts++;
-                updateTicker();
-                
-            } catch (error) {
-                console.error('Error:', error);
-                addMessage('ai', 'Sorry, I encountered an error. Please try again.');
-            } finally {
-                // Re-enable send button
-                sendBtn.disabled = false;
-                sendBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22,2 15,22 11,13 2,9 22,2"></polygon></svg>';
-            }
+                // Update counter
+                simulatePrompt();
+            }, 1000);
         }
-        
-        function addMessage(sender, content) {
-            const chatMessages = document.getElementById('chatMessages');
+
+        // Add message to chat
+        function addMessage(content, type) {
+            const messagesContainer = document.getElementById('chat-messages');
             const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${sender}`;
-            
-            const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-            
-            messageDiv.innerHTML = `
-                <div class="message-content">${content}</div>
-                <div class="message-time">${time}</div>
-            `;
-            
-            chatMessages.appendChild(messageDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
+            messageDiv.className = `message ${type}`;
+            messageDiv.innerHTML = content;
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.classList.add('has-messages');
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
-        
-        async function generateAIResponse(prompt) {
-            // Simulate AI response for now
-            const responses = [
-                "That's a great question about sustainability! Let me help you understand the environmental impact.",
-                "I can help you explore sustainable practices and their benefits for the environment.",
-                "Sustainability is about meeting present needs without compromising future generations. What specific aspect interests you?",
-                "The carbon footprint of AI is an important consideration. Let me share some insights about this topic.",
-                "Environmental responsibility in technology is crucial. I'm here to help you learn more about sustainable AI practices."
-            ];
+
+        // Copy code to clipboard
+        function copyCode() {
+            const codeContent = document.getElementById('code-content');
+            const codeText = codeContent.textContent;
             
-            return responses[Math.floor(Math.random() * responses.length)];
-        }
-        
-        async function trackPrompt(prompt) {
-            try {
-                const response = await fetch('/api/track', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        prompt: prompt,
-                        model: 'sap-chat',
-                        userId: userId
-                    })
-                });
+            navigator.clipboard.writeText(codeText).then(function() {
+                // Show success feedback
+                const copyBtn = document.querySelector('.copy-btn');
+                const originalText = copyBtn.innerHTML;
+                copyBtn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
+                copyBtn.style.background = '#00A041';
                 
-                if (response.ok) {
-                    const result = await response.json();
-                    updateGlobalStats(result.stats);
-                }
-            } catch (error) {
-                console.error('Error tracking prompt:', error);
-            }
-        }
-        
-        // Ticker functionality
-        function setupTicker() {
-            // Auto-refresh every 5 seconds
-            setInterval(loadGlobalStats, 5000);
-        }
-        
-        async function loadGlobalStats() {
-            try {
-                const response = await fetch('/api/stats');
-                if (response.ok) {
-                    const stats = await response.json();
-                    updateGlobalStats(stats);
-                }
-            } catch (error) {
-                console.error('Error loading stats:', error);
-            }
-        }
-        
-        function updateGlobalStats(stats) {
-            document.getElementById('globalPrompts').textContent = stats.totalPrompts.toLocaleString();
-            document.getElementById('energyUsage').textContent = stats.totalEnergy.toFixed(3) + ' kWh';
-        }
-        
-        function updateTicker() {
-            document.getElementById('personalPrompts').textContent = personalPrompts;
-        }
-        
-        function switchMetric(metric) {
-            currentMetric = metric;
-            
-            // Update active state
-            document.querySelectorAll('.ticker-metric').forEach(el => {
-                el.classList.remove('active');
+                setTimeout(() => {
+                    copyBtn.innerHTML = originalText;
+                    copyBtn.style.background = '#00C853';
+                }, 2000);
+            }).catch(function(err) {
+                console.error('Failed to copy code: ', err);
+                alert('Failed to copy code. Please try again.');
             });
-            event.target.closest('.ticker-metric').classList.add('active');
         }
-        
-        // Popup functionality
-        function openPopup() {
-            document.getElementById('popupOverlay').style.display = 'flex';
-        }
-        
-        function closePopup() {
-            document.getElementById('popupOverlay').style.display = 'none';
-        }
-        
-        // Sidebar functionality
-        function toggleSidebar() {
-            // Placeholder for sidebar functionality
-            console.log('Toggle sidebar');
-        }
-        
-        // Close popup when clicking overlay
-        document.getElementById('popupOverlay').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closePopup();
+
+        // Toggle accordion
+        function toggleAccordion(header) {
+            const content = header.nextElementSibling;
+            const isActive = content.classList.contains('active');
+            
+            // Close all accordions
+            document.querySelectorAll('.accordion-content').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Toggle current accordion
+            if (!isActive) {
+                content.classList.add('active');
             }
-        });
-    </script>
-    
-    <style>
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
         }
-    </style>
+
+        // Join SAP membership
+        function joinSAP(plan = 'supporter') {
+            console.log(`Joining SAP with plan: ${plan}`);
+            alert(`Thank you for your interest in the ${plan} plan! This will redirect to Stripe checkout in the full implementation.`);
+        }
+
+        // Update counter display
+        function updateCounterDisplay() {
+            const personalCounter = getPersonalCounter();
+            const counterElement = document.getElementById('sap-counter');
+            const displayNumber = document.getElementById('sap-display-number');
+            
+            if (counterElement) {
+                counterElement.textContent = personalCounter;
+            }
+            
+            if (displayNumber) {
+                displayNumber.textContent = personalCounter;
+            }
+        }
+
+        // Personal counter (stored in localStorage for offline functionality)
+        function getPersonalCounter() {
+            return parseInt(localStorage.getItem('sap_personal_counter') || '0');
+        }
+
+        function setPersonalCounter(value) {
+            localStorage.setItem('sap_personal_counter', value.toString());
+        }
+    </script>
 </body>
 </html>

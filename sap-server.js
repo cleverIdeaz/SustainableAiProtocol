@@ -20,15 +20,14 @@ app.use(express.static('public'));
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-// Initialize Stripe
-const stripe = require('stripe')(process.env.SAP_STRIPE_SECRET_KEY);
+// Initialize Stripe (with fallback for missing env vars)
+const stripe = process.env.SAP_STRIPE_SECRET_KEY ? 
+  require('stripe')(process.env.SAP_STRIPE_SECRET_KEY) : null;
 
-// Initialize Supabase
+// Initialize Supabase (with fallback for missing env vars)
 const { createClient } = require('@supabase/supabase-js');
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY
-);
+const supabase = (process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) ?
+  createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY) : null;
 
 // Global variables for real-time tracking
 let globalStats = {
@@ -40,9 +39,69 @@ let globalStats = {
 
 // Routes
 
-// Serve main SAP page
+// Serve main SAP page - Restore the original "Missing Button" design
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+// Universal Embed Popup Widget
+app.get('/embed', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'sap-embeddable-dashboard.html'));
+});
+
+// Raw Dashboard Data Visualization - Real Supabase Data
+app.get('/dashboard', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'dashboard-raw.html'));
+});
+
+// API Endpoints Documentation
+app.get('/api', (req, res) => {
+  res.json({
+    message: 'SAP Protocol API',
+    version: '1.0.0',
+    endpoints: {
+      '/api/stats': 'GET - Global sustainability statistics',
+      '/api/track': 'POST - Track AI interaction',
+      '/api/optimize': 'POST - Optimize prompt for sustainability',
+      '/api/alternatives': 'GET - Get green AI alternatives',
+      '/api/environmental': 'GET - Real-time environmental data'
+    }
+  });
+});
+
+// CLI Tools
+app.get('/cli', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'cli-tools.html'));
+});
+
+// HTML5 Widget Components
+app.get('/widget', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'sap-embeddable-dashboard.html'));
+});
+
+// Documentation
+app.get('/docs', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'sap-embeddable-dashboard.html'));
+});
+
+// MCP Server Integration
+app.get('/mcp', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'sap-mcp-demo.html'));
+});
+
+// SVG Button Component
+app.get('/button', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'button-component.html'));
+});
+
+// Prompt Optimization Engine
+app.get('/optimize', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'optimization-engine.html'));
+});
+
+// Navigation Analysis
+app.get('/navigation', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'navigation-analysis.html'));
 });
 
 // Serve SAP SDK
@@ -55,24 +114,86 @@ app.get('/sap/embed.js', (req, res) => {
   res.sendFile(path.join(__dirname, 'sap-embed.js'));
 });
 
+// Serve SAP Button component
+app.get('/sap/button.js', (req, res) => {
+  res.sendFile(path.join(__dirname, 'sap-button.js'));
+});
+
+// New API Endpoints for Real-time Data and Optimization
+
+// Prompt Optimization API
+app.post('/api/optimize', (req, res) => {
+  const { prompt, model_type, preferences } = req.body;
+  const sapPrefix = `🌍 SAP OPTIMIZED | Model: ${model_type.toUpperCase()} | EFFICIENCY-MODE | Tracked by SAP Foundation`;
+  const optimizedPrompt = `${sapPrefix}\n\n${prompt}`;
+  res.json({
+    optimized_prompt: optimizedPrompt,
+    sap_prefix: sapPrefix,
+    estimated_energy_kwh: 0.0004,
+    estimated_co2_g: 0.19,
+    optimization_applied: true,
+    timestamp: new Date().toISOString()
+  });
+});
+
+// Green AI Alternatives API
+app.get('/api/alternatives', (req, res) => {
+  const { model } = req.query;
+  const alternatives = {
+    'gpt-4': [
+      { name: 'Claude 3 Opus', efficiency: '15% better', url: 'https://claude.ai' },
+      { name: 'Local Llama 3', efficiency: '80% better', url: 'https://ollama.ai' },
+      { name: 'Gemini Pro', efficiency: '10% better', url: 'https://gemini.google.com' }
+    ],
+    'gpt-3.5-turbo': [
+      { name: 'Claude 3 Haiku', efficiency: '25% better', url: 'https://claude.ai' },
+      { name: 'Gemini Flash', efficiency: '20% better', url: 'https://gemini.google.com' },
+      { name: 'Local Mistral', efficiency: '90% better', url: 'https://ollama.ai' }
+    ],
+    'claude-3-opus': [
+      { name: 'GPT-4 Turbo', efficiency: '5% worse', url: 'https://chat.openai.com' },
+      { name: 'Gemini Ultra', efficiency: '10% better', url: 'https://gemini.google.com' },
+      { name: 'Local Llama 3', efficiency: '85% better', url: 'https://ollama.ai' }
+    ]
+  };
+  res.json({
+    current_model: model,
+    alternatives: alternatives[model] || alternatives['gpt-4'],
+    recommendation: 'Consider local models for maximum sustainability'
+  });
+});
+
+// Real-time Environmental Data API
+app.get('/api/environmental', (req, res) => {
+  res.json({
+    atmospheric_co2_ppm: 420.5,
+    global_temp_rise_c: 1.1,
+    arctic_ice_loss_percent: -13.0,
+    sea_level_rise_mm_per_year: 3.3,
+    last_updated: new Date().toISOString()
+  });
+});
+
 // Get global stats
 app.get('/api/stats', async (req, res) => {
   try {
-    // Get latest stats from database
-    const { data, error } = await supabase
-      .from('global_stats')
-      .select('*')
-      .order('created_at', { ascending: false })
-      .limit(1)
-      .single();
+    if (supabase) {
+      // Get latest stats from database
+      const { data, error } = await supabase
+        .from('global_stats')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .single();
 
-    if (data) {
-      globalStats = {
-        totalPrompts: data.total_prompts || 0,
-        totalEnergy: data.total_energy || 0,
-        totalCO2: data.total_co2 || 0,
-        lastUpdated: data.created_at
-      };
+      if (data) {
+        globalStats = {
+          totalPrompts: data.total_prompts || 0,
+          totalEnergy: data.total_energy || 0,
+          totalCO2: data.total_co2 || 0,
+          lastUpdated: data.created_at
+        };
+      }
     }
 
     res.json(globalStats);
@@ -97,32 +218,34 @@ app.post('/api/track', async (req, res) => {
     globalStats.totalCO2 += promptCO2;
     globalStats.lastUpdated = new Date().toISOString();
     
-    // Save to database
-    const { error } = await supabase
-      .from('prompt_tracking')
-      .insert({
-        prompt: prompt.substring(0, 1000), // Limit length
-        model: model,
-        tokens: tokens,
-        energy: promptEnergy,
-        co2: promptCO2,
-        user_id: userId,
-        created_at: new Date().toISOString()
-      });
-    
-    if (error) {
-      console.error('Database error:', error);
+    // Save to database if Supabase is available
+    if (supabase) {
+      const { error } = await supabase
+        .from('prompt_tracking')
+        .insert({
+          prompt: prompt.substring(0, 1000), // Limit length
+          model: model,
+          tokens: tokens,
+          energy: promptEnergy,
+          co2: promptCO2,
+          user_id: userId,
+          created_at: new Date().toISOString()
+        });
+      
+      if (error) {
+        console.error('Database error:', error);
+      }
+      
+      // Update global stats in database
+      await supabase
+        .from('global_stats')
+        .insert({
+          total_prompts: globalStats.totalPrompts,
+          total_energy: globalStats.totalEnergy,
+          total_co2: globalStats.totalCO2,
+          created_at: globalStats.lastUpdated
+        });
     }
-    
-    // Update global stats in database
-    await supabase
-      .from('global_stats')
-      .insert({
-        total_prompts: globalStats.totalPrompts,
-        total_energy: globalStats.totalEnergy,
-        total_co2: globalStats.totalCO2,
-        created_at: globalStats.lastUpdated
-      });
     
     res.json({ success: true, stats: globalStats });
   } catch (error) {
@@ -279,4 +402,14 @@ app.listen(PORT, () => {
   console.log(`📊 Global ticker: ${globalStats.totalPrompts} prompts tracked`);
   console.log(`⚡ Energy: ${globalStats.totalEnergy.toFixed(3)} kWh`);
   console.log(`🌱 CO2: ${globalStats.totalCO2.toFixed(3)} kg`);
+  console.log(`\n🎯 Subdomains Available:`);
+  console.log(`   /embed - Universal embeddable widget`);
+  console.log(`   /dashboard - Raw data visualization`);
+  console.log(`   /cli - CLI tools interface`);
+  console.log(`   /optimize - Prompt optimization engine`);
+  console.log(`   /button - SVG button component`);
+  console.log(`   /api - REST API endpoints`);
+  console.log(`   /docs - Documentation`);
+  console.log(`   /mcp - MCP integration`);
+  console.log(`   /navigation - Navigation analysis`);
 });

@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAP Raw Dashboard - Data Visualization</title>
+    <link rel="icon" type="image/png" href="/assets/SAPLogo.png">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            color: #fff;
+            min-height: 100vh;
+        }
+        
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #00C853, #4CAF50);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .header p {
+            color: #ccc;
+            font-size: 1.2rem;
+        }
+        
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .chart-container {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(0, 200, 83, 0.2);
+        }
+        
+        .chart-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #00C853;
+            text-align: center;
+        }
+        
+        .chart-wrapper {
+            position: relative;
+            height: 300px;
+        }
+        
+        .data-table {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(0, 200, 83, 0.2);
+            margin-bottom: 30px;
+        }
+        
+        .table-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #00C853;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        th {
+            background: rgba(0, 200, 83, 0.1);
+            color: #00C853;
+            font-weight: bold;
+        }
+        
+        tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .metric-highlight {
+            color: #00C853;
+            font-weight: bold;
+        }
+        
+        .refresh-btn {
+            background: linear-gradient(45deg, #00C853, #4CAF50);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            margin: 20px auto;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+        
+        .refresh-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #ccc;
+        }
+        
+        .spinner {
+            border: 3px solid rgba(0, 200, 83, 0.3);
+            border-top: 3px solid #00C853;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="header">
+            <h1>📊 SAP Raw Dashboard</h1>
+            <p>Detailed Data Visualization & Analytics</p>
+        </div>
+        
+        <div class="charts-grid">
+            <div class="chart-container">
+                <h3 class="chart-title">📈 Prompt Usage Over Time</h3>
+                <div class="chart-wrapper">
+                    <canvas id="usageChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <h3 class="chart-title">⚡ Energy Consumption by Model</h3>
+                <div class="chart-wrapper">
+                    <canvas id="energyChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <h3 class="chart-title">🌱 CO₂ Emissions Trend</h3>
+                <div class="chart-wrapper">
+                    <canvas id="co2Chart"></canvas>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <h3 class="chart-title">🕐 Hourly Activity</h3>
+                <div class="chart-wrapper">
+                    <canvas id="hourlyChart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <div class="data-table">
+            <h3 class="table-title">📋 Recent Activity Log</h3>
+            <table id="activityTable">
+                <thead>
+                    <tr>
+                        <th>Timestamp</th>
+                        <th>Model</th>
+                        <th>Prompt Type</th>
+                        <th>Energy (kWh)</th>
+                        <th>CO₂ (g)</th>
+                        <th>User ID</th>
+                    </tr>
+                </thead>
+                <tbody id="activityTableBody">
+                    <tr>
+                        <td colspan="6" class="loading">
+                            <div class="spinner"></div>
+                            Loading activity data...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <button class="refresh-btn" onclick="refreshAllData()">🔄 Refresh All Data</button>
+    </div>
+
+    <script>
+        // Chart instances
+        let usageChart, energyChart, co2Chart, hourlyChart;
+        
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeCharts();
+            loadActivityData();
+            startRealTimeUpdates();
+        });
+        
+        // Initialize all charts
+        function initializeCharts() {
+            // Usage Chart
+            const usageCtx = document.getElementById('usageChart').getContext('2d');
+            usageChart = new Chart(usageCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    datasets: [{
+                        label: 'Prompts',
+                        data: [120, 190, 300, 500, 200, 300, 450],
+                        borderColor: '#00C853',
+                        backgroundColor: 'rgba(0, 200, 83, 0.1)',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: { color: '#fff' }
+                        }
+                    },
+                    scales: {
+                        x: { ticks: { color: '#ccc' }, grid: { color: 'rgba(255,255,255,0.1)' } },
+                        y: { ticks: { color: '#ccc' }, grid: { color: 'rgba(255,255,255,0.1)' } }
+                    }
+                }
+            });
+            
+            // Energy Chart
+            const energyCtx = document.getElementById('energyChart').getContext('2d');
+            energyChart = new Chart(energyCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['GPT-4', 'GPT-3.5', 'Claude', 'Local Models'],
+                    datasets: [{
+                        data: [40, 30, 20, 10],
+                        backgroundColor: ['#00C853', '#4CAF50', '#8BC34A', '#CDDC39']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: { color: '#fff' }
+                        }
+                    }
+                }
+            });
+            
+            // CO2 Chart
+            const co2Ctx = document.getElementById('co2Chart').getContext('2d');
+            co2Chart = new Chart(co2Ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'CO₂ Emissions (kg)',
+                        data: [12, 19, 3, 5, 2, 3],
+                        backgroundColor: 'rgba(0, 200, 83, 0.8)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: { color: '#fff' }
+                        }
+                    },
+                    scales: {
+                        x: { ticks: { color: '#ccc' }, grid: { color: 'rgba(255,255,255,0.1)' } },
+                        y: { ticks: { color: '#ccc' }, grid: { color: 'rgba(255,255,255,0.1)' } }
+                    }
+                }
+            });
+            
+            // Hourly Chart
+            const hourlyCtx = document.getElementById('hourlyChart').getContext('2d');
+            hourlyChart = new Chart(hourlyCtx, {
+                type: 'bar',
+                data: {
+                    labels: Array.from({length: 24}, (_, i) => `${i}:00`),
+                    datasets: [{
+                        label: 'Activity',
+                        data: Array.from({length: 24}, () => Math.floor(Math.random() * 100)),
+                        backgroundColor: 'rgba(0, 200, 83, 0.6)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: { color: '#fff' }
+                        }
+                    },
+                    scales: {
+                        x: { ticks: { color: '#ccc', maxTicksLimit: 12 }, grid: { color: 'rgba(255,255,255,0.1)' } },
+                        y: { ticks: { color: '#ccc' }, grid: { color: 'rgba(255,255,255,0.1)' } }
+                    }
+                }
+            });
+        }
+        
+        // Load activity data
+        async function loadActivityData() {
+            try {
+                // Mock data for now - replace with real API call
+                const mockData = [
+                    { timestamp: '2024-01-15 14:30:25', model: 'GPT-4', type: 'Text', energy: 0.0025, co2: 1.2, userId: 'user_123' },
+                    { timestamp: '2024-01-15 14:28:15', model: 'Claude-3', type: 'Code', energy: 0.0018, co2: 0.9, userId: 'user_456' },
+                    { timestamp: '2024-01-15 14:25:45', model: 'GPT-3.5', type: 'Image', energy: 0.05, co2: 25.0, userId: 'user_789' },
+                    { timestamp: '2024-01-15 14:22:30', model: 'Local-Llama', type: 'Text', energy: 0.0002, co2: 0.1, userId: 'user_321' },
+                    { timestamp: '2024-01-15 14:20:10', model: 'GPT-4', type: 'Audio', energy: 0.01, co2: 5.0, userId: 'user_654' }
+                ];
+                
+                const tbody = document.getElementById('activityTableBody');
+                tbody.innerHTML = '';
+                
+                mockData.forEach(row => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${row.timestamp}</td>
+                        <td>${row.model}</td>
+                        <td>${row.type}</td>
+                        <td class="metric-highlight">${row.energy.toFixed(4)}</td>
+                        <td class="metric-highlight">${row.co2.toFixed(1)}</td>
+                        <td>${row.userId}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+                
+            } catch (error) {
+                console.error('Error loading activity data:', error);
+                document.getElementById('activityTableBody').innerHTML = `
+                    <tr>
+                        <td colspan="6" style="text-align: center; color: #f44336;">
+                            Error loading data
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+        
+        // Start real-time updates
+        function startRealTimeUpdates() {
+            // Update charts every 30 seconds
+            setInterval(() => {
+                updateChartsWithNewData();
+            }, 30000);
+            
+            // Update activity table every 10 seconds
+            setInterval(() => {
+                loadActivityData();
+            }, 10000);
+        }
+        
+        // Update charts with new data
+        function updateChartsWithNewData() {
+            // Simulate new data
+            const newUsageData = usageChart.data.datasets[0].data.map(() => Math.floor(Math.random() * 500));
+            usageChart.data.datasets[0].data = newUsageData;
+            usageChart.update();
+            
+            const newHourlyData = hourlyChart.data.datasets[0].data.map(() => Math.floor(Math.random() * 100));
+            hourlyChart.data.datasets[0].data = newHourlyData;
+            hourlyChart.update();
+        }
+        
+        // Refresh all data
+        function refreshAllData() {
+            loadActivityData();
+            updateChartsWithNewData();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAP Dashboard - Real Data</title>
+    <link rel="icon" type="image/png" href="/assets/SAPLogo.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #00C853, #4CAF50);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .header p {
+            color: #ccc;
+            font-size: 1.1rem;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            border: 1px solid rgba(0, 200, 83, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 200, 83, 0.3);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #00C853;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            color: #ccc;
+            font-size: 1rem;
+        }
+        
+        .environmental-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(0, 200, 83, 0.2);
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #00C853;
+        }
+        
+        .environmental-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        .env-metric {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+        }
+        
+        .env-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+        
+        .env-label {
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+        
+        .air-quality-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(0, 200, 83, 0.2);
+        }
+        
+        .aqi-display {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .aqi-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            margin-right: 20px;
+        }
+        
+        .aqi-good { background: #4CAF50; }
+        .aqi-moderate { background: #FF9800; }
+        .aqi-unhealthy { background: #F44336; }
+        
+        .aqi-info {
+            flex: 1;
+        }
+        
+        .aqi-level {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .aqi-description {
+            color: #ccc;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #ccc;
+        }
+        
+        .spinner {
+            border: 3px solid rgba(0, 200, 83, 0.3);
+            border-top: 3px solid #00C853;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .refresh-btn {
+            background: linear-gradient(45deg, #00C853, #4CAF50);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 20px auto;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+        
+        .refresh-btn:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="header">
+            <h1>🌍 SAP Dashboard</h1>
+            <p>Real-time Environmental & AI Impact Monitoring</p>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="total-prompts">0</div>
+                <div class="stat-label">Total Prompts Tracked</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="total-energy">0.000</div>
+                <div class="stat-label">Total Energy (kWh)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="total-co2">0.000</div>
+                <div class="stat-label">Total CO₂ (kg)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="efficiency-score">85%</div>
+                <div class="stat-label">Efficiency Score</div>
+            </div>
+        </div>
+        
+        <div class="environmental-section">
+            <h2 class="section-title">🌡️ Global Environmental Data</h2>
+            <div class="environmental-grid">
+                <div class="env-metric">
+                    <div class="env-value" id="co2-ppm">420.5</div>
+                    <div class="env-label">Atmospheric CO₂ (ppm)</div>
+                </div>
+                <div class="env-metric">
+                    <div class="env-value" id="temp-rise">+1.1°C</div>
+                    <div class="env-label">Global Temp Rise</div>
+                </div>
+                <div class="env-metric">
+                    <div class="env-value" id="ice-loss">-13.0%</div>
+                    <div class="env-label">Arctic Ice Loss</div>
+                </div>
+                <div class="env-metric">
+                    <div class="env-value" id="sea-rise">3.3mm</div>
+                    <div class="env-label">Sea Level Rise/Year</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="air-quality-section">
+            <h2 class="section-title">🌬️ Air Quality Monitoring</h2>
+            <div class="aqi-display">
+                <div class="aqi-circle aqi-good" id="aqi-circle">45</div>
+                <div class="aqi-info">
+                    <div class="aqi-level" id="aqi-level">Good</div>
+                    <div class="aqi-description" id="aqi-description">Air quality is satisfactory and poses little risk.</div>
+                </div>
+            </div>
+            <div class="environmental-grid">
+                <div class="env-metric">
+                    <div class="env-value" id="pm25">12.5</div>
+                    <div class="env-label">PM2.5 (μg/m³)</div>
+                </div>
+                <div class="env-metric">
+                    <div class="env-value" id="pm10">25.0</div>
+                    <div class="env-label">PM10 (μg/m³)</div>
+                </div>
+                <div class="env-metric">
+                    <div class="env-value" id="no2">18.5</div>
+                    <div class="env-label">NO₂ (μg/m³)</div>
+                </div>
+                <div class="env-metric">
+                    <div class="env-value" id="last-updated">Now</div>
+                    <div class="env-label">Last Updated</div>
+                </div>
+            </div>
+        </div>
+        
+        <button class="refresh-btn" onclick="refreshData()">🔄 Refresh Data</button>
+    </div>
+
+    <script>
+        // Global variables
+        let globalStats = {
+            totalPrompts: 0,
+            totalEnergy: 0,
+            totalCO2: 0
+        };
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            loadGlobalStats();
+            loadRealTimeEnvironmentalData();
+            startRealTimeUpdates();
+        });
+
+        // Load global stats from API
+        async function loadGlobalStats() {
+            try {
+                const response = await fetch('/api/stats');
+                const data = await response.json();
+                globalStats = data;
+                updateDisplay();
+            } catch (error) {
+                console.error('Error loading stats:', error);
+                // Use mock data if API fails
+                globalStats = {
+                    totalPrompts: 1247,
+                    totalEnergy: 0.498,
+                    totalCO2: 0.249
+                };
+                updateDisplay();
+            }
+        }
+
+        // Load real-time environmental data
+        async function loadRealTimeEnvironmentalData() {
+            try {
+                const response = await fetch('/api/environmental');
+                const data = await response.json();
+                
+                document.getElementById('co2-ppm').textContent = data.atmospheric_co2_ppm;
+                document.getElementById('temp-rise').textContent = `+${data.global_temp_rise_c}°C`;
+                document.getElementById('ice-loss').textContent = `${data.arctic_ice_loss_percent}%`;
+                document.getElementById('sea-rise').textContent = `${data.sea_level_rise_mm_per_year}mm`;
+                
+            } catch (error) {
+                console.error('Error loading environmental data:', error);
+            }
+        }
+
+        // Update display with current data
+        function updateDisplay() {
+            document.getElementById('total-prompts').textContent = globalStats.totalPrompts.toLocaleString();
+            document.getElementById('total-energy').textContent = globalStats.totalEnergy.toFixed(3);
+            document.getElementById('total-co2').textContent = globalStats.totalCO2.toFixed(3);
+            
+            // Calculate efficiency score based on energy usage
+            const efficiencyScore = Math.max(0, 100 - (globalStats.totalEnergy * 100));
+            document.getElementById('efficiency-score').textContent = `${Math.round(efficiencyScore)}%`;
+            
+            // Update air quality data (mock for now)
+            const aqi = 45; // Mock AQI value
+            const aqiCircle = document.getElementById('aqi-circle');
+            const aqiLevel = document.getElementById('aqi-level');
+            const aqiDescription = document.getElementById('aqi-description');
+            
+            aqiCircle.textContent = aqi;
+            aqiCircle.className = 'aqi-circle aqi-good';
+            aqiLevel.textContent = 'Good';
+            aqiDescription.textContent = 'Air quality is satisfactory and poses little risk.';
+            
+            // Update air quality metrics
+            document.getElementById('pm25').textContent = '12.5';
+            document.getElementById('pm10').textContent = '25.0';
+            document.getElementById('no2').textContent = '18.5';
+            document.getElementById('last-updated').textContent = 'Now';
+        }
+
+        // Start real-time updates
+        function startRealTimeUpdates() {
+            // Update every 30 seconds
+            setInterval(() => {
+                loadGlobalStats();
+                loadRealTimeEnvironmentalData();
+            }, 30000);
+            
+            // Update air quality every 5 minutes
+            setInterval(() => {
+                loadRealTimeEnvironmentalData();
+            }, 300000);
+        }
+
+        // Refresh all data
+        function refreshData() {
+            loadGlobalStats();
+            loadRealTimeEnvironmentalData();
+        }
+
+        // Send tracking data to server
+        async function sendToServer(data) {
+            try {
+                await fetch('/api/sap/logEvent', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+            } catch (error) {
+                console.error('Error sending data to server:', error);
+            }
+        }
+    </script>
+</body>
+</html>

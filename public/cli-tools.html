@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAP CLI Tools - Command Line Integration</title>
+    <link rel="icon" type="image/png" href="/assets/SAPLogo.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #00C853, #4CAF50);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .header p {
+            color: #ccc;
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .tool-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid rgba(0, 200, 83, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 200, 83, 0.3);
+        }
+        
+        .tool-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .tool-title {
+            font-size: 1.5rem;
+            color: #00C853;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .tool-description {
+            color: #ccc;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .code-block {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #00C853;
+            overflow-x: auto;
+        }
+        
+        .code-block pre {
+            color: #fff;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+        
+        .install-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(0, 200, 83, 0.2);
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            color: #00C853;
+            text-align: center;
+        }
+        
+        .language-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            gap: 10px;
+        }
+        
+        .tab-button {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ccc;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .tab-button.active {
+            background: linear-gradient(45deg, #00C853, #4CAF50);
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .example-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(0, 200, 83, 0.2);
+        }
+        
+        .example-title {
+            font-size: 1.5rem;
+            color: #00C853;
+            margin-bottom: 20px;
+        }
+        
+        .example-description {
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+        
+        .copy-button {
+            background: linear-gradient(45deg, #00C853, #4CAF50);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            transition: transform 0.3s ease;
+        }
+        
+        .copy-button:hover {
+            transform: scale(1.05);
+        }
+        
+        .api-endpoints {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(0, 200, 83, 0.2);
+        }
+        
+        .endpoint-item {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #00C853;
+        }
+        
+        .endpoint-method {
+            display: inline-block;
+            background: #00C853;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .endpoint-url {
+            color: #4CAF50;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+        }
+        
+        .endpoint-description {
+            color: #ccc;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⚡ SAP CLI Tools</h1>
+            <p>Command Line Integration for AI Sustainability Tracking</p>
+        </div>
+        
+        <div class="tools-grid">
+            <div class="tool-card">
+                <div class="tool-icon">🐍</div>
+                <div class="tool-title">Python SDK</div>
+                <div class="tool-description">
+                    Integrate SAP tracking into your Python applications with our comprehensive SDK.
+                </div>
+                <div class="code-block">
+                    <pre>pip install sap-sdk</pre>
+                </div>
+            </div>
+            
+            <div class="tool-card">
+                <div class="tool-icon">📦</div>
+                <div class="tool-title">Node.js Package</div>
+                <div class="tool-description">
+                    Add SAP tracking to your Node.js applications with our npm package.
+                </div>
+                <div class="code-block">
+                    <pre>npm install @sap/sdk</pre>
+                </div>
+            </div>
+            
+            <div class="tool-card">
+                <div class="tool-icon">☕</div>
+                <div class="tool-title">Java Library</div>
+                <div class="tool-description">
+                    Integrate SAP tracking into your Java applications with our Maven dependency.
+                </div>
+                <div class="code-block">
+                    <pre>&lt;dependency&gt;
+  &lt;groupId&gt;com.sap&lt;/groupId&gt;
+  &lt;artifactId&gt;sap-sdk&lt;/artifactId&gt;
+&lt;/dependency&gt;</pre>
+                </div>
+            </div>
+            
+            <div class="tool-card">
+                <div class="tool-icon">🦀</div>
+                <div class="tool-title">Rust Crate</div>
+                <div class="tool-description">
+                    Add SAP tracking to your Rust applications with our Cargo crate.
+                </div>
+                <div class="code-block">
+                    <pre>[dependencies]
+sap-sdk = "0.1.0"</pre>
+                </div>
+            </div>
+            
+            <div class="tool-card">
+                <div class="tool-icon">🔧</div>
+                <div class="tool-title">CLI Tool</div>
+                <div class="tool-description">
+                    Command-line tool for tracking AI interactions and generating reports.
+                </div>
+                <div class="code-block">
+                    <pre>npm install -g @sap/cli</pre>
+                </div>
+            </div>
+            
+            <div class="tool-card">
+                <div class="tool-icon">🐳</div>
+                <div class="tool-title">Docker Image</div>
+                <div class="tool-description">
+                    Containerized SAP tracking service for easy deployment and scaling.
+                </div>
+                <div class="code-block">
+                    <pre>docker pull sap/tracker</pre>
+                </div>
+            </div>
+        </div>
+        
+        <div class="install-section">
+            <h2 class="section-title">Quick Start Guide</h2>
+            
+            <div class="language-tabs">
+                <button class="tab-button active" onclick="showTab('python')">Python</button>
+                <button class="tab-button" onclick="showTab('nodejs')">Node.js</button>
+                <button class="tab-button" onclick="showTab('curl')">cURL</button>
+                <button class="tab-button" onclick="showTab('bash')">Bash</button>
+            </div>
+            
+            <div id="python" class="tab-content active">
+                <div class="code-block">
+                    <pre># Install SAP SDK
+pip install sap-sdk
+
+# Basic usage
+from sap_sdk import SAPTracker
+
+tracker = SAPTracker(api_key="your_api_key")
+
+# Track an AI interaction
+tracker.track(
+    prompt="What is sustainable AI?",
+    model="gpt-4",
+    tokens=50,
+    energy_kwh=0.0025
+)
+
+# Get global stats
+stats = tracker.get_stats()
+print(f"Total prompts: {stats['total_prompts']}")</pre>
+                </div>
+            </div>
+            
+            <div id="nodejs" class="tab-content">
+                <div class="code-block">
+                    <pre>// Install SAP SDK
+npm install @sap/sdk
+
+// Basic usage
+const SAPTracker = require('@sap/sdk');
+
+const tracker = new SAPTracker({
+    apiKey: 'your_api_key'
+});
+
+// Track an AI interaction
+tracker.track({
+    prompt: 'What is sustainable AI?',
+    model: 'gpt-4',
+    tokens: 50,
+    energyKwh: 0.0025
+});
+
+// Get global stats
+tracker.getStats().then(stats => {
+    console.log(`Total prompts: ${stats.total_prompts}`);
+});</pre>
+                </div>
+            </div>
+            
+            <div id="curl" class="tab-content">
+                <div class="code-block">
+                    <pre># Track an AI interaction
+curl -X POST https://sustainableaiprotocol.com/api/track \
+  -H "Content-Type: application/json" \
+  -d '{
+    "prompt": "What is sustainable AI?",
+    "model": "gpt-4",
+    "tokens": 50,
+    "energy": 0.0025,
+    "co2": 0.0012,
+    "userId": "user_123"
+  }'
+
+# Get global stats
+curl https://sustainableaiprotocol.com/api/stats</pre>
+                </div>
+            </div>
+            
+            <div id="bash" class="tab-content">
+                <div class="code-block">
+                    <pre>#!/bin/bash
+
+# SAP tracking function
+track_sap() {
+    local prompt="$1"
+    local model="$2"
+    local tokens="$3"
+    
+    curl -X POST https://sustainableaiprotocol.com/api/track \
+      -H "Content-Type: application/json" \
+      -d "{
+        \"prompt\": \"$prompt\",
+        \"model\": \"$model\",
+        \"tokens\": $tokens,
+        \"energy\": $(echo "$tokens * 0.001" | bc),
+        \"userId\": \"$(whoami)\"
+      }"
+}
+
+# Usage
+track_sap "What is sustainable AI?" "gpt-4" 50</pre>
+                </div>
+            </div>
+        </div>
+        
+        <div class="example-section">
+            <h3 class="example-title">Real-world Examples</h3>
+            <div class="example-description">
+                Here are some practical examples of how to integrate SAP tracking into your applications:
+            </div>
+            
+            <div class="code-block">
+                <pre># Example 1: Track OpenAI API calls
+import openai
+from sap_sdk import SAPTracker
+
+tracker = SAPTracker(api_key="your_sap_key")
+
+def chat_with_tracking(prompt):
+    response = openai.ChatCompletion.create(
+        model="gpt-4",
+        messages=[{"role": "user", "content": prompt}]
+    )
+    
+    # Track the interaction
+    tracker.track(
+        prompt=prompt,
+        model="gpt-4",
+        tokens=response.usage.total_tokens,
+        energy_kwh=response.usage.total_tokens * 0.001
+    )
+    
+    return response.choices[0].message.content</pre>
+                <button class="copy-button" onclick="copyCode(this)">Copy Code</button>
+            </div>
+            
+            <div class="code-block">
+                <pre># Example 2: Batch tracking
+import pandas as pd
+from sap_sdk import SAPTracker
+
+tracker = SAPTracker(api_key="your_sap_key")
+
+# Load your AI interaction data
+df = pd.read_csv('ai_interactions.csv')
+
+# Track all interactions
+for _, row in df.iterrows():
+    tracker.track(
+        prompt=row['prompt'],
+        model=row['model'],
+        tokens=row['tokens'],
+        energy_kwh=row['energy_kwh']
+    )</pre>
+                <button class="copy-button" onclick="copyCode(this)">Copy Code</button>
+            </div>
+        </div>
+        
+        <div class="api-endpoints">
+            <h2 class="section-title">API Endpoints</h2>
+            
+            <div class="endpoint-item">
+                <span class="endpoint-method">POST</span>
+                <span class="endpoint-url">/api/track</span>
+                <div class="endpoint-description">
+                    Track an AI interaction with energy and CO₂ calculations.
+                </div>
+            </div>
+            
+            <div class="endpoint-item">
+                <span class="endpoint-method">GET</span>
+                <span class="endpoint-url">/api/stats</span>
+                <div class="endpoint-description">
+                    Get global sustainability statistics and metrics.
+                </div>
+            </div>
+            
+            <div class="endpoint-item">
+                <span class="endpoint-method">POST</span>
+                <span class="endpoint-url">/api/optimize</span>
+                <div class="endpoint-description">
+                    Optimize prompts for maximum sustainability and efficiency.
+                </div>
+            </div>
+            
+            <div class="endpoint-item">
+                <span class="endpoint-method">GET</span>
+                <span class="endpoint-url">/api/alternatives</span>
+                <div class="endpoint-description">
+                    Get green AI alternatives for your current model.
+                </div>
+            </div>
+            
+            <div class="endpoint-item">
+                <span class="endpoint-method">GET</span>
+                <span class="endpoint-url">/api/environmental</span>
+                <div class="endpoint-description">
+                    Get real-time environmental data and air quality metrics.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching functionality
+        function showTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all buttons
+            const tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+        
+        // Copy code functionality
+        function copyCode(button) {
+            const codeBlock = button.previousElementSibling;
+            const code = codeBlock.textContent;
+            
+            navigator.clipboard.writeText(code).then(() => {
+                button.textContent = 'Copied!';
+                setTimeout(() => {
+                    button.textContent = 'Copy Code';
+                }, 2000);
+            });
+        }
+        
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('SAP CLI Tools page loaded');
+        });
+    </script>
+</body>
+</html>
