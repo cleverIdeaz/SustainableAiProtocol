@@ -3484,40 +3484,48 @@
         }
 
         .timeline {
-            background: #f8f9fa;
-            border-radius: 8px;
-            padding: 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(0, 200, 83, 0.2);
         }
 
         .timeline-item {
             display: flex;
-            gap: 16px;
-            padding: 12px 0;
-            border-bottom: 1px solid #e5e7eb;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border-left: 4px solid #00C853;
         }
 
         .timeline-item:last-child {
-            border-bottom: none;
+            margin-bottom: 0;
         }
 
         .timeline-time {
-            font-size: 12px;
-            color: #666;
-            min-width: 60px;
+            font-size: 0.9rem;
+            color: #ccc;
+            min-width: 80px;
         }
 
         .timeline-content {
             flex: 1;
+            margin: 0 15px;
         }
 
         .timeline-title {
-            font-weight: 600;
+            font-weight: 500;
             margin-bottom: 4px;
+            color: #fff;
         }
 
         .timeline-impact {
-            font-size: 12px;
-            color: #666;
+            font-size: 0.9rem;
+            color: #00C853;
+            font-weight: 600;
         }
 
         @media (prefers-color-scheme: dark) {
@@ -3895,29 +3903,28 @@
         }
 
         .count-button {
-            background: linear-gradient(135deg, #00C853, #00A041);
+            background: linear-gradient(45deg, #00C853, #4CAF50);
             color: white;
             border: none;
-            padding: 16px 32px;
-            border-radius: 8px;
-            font-size: 18px;
-            font-weight: 600;
+            padding: 20px 40px;
+            border-radius: 25px;
+            font-size: 1.2rem;
+            font-weight: bold;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: transform 0.3s ease;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
         }
 
         .count-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 200, 83, 0.4);
+            transform: scale(1.05);
         }
 
         .count-subtext {
-            margin-top: 12px;
-            color: #666;
-            font-size: 14px;
+            margin-top: 15px;
+            color: #ccc;
+            font-size: 0.9rem;
         }
 
         .cta-section {
@@ -3926,21 +3933,20 @@
         }
 
         .dashboard-cta {
-            background: linear-gradient(135deg, #00C853, #00A041);
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(45deg, #00C853, #4CAF50);
             color: white;
             border: none;
-            padding: 16px 32px;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 200, 83, 0.3);
+            transition: transform 0.3s ease;
         }
 
         .dashboard-cta:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 200, 83, 0.4);
+            transform: scale(1.05);
         }
 
         .cta-icon {
@@ -3948,9 +3954,9 @@
         }
 
         .cta-subtext {
-            font-size: 12px;
-            color: #9ca3af;
-            margin-top: 8px;
+            font-size: 0.9rem;
+            color: #ccc;
+            margin-top: 12px;
             font-style: italic;
         }
 
