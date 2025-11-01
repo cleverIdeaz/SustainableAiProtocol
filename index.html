@@ -1081,6 +1081,34 @@
             }
         }
 
+        .section-title {
+            text-align: center;
+            font-size: 36px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #1a1a1a;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .section-title {
+                color: #ffffff;
+            }
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 40px;
+            font-weight: 400;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .section-subtitle {
+                color: #9ca3af;
+            }
+        }
+
         .dev-content {
             max-width: 1000px;
             margin: 0 auto;
@@ -1346,6 +1374,420 @@
             .send-btn {
                 font-size: 14px;
             }
+        }
+
+        /* Dashboard Modal */
+        .dashboard-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(4px);
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            padding: 20px;
+        }
+
+        .dashboard-overlay.active {
+            opacity: 1;
+            visibility: visible;
+            display: flex;
+        }
+
+        .dashboard-popup {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 95%;
+            width: 95%;
+            max-height: 95vh;
+            height: 95vh;
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(0, 200, 83, 0.3);
+        }
+
+        .dashboard-overlay.active .dashboard-popup {
+            transform: scale(1);
+        }
+
+        .dashboard-header {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(0, 200, 83, 0.2);
+        }
+
+        .dashboard-title-section {
+            flex: 1;
+        }
+
+        .dashboard-title {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin: 0 0 10px 0;
+            background: linear-gradient(45deg, #00C853, #4CAF50);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .dashboard-subtitle {
+            font-size: 1.1rem;
+            color: #ccc;
+            margin: 0;
+            font-weight: 400;
+        }
+
+        .dashboard-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #fff;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            line-height: 1;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .dashboard-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        .dashboard-content {
+            padding: 0;
+        }
+
+        .stats-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .stats-comparison {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .stats-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(0, 200, 83, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stats-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 200, 83, 0.3);
+        }
+
+        .stats-card.global {
+            border-color: rgba(0, 200, 83, 0.3);
+        }
+
+        .stats-card.personal {
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .stats-card h3 {
+            margin: 0 0 20px 0;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #00C853;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: #00C853;
+        }
+
+        .stats-card.personal .stat-value {
+            color: #3b82f6;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #ccc;
+            margin-bottom: 16px;
+        }
+
+        .stat-details {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+        }
+
+        .detail-label {
+            color: #ccc;
+        }
+
+        .detail-value {
+            font-weight: 600;
+            color: #00C853;
+        }
+
+        .chart-section, .hourly-section, .timeline-section, .environmental-section, .climate-action-section, .count-section {
+            margin-bottom: 30px;
+        }
+
+        .chart-section h3, .hourly-section h3, .timeline-section h3, .environmental-section h3, .climate-action-section h3 {
+            margin: 0 0 20px 0;
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #00C853;
+            text-align: center;
+        }
+
+        .dashboard-content {
+            color: #fff;
+        }
+
+        .env-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .env-metric {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            border-left: 4px solid #00C853;
+        }
+
+        .env-label {
+            font-size: 0.9rem;
+            color: #ccc;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .env-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .action-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid rgba(0, 200, 83, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .action-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 200, 83, 0.3);
+        }
+
+        .action-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+
+        .action-desc {
+            font-size: 0.85rem;
+            color: #ccc;
+            margin-bottom: 12px;
+        }
+
+        .action-btn {
+            background: linear-gradient(45deg, #00C853, #4CAF50);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            width: 100%;
+        }
+
+        .action-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .chart-container, .hourly-chart {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(0, 200, 83, 0.2);
+            margin-bottom: 12px;
+        }
+
+        .chart-legend {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+        }
+
+        .legend-color.global {
+            background: #00C853;
+        }
+
+        .legend-color.personal {
+            background: #3b82f6;
+        }
+
+        .timeline {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(0, 200, 83, 0.2);
+        }
+
+        .timeline-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border-left: 4px solid #00C853;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-time {
+            font-size: 0.9rem;
+            color: #ccc;
+            min-width: 80px;
+        }
+
+        .timeline-content {
+            flex: 1;
+            margin: 0 15px;
+        }
+
+        .timeline-title {
+            font-weight: 500;
+            margin-bottom: 4px;
+            color: #fff;
+        }
+
+        .timeline-impact {
+            font-size: 0.9rem;
+            color: #00C853;
+            font-weight: 600;
+        }
+
+        .count-section {
+            text-align: center;
+        }
+
+        .count-button {
+            background: linear-gradient(45deg, #00C853, #4CAF50);
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            border-radius: 25px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .count-button:hover {
+            transform: scale(1.05);
+        }
+
+        .count-subtext {
+            font-size: 0.9rem;
+            color: #ccc;
+            margin-top: 15px;
+        }
+
+        .dashboard-cta {
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(45deg, #00C853, #4CAF50);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .dashboard-cta:hover {
+            transform: scale(1.05);
+        }
+
+        .cta-subtext {
+            font-size: 0.9rem;
+            color: #ccc;
+            margin-top: 12px;
+            font-style: italic;
         }
     </style>
 </head>
@@ -1637,149 +2079,48 @@
             <div class="dev-content">
                 <div class="code-block">
                     <div class="code-header">
-                        <span class="code-title">SAP Button Component</span>
-                        <button class="copy-btn" onclick="copyCode('sap-button-code')">
+                        <span class="code-title">SAP Dashboard Embed - One Line</span>
+                        <button class="copy-btn" onclick="copyCode('sap-dashboard-embed-code')">
                             <i class="fa-solid fa-copy"></i>
                             Copy Code
                         </button>
                     </div>
-                    <pre class="code-content" id="sap-button-code"><code>&lt;!-- SAP Button with SVG Image and Theme Support --&gt;
-&lt;button class="sap-button" 
-        data-theme="dark" 
-        onclick="trackSAPInteraction()" 
-        onmousedown="startSpinAnimation()" 
-        onmouseup="stopSpinAnimation()"&gt;
-  &lt;svg viewBox="0 0 120 120" class="sap-svg"&gt;
-    &lt;circle cx="60" cy="60" r="55" fill="none" stroke="currentColor" stroke-width="4"/&gt;
-    &lt;circle cx="60" cy="60" r="45" fill="rgba(0, 200, 83, 0.1)"/&gt;
-    &lt;text x="60" y="70" text-anchor="middle" class="sap-counter"&gt;0&lt;/text&gt;
-  &lt;/svg&gt;
-&lt;/button&gt;
+                    <pre class="code-content" id="sap-dashboard-embed-code"><code>&lt;!-- SAP Dashboard Embed - Gets live data, loggable when ready --&gt;
+&lt;script src="https://sustainableaiprotocol.com/sap-dashboard-embed.js"&gt;&lt;/script&gt;
 
-&lt;style&gt;
-.sap-button {
-  width: 60px;
-  height: 60px;
-  border: none;
-  background: none;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-  color: #00C853;
-}
-.sap-button:hover { transform: scale(1.1); }
-.sap-button.spinning .sap-svg { animation: sap-spin 2s linear infinite; }
-@keyframes sap-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-&lt;/style&gt;</code></pre>
+&lt;!-- Usage: Call SAP.openDashboard() or openSAPDashboard() to open --&gt;
+&lt;button onclick="openSAPDashboard()"&gt;View SAP Dashboard&lt;/button&gt;</code></pre>
                 </div>
 
                 <div class="code-block">
                     <div class="code-header">
-                        <span class="code-title">MCP Telemetry Integration</span>
-                        <button class="copy-btn" onclick="copyCode('mcp-telemetry-code')">
+                        <span class="code-title">SAP Button Embed - Auto-Hooks Send Buttons</span>
+                        <button class="copy-btn" onclick="copyCode('sap-button-embed-code')">
                             <i class="fa-solid fa-copy"></i>
                             Copy Code
                         </button>
                     </div>
-                    <pre class="code-content" id="mcp-telemetry-code"><code>// MCP Telemetry for Real Data Center Callbacks
-async function trackSAPInteraction(promptData = {}) {
-  // Increment local counter
-  const count = parseInt(localStorage.getItem('sap_counter') || '0') + 1;
-  localStorage.setItem('sap_counter', count);
-  document.querySelector('.sap-counter').textContent = count;
-  
-  // Prepare telemetry packet
-  const telemetryPacket = {
-    model: promptData.model || 'unknown',
-    tokens_input: promptData.tokens_input || 0,
-    tokens_output: promptData.tokens_output || 0,
-    request_type: promptData.type || 'text',
-    user_id: localStorage.getItem('sap_user_id') || 'anonymous',
-    timestamp: new Date().toISOString(),
+                    <pre class="code-content" id="sap-button-embed-code"><code>&lt;!-- SAP Button Embed - Rotation animation, auto-hooks to send buttons --&gt;
+&lt;script src="https://sustainableaiprotocol.com/sap-button-embed.js"&gt;&lt;/script&gt;
+
+&lt;!-- Button automatically appears, rotates on prompt sends --&gt;
+&lt;!-- Auto-hooks to: button[type="submit"], .send-button, etc. --&gt;
+
+&lt;!-- Custom Telemetry (optional) --&gt;
+&lt;script&gt;
+  // Track custom telemetry
+  SAP.trackTelemetry({
+    model: 'gpt-4',
+    type: 'text',           // text, image, audio, video
+    tokens_input: 100,
+    tokens_output: 200,
+    char_count: 1200,
+    prompt: 'Your prompt text',
     metadata: {
-      prompt_length: promptData.prompt?.length || 0,
-      estimated_kwh: calculateEnergyEstimate(promptData),
-      estimated_gco2: calculateCO2Estimate(promptData),
-      data_center_region: await getDataCenterRegion(),
-      environmental_context: await getEnvironmentalContext()
+      // Custom metadata
     }
-  };
-  
-  // Send to SAP MCP Server
-  try {
-    const response = await fetch('/api/sap/logEvent', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(telemetryPacket)
-    });
-    
-    if (response.ok) {
-      console.log('🌍 SAP telemetry logged:', telemetryPacket);
-      updateGlobalTicker();
-    }
-  } catch (error) {
-    console.error('SAP telemetry error:', error);
-  }
-}
-
-// Energy estimation based on model and prompt type
-function calculateEnergyEstimate(data) {
-  const ENERGY_PER_TOKEN = {
-    'gpt-4': 0.0025 / 1000,
-    'gpt-3.5-turbo': 0.001 / 1000,
-    'claude-3-opus': 0.002 / 1000,
-    'local-llama': 0.0002 / 1000
-  };
-  
-  if (data.request_type === 'text' && data.tokens_input) {
-    return (data.tokens_input + (data.tokens_output || 0)) * 
-           (ENERGY_PER_TOKEN[data.model] || ENERGY_PER_TOKEN['gpt-3.5-turbo']);
-  }
-  
-  return 0.0004; // Default kWh for text prompts
-}
-
-// CO₂ estimation based on energy and regional grid intensity
-function calculateCO2Estimate(data) {
-  const energy = data.estimated_kwh || calculateEnergyEstimate(data);
-  const GLOBAL_AVG_GCO2_PER_KWH = 475; // gCO₂/kWh
-  return energy * GLOBAL_AVG_GCO2_PER_KWH;
-}
-
-// Get current data center region (simulated until real telemetry)
-async function getDataCenterRegion() {
-  try {
-    const response = await fetch('/api/environmental');
-    const data = await response.json();
-    return data.data_center_region || 'us-east-1';
-  } catch {
-    return 'us-east-1'; // Default region
-  }
-}
-
-// Get real-time environmental context
-async function getEnvironmentalContext() {
-  try {
-    const response = await fetch('/api/environmental');
-    return await response.json();
-  } catch {
-    return {
-      atmospheric_co2_ppm: 420.5,
-      global_temp_rise_c: 1.1,
-      aqi: 45
-    };
-  }
-}
-
-// Spin animation functions
-function startSpinAnimation() {
-  document.querySelector('.sap-button').classList.add('spinning');
-}
-
-function stopSpinAnimation() {
-  setTimeout(() => {
-    document.querySelector('.sap-button').classList.remove('spinning');
-  }, 2000);
-}</code></pre>
+  });
+&lt;/script&gt;</code></pre>
                 </div>
                 
                 <div class="dev-features">
@@ -1848,6 +2189,164 @@ function stopSpinAnimation() {
         </div>
     </footer>
 
+    <!-- Dashboard Modal -->
+    <div class="dashboard-overlay" id="dashboard-overlay">
+        <div class="dashboard-popup">
+            <div class="dashboard-header">
+                <div class="dashboard-title-section">
+                    <h2 class="dashboard-title">🌍 Environmental Command Center</h2>
+                    <p class="dashboard-subtitle">Real-time AI impact • Environmental correlations • Climate action</p>
+                </div>
+                <button class="dashboard-close" onclick="closeDashboard()">&times;</button>
+            </div>
+            
+            <div class="dashboard-content">
+                <!-- Global vs Personal Stats -->
+                <div class="stats-comparison">
+                    <div class="stats-card global">
+                        <h3>🌍 Global Usage</h3>
+                        <div class="stat-value" id="dashboard-global-count">0</div>
+                        <div class="stat-label">Total AI Interactions</div>
+                        <div class="stat-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Energy:</span>
+                                <span class="detail-value" id="dashboard-global-energy">0 kWh</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">CO₂:</span>
+                                <span class="detail-value" id="dashboard-global-co2">0g</span>
+                            </div>
+                        </div>
+                    </div>
+                        
+                    <div class="stats-card personal">
+                        <h3>👤 Your Usage</h3>
+                        <div class="stat-value" id="dashboard-personal-count">0</div>
+                        <div class="stat-label">Your AI Interactions</div>
+                        <div class="stat-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Energy:</span>
+                                <span class="detail-value" id="dashboard-personal-energy">0 kWh</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">CO₂:</span>
+                                <span class="detail-value" id="dashboard-personal-co2">0g</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Environmental Correlations -->
+                <div class="environmental-section">
+                    <h3>🌡️ Environmental Impact</h3>
+                    <div class="env-metrics">
+                        <div class="env-metric">
+                            <div class="env-label">Ozone Impact</div>
+                            <div class="env-value" id="dashboard-ozone-impact">+0.003 ppm</div>
+                        </div>
+                        <div class="env-metric">
+                            <div class="env-label">Greenhouse Gas</div>
+                            <div class="env-value" id="dashboard-ghg-impact">+2.9g CO₂e</div>
+                        </div>
+                        <div class="env-metric">
+                            <div class="env-label">Water Usage</div>
+                            <div class="env-value" id="dashboard-water-usage">12L</div>
+                        </div>
+                        <div class="env-metric">
+                            <div class="env-label">Environmental Score</div>
+                            <div class="env-value" id="dashboard-env-score">7.2/10</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Daily Usage Chart -->
+                <div class="chart-section">
+                    <h3>📊 Daily Usage (Last 7 Days)</h3>
+                    <div class="chart-container">
+                        <canvas id="dashboard-usage-chart" width="400" height="200"></canvas>
+                    </div>
+                    <div class="chart-legend">
+                        <div class="legend-item">
+                            <div class="legend-color global"></div>
+                            <span>Global Usage</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color personal"></div>
+                            <span>Your Usage</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hourly Breakdown -->
+                <div class="hourly-section">
+                    <h3>⏰ Today's Activity by Hour</h3>
+                    <div class="hourly-chart">
+                        <canvas id="dashboard-hourly-chart" width="400" height="150"></canvas>
+                    </div>
+                </div>
+
+                <!-- Recent Activity Timeline -->
+                <div class="timeline-section">
+                    <h3>📝 Recent Activity</h3>
+                    <div class="timeline" id="dashboard-activity-timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-time">Just now</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">AI Chat Response</div>
+                                <div class="timeline-impact">+0.0004 kWh, +0.2g CO₂</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Count Button -->
+                <div class="count-section">
+                    <button class="count-button" onclick="incrementPersonalCounter(); loadDashboardData();">
+                        <span class="count-icon">📊</span>
+                        Count This Interaction
+                    </button>
+                    <p class="count-subtext">Track your personal AI usage and contribute to global metrics</p>
+                </div>
+
+                <!-- Climate Action Center -->
+                <div class="climate-action-section">
+                    <h3>🌱 Take Climate Action</h3>
+                    <div class="action-grid">
+                        <div class="action-item">
+                            <div class="action-title">💰 Offset CO₂</div>
+                            <div class="action-desc">50g CO₂ for $0.08</div>
+                            <button class="action-btn" onclick="offsetCO2()">Offset Now</button>
+                        </div>
+                        <div class="action-item">
+                            <div class="action-title">🌳 Plant Tree</div>
+                            <div class="action-desc">$2.50 per tree</div>
+                            <button class="action-btn" onclick="plantTree()">Plant Now</button>
+                        </div>
+                        <div class="action-item">
+                            <div class="action-title">🔋 Solar Fund</div>
+                            <div class="action-desc">$5.00 contribution</div>
+                            <button class="action-btn" onclick="fundSolar()">Fund Now</button>
+                        </div>
+                        <div class="action-item">
+                            <div class="action-title">🌊 Ocean Cleanup</div>
+                            <div class="action-desc">$10.00 contribution</div>
+                            <button class="action-btn" onclick="cleanOcean()">Clean Now</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Call to Action -->
+                <div class="cta-section">
+                    <button class="dashboard-cta" onclick="joinSAP('lifetime-beta')">
+                        <span class="cta-icon">🚀</span>
+                        Get $2.50 Beta Access (50% OFF)
+                    </button>
+                    <p class="cta-subtext">Join the environmental force multiplier • Global counter + personal cache</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Configuration
         const API_BASE_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://localhost:3001' : 'https://sustainableaiprotocol.com';
@@ -1907,9 +2406,171 @@ function stopSpinAnimation() {
             }
         }
 
+        // Dashboard charts
+        let usageChart = null;
+        let hourlyChart = null;
+
         // Open dashboard popup
         function openDashboard() {
-            alert('Dashboard popup will open here - this will be the embeddable widget with real-time environmental data');
+            const overlay = document.getElementById('dashboard-overlay');
+            if (overlay) {
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                loadDashboardData();
+                initializeCharts();
+            } else {
+                // Fallback: open in new window
+                window.open('/dashboard.html', 'SAP Dashboard', 'width=800,height=800,resizable=yes,scrollbars=yes');
+            }
+        }
+
+        // Close dashboard
+        function closeDashboard() {
+            const overlay = document.getElementById('dashboard-overlay');
+            if (overlay) {
+                overlay.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Close dashboard when clicking overlay
+        document.addEventListener('click', function(e) {
+            if (e.target && e.target.classList.contains('dashboard-overlay')) {
+                closeDashboard();
+            }
+        });
+
+        // Load dashboard data
+        async function loadDashboardData() {
+            try {
+                // Load global stats
+                const response = await fetch(`${API_BASE_URL}/api/stats`);
+                if (response.ok) {
+                    const data = await response.json();
+                    updateGlobalStats(data);
+                }
+
+                // Load personal stats
+                updatePersonalStats();
+            } catch (error) {
+                console.log('Error loading dashboard data:', error);
+                updatePersonalStats();
+            }
+        }
+
+        // Update global stats
+        function updateGlobalStats(data) {
+            const countEl = document.getElementById('dashboard-global-count');
+            const energyEl = document.getElementById('dashboard-global-energy');
+            const co2El = document.getElementById('dashboard-global-co2');
+            
+            if (countEl) countEl.textContent = data.total_count || 0;
+            if (energyEl) energyEl.textContent = (data.total_kwh || 0).toFixed(3) + ' kWh';
+            if (co2El) co2El.textContent = (data.total_co2 || 0).toFixed(1) + 'g';
+        }
+
+        // Update personal stats
+        function updatePersonalStats() {
+            const personalCount = getPersonalCounter();
+            const personalEnergy = personalCount * 0.0004; // Estimate
+            const personalCO2 = personalEnergy * 475; // gCO2/kWh
+
+            const countEl = document.getElementById('dashboard-personal-count');
+            const energyEl = document.getElementById('dashboard-personal-energy');
+            const co2El = document.getElementById('dashboard-personal-co2');
+            
+            if (countEl) countEl.textContent = personalCount;
+            if (energyEl) energyEl.textContent = personalEnergy.toFixed(4) + ' kWh';
+            if (co2El) co2El.textContent = personalCO2.toFixed(1) + 'g';
+        }
+
+        // Initialize charts
+        function initializeCharts() {
+            // Daily Usage Chart
+            const usageCtx = document.getElementById('dashboard-usage-chart');
+            if (usageCtx && !usageChart && typeof Chart !== 'undefined') {
+                usageChart = new Chart(usageCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                        datasets: [{
+                            label: 'Global Usage',
+                            data: [12, 20, 14, 18, 22, 16, 10],
+                            borderColor: '#00C853',
+                            backgroundColor: 'rgba(0, 200, 83, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        }, {
+                            label: 'Your Usage',
+                            data: [2, 3, 2, 4, 3, 2, 1],
+                            borderColor: '#3b82f6',
+                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Hourly Chart
+            const hourlyCtx = document.getElementById('dashboard-hourly-chart');
+            if (hourlyCtx && !hourlyChart && typeof Chart !== 'undefined') {
+                hourlyChart = new Chart(hourlyCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['8AM', '10AM', '12PM', '2PM', '4PM', '6PM', '8PM'],
+                        datasets: [{
+                            label: 'Activity',
+                            data: [2, 5, 8, 6, 4, 3, 2],
+                            backgroundColor: '#00C853',
+                            borderRadius: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        // Climate action functions
+        function offsetCO2() {
+            alert('🌱 CO₂ Offset: $0.08 for 50g CO₂\n\nThis will be implemented with real climate project funding in Phase 2!');
+        }
+
+        function plantTree() {
+            alert('🌳 Plant a Tree: $2.50\n\nThis will be implemented with real tree planting programs in Phase 2!');
+        }
+
+        function fundSolar() {
+            alert('🔋 Solar Fund: $5.00\n\nThis will be implemented with real solar energy projects in Phase 2!');
+        }
+
+        function cleanOcean() {
+            alert('🌊 Ocean Cleanup: $10.00\n\nThis will be implemented with real ocean cleanup initiatives in Phase 2!');
+        }
+
+        // Increment personal counter
+        function incrementPersonalCounter() {
+            const count = getPersonalCounter() + 1;
+            setPersonalCounter(count);
+            updatePersonalStats();
+            updateCounterDisplay();
         }
 
         // Simulate prompt tracking
@@ -2044,4 +2705,8 @@ function stopSpinAnimation() {
         }
     </script>
 </body>
+</html>
+</html>
+</html>
+</html>
 </html>

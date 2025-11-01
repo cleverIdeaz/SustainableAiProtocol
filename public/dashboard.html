@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌍 SAP Environmental Command Center</title>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background: #ffffff;
+            padding: 20px;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            body {
+                color: #ffffff;
+                background: #0a0a0a;
+            }
+        }
+
+        .dashboard-popup {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .dashboard-popup {
+                background: #1a1a1a;
+                border: 1px solid #333;
+            }
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+
+        .dashboard-title-section {
+            flex: 1;
+        }
+
+        .dashboard-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin: 0;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .dashboard-title {
+                color: #ffffff;
+            }
+        }
+
+        .dashboard-subtitle {
+            font-size: 14px;
+            color: #9aa9b8;
+            margin: 4px 0 0 0;
+            font-weight: 400;
+        }
+
+        .dashboard-content {
+            padding: 0;
+        }
+
+        .stats-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .stats-comparison {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .stats-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            border: 2px solid #e5e7eb;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .stats-card {
+                background: #1a1a1a;
+                border-color: #374151;
+            }
+        }
+
+        .stats-card.global {
+            border-color: #00C853;
+        }
+
+        .stats-card.personal {
+            border-color: #3b82f6;
+        }
+
+        .stats-card h3 {
+            margin: 0 0 12px 0;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .stat-value {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .stats-card.global .stat-value {
+            color: #00C853;
+        }
+
+        .stats-card.personal .stat-value {
+            color: #3b82f6;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 16px;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .stat-label {
+                color: #cccccc;
+            }
+        }
+
+        .stat-details {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+        }
+
+        .detail-label {
+            color: #666;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .detail-label {
+                color: #cccccc;
+            }
+        }
+
+        .detail-value {
+            font-weight: 600;
+        }
+
+        .chart-section, .hourly-section, .timeline-section, .environmental-section, .climate-action-section, .count-section {
+            margin-bottom: 30px;
+        }
+
+        .chart-section h3, .hourly-section h3, .timeline-section h3, .environmental-section h3, .climate-action-section h3 {
+            margin: 0 0 16px 0;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        /* Environmental Metrics */
+        .env-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .env-metric {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+            border: 1px solid #e9ecef;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .env-metric {
+                background: #1a1a1a;
+                border-color: #374151;
+            }
+        }
+
+        .env-label {
+            font-size: 12px;
+            color: #6c757d;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .env-label {
+                color: #9ca3af;
+            }
+        }
+
+        .env-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: #00C853;
+        }
+
+        /* Climate Action Grid */
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .action-item {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+            border: 1px solid #e9ecef;
+            transition: all 0.2s ease;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .action-item {
+                background: #1a1a1a;
+                border-color: #374151;
+            }
+        }
+
+        .action-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 200, 83, 0.15);
+        }
+
+        .action-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: #1a1a1a;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .action-title {
+                color: #ffffff;
+            }
+        }
+
+        .action-desc {
+            font-size: 12px;
+            color: #6c757d;
+            margin-bottom: 12px;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .action-desc {
+                color: #9ca3af;
+            }
+        }
+
+        .action-btn {
+            background: #00C853;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+        }
+
+        .action-btn:hover {
+            background: #00A041;
+            transform: translateY(-1px);
+        }
+
+        .chart-container, .hourly-chart {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .chart-container, .hourly-chart {
+                background: #1a1a1a;
+            }
+        }
+
+        .chart-legend {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+        }
+
+        .legend-color.global {
+            background: #00C853;
+        }
+
+        .legend-color.personal {
+            background: #3b82f6;
+        }
+
+        .timeline {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 16px;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .timeline {
+                background: #1a1a1a;
+            }
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 16px;
+            padding: 12px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .timeline-item {
+                border-bottom-color: #374151;
+            }
+        }
+
+        .timeline-item:last-child {
+            border-bottom: none;
+        }
+
+        .timeline-time {
+            font-size: 12px;
+            color: #666;
+            min-width: 60px;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .timeline-time {
+                color: #cccccc;
+            }
+        }
+
+        .timeline-content {
+            flex: 1;
+        }
+
+        .timeline-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .timeline-impact {
+            font-size: 12px;
+            color: #666;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .timeline-impact {
+                color: #cccccc;
+            }
+        }
+
+        .count-section {
+            text-align: center;
+        }
+
+        .count-button {
+            background: #00C853;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .count-button:hover {
+            background: #00A041;
+            transform: translateY(-1px);
+        }
+
+        .count-subtext {
+            font-size: 12px;
+            color: #666;
+            margin-top: 8px;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .count-subtext {
+                color: #9ca3af;
+            }
+        }
+
+        .cta-section {
+            text-align: center;
+            margin-top: 32px;
+        }
+
+        .dashboard-cta {
+            width: 100%;
+            padding: 16px;
+            background: #00C853;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .dashboard-cta:hover {
+            background: #00A041;
+            transform: translateY(-1px);
+        }
+
+        .cta-subtext {
+            font-size: 12px;
+            color: #9aa9b8;
+            margin-top: 8px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-popup">
+        <div class="dashboard-header">
+            <div class="dashboard-title-section">
+                <h2 class="dashboard-title">🌍 Environmental Command Center</h2>
+                <p class="dashboard-subtitle">Real-time AI impact • Environmental correlations • Climate action</p>
+            </div>
+        </div>
+        
+        <div class="dashboard-content">
+            <!-- Global vs Personal Stats -->
+            <div class="stats-comparison">
+                <div class="stats-card global">
+                    <h3>🌍 Global Usage</h3>
+                    <div class="stat-value" id="global-count">0</div>
+                    <div class="stat-label">Total AI Interactions</div>
+                    <div class="stat-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Energy:</span>
+                            <span class="detail-value" id="global-energy">0 kWh</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">CO₂:</span>
+                            <span class="detail-value" id="global-co2">0g</span>
+                        </div>
+                    </div>
+                </div>
+                    
+                <div class="stats-card personal">
+                    <h3>👤 Your Usage</h3>
+                    <div class="stat-value" id="personal-count">0</div>
+                    <div class="stat-label">Your AI Interactions</div>
+                    <div class="stat-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Energy:</span>
+                            <span class="detail-value" id="personal-energy">0 kWh</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">CO₂:</span>
+                            <span class="detail-value" id="personal-co2">0g</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Environmental Correlations -->
+            <div class="environmental-section">
+                <h3>🌡️ Environmental Impact</h3>
+                <div class="env-metrics">
+                    <div class="env-metric">
+                        <div class="env-label">Ozone Impact</div>
+                        <div class="env-value" id="ozone-impact">+0.003 ppm</div>
+                    </div>
+                    <div class="env-metric">
+                        <div class="env-label">Greenhouse Gas</div>
+                        <div class="env-value" id="ghg-impact">+2.9g CO₂e</div>
+                    </div>
+                    <div class="env-metric">
+                        <div class="env-label">Water Usage</div>
+                        <div class="env-value" id="water-usage">12L</div>
+                    </div>
+                    <div class="env-metric">
+                        <div class="env-label">Environmental Score</div>
+                        <div class="env-value" id="env-score">7.2/10</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Daily Usage Chart -->
+            <div class="chart-section">
+                <h3>📊 Daily Usage (Last 7 Days)</h3>
+                <div class="chart-container">
+                    <canvas id="usage-chart" width="400" height="200"></canvas>
+                </div>
+                <div class="chart-legend">
+                    <div class="legend-item">
+                        <div class="legend-color global"></div>
+                        <span>Global Usage</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color personal"></div>
+                        <span>Your Usage</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hourly Breakdown -->
+            <div class="hourly-section">
+                <h3>⏰ Today's Activity by Hour</h3>
+                <div class="hourly-chart">
+                    <canvas id="hourly-chart" width="400" height="150"></canvas>
+                </div>
+            </div>
+
+            <!-- Recent Activity Timeline -->
+            <div class="timeline-section">
+                <h3>📝 Recent Activity</h3>
+                <div class="timeline" id="activity-timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-time">12:34 PM</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">AI Chat Response</div>
+                            <div class="timeline-impact">+0.0004 kWh, +0.2g CO₂</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-time">12:30 PM</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">Image Generation</div>
+                            <div class="timeline-impact">+0.05 kWh, +25g CO₂</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Count Button -->
+            <div class="count-section">
+                <button class="count-button" onclick="incrementPersonalCounter()">
+                    <span class="count-icon">📊</span>
+                    Count This Interaction
+                </button>
+                <p class="count-subtext">Track your personal AI usage and contribute to global metrics</p>
+            </div>
+
+            <!-- Climate Action Center -->
+            <div class="climate-action-section">
+                <h3>🌱 Take Climate Action</h3>
+                <div class="action-grid">
+                    <div class="action-item">
+                        <div class="action-title">💰 Offset CO₂</div>
+                        <div class="action-desc">50g CO₂ for $0.08</div>
+                        <button class="action-btn" onclick="offsetCO2()">Offset Now</button>
+                    </div>
+                    <div class="action-item">
+                        <div class="action-title">🌳 Plant Tree</div>
+                        <div class="action-desc">$2.50 per tree</div>
+                        <button class="action-btn" onclick="plantTree()">Plant Now</button>
+                    </div>
+                    <div class="action-item">
+                        <div class="action-title">🔋 Solar Fund</div>
+                        <div class="action-desc">$5.00 contribution</div>
+                        <button class="action-btn" onclick="fundSolar()">Fund Now</button>
+                    </div>
+                    <div class="action-item">
+                        <div class="action-title">🌊 Ocean Cleanup</div>
+                        <div class="action-desc">$10.00 contribution</div>
+                        <button class="action-btn" onclick="cleanOcean()">Clean Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Call to Action -->
+            <div class="cta-section">
+                <button class="dashboard-cta" onclick="joinSAP('lifetime-beta')">
+                    <span class="cta-icon">🚀</span>
+                    Get $2.50 Beta Access (50% OFF)
+                </button>
+                <p class="cta-subtext">Join the environmental force multiplier • Global counter + personal cache</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const API_BASE_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://localhost:3001' : 'https://sustainableaiprotocol.com';
+        const SUPABASE_URL = 'https://fpnpfnahwaztdlxuayyv.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZwbnBmbmFod2F6dGRseHVheXl2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA1NDY2NTcsImV4cCI6MjA3NjEyMjY1N30.Q6mn8RIvXujBXbd10aFkeY7yGHVsAQPEHM5OzoPMsFQ';
+        
+        // Initialize Supabase client
+        const { createClient } = supabase;
+        const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Charts
+        let usageChart = null;
+        let hourlyChart = null;
+
+        // Load data on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDashboardData();
+            initializeCharts();
+            setInterval(loadDashboardData, 10000); // Update every 10 seconds
+        });
+
+        // Load dashboard data
+        async function loadDashboardData() {
+            try {
+                // Load global stats
+                const { data: globalStats } = await supabaseClient
+                    .from('global_stats')
+                    .select('*')
+                    .eq('id', 1)
+                    .single();
+
+                if (globalStats) {
+                    updateGlobalStats(globalStats);
+                }
+
+                // Load personal stats from localStorage
+                updatePersonalStats();
+            } catch (error) {
+                console.log('Error loading dashboard data:', error);
+                // Fallback to local data
+                updatePersonalStats();
+            }
+        }
+
+        // Update global stats
+        function updateGlobalStats(data) {
+            document.getElementById('global-count').textContent = data.total_count || 0;
+            document.getElementById('global-energy').textContent = (data.total_kwh || 0).toFixed(3) + ' kWh';
+            document.getElementById('global-co2').textContent = (data.total_co2 || 0).toFixed(1) + 'g';
+        }
+
+        // Update personal stats
+        function updatePersonalStats() {
+            const personalCount = parseInt(localStorage.getItem('sap_personal_counter') || '0');
+            const personalEnergy = personalCount * 0.0004; // Estimate
+            const personalCO2 = personalEnergy * 475; // gCO2/kWh
+
+            document.getElementById('personal-count').textContent = personalCount;
+            document.getElementById('personal-energy').textContent = personalEnergy.toFixed(4) + ' kWh';
+            document.getElementById('personal-co2').textContent = personalCO2.toFixed(1) + 'g';
+        }
+
+        // Initialize charts
+        function initializeCharts() {
+            // Daily Usage Chart
+            const usageCtx = document.getElementById('usage-chart');
+            if (usageCtx && !usageChart) {
+                usageChart = new Chart(usageCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                        datasets: [{
+                            label: 'Global Usage',
+                            data: [12, 20, 14, 18, 22, 16, 10],
+                            borderColor: '#00C853',
+                            backgroundColor: 'rgba(0, 200, 83, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        }, {
+                            label: 'Your Usage',
+                            data: [2, 3, 2, 4, 3, 2, 1],
+                            borderColor: '#3b82f6',
+                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Hourly Chart
+            const hourlyCtx = document.getElementById('hourly-chart');
+            if (hourlyCtx && !hourlyChart) {
+                hourlyChart = new Chart(hourlyCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['8AM', '10AM', '12PM', '2PM', '4PM', '6PM', '8PM'],
+                        datasets: [{
+                            label: 'Activity',
+                            data: [2, 5, 8, 6, 4, 3, 2],
+                            backgroundColor: '#00C853',
+                            borderRadius: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        // Increment personal counter
+        function incrementPersonalCounter() {
+            const count = getPersonalCounter() + 1;
+            setPersonalCounter(count);
+            updatePersonalStats();
+            
+            // Try to push to Supabase (best effort)
+            pushPersonalCounterToSupabase();
+        }
+
+        // Personal counter functions
+        function getPersonalCounter() {
+            return parseInt(localStorage.getItem('sap_personal_counter') || '0');
+        }
+
+        function setPersonalCounter(value) {
+            localStorage.setItem('sap_personal_counter', value.toString());
+        }
+
+        // Push to Supabase
+        async function pushPersonalCounterToSupabase() {
+            try {
+                const { error } = await supabaseClient.rpc('increment_sap_stats', {
+                    add_count: 1,
+                    add_kwh: 0.0004,
+                    add_co2: 0.19,
+                    event_type: 'text'
+                });
+                if (error) {
+                    console.log('Error updating SAP stats:', error);
+                }
+            } catch (error) {
+                console.log('Supabase unavailable, using local storage only');
+            }
+        }
+
+        // Climate action functions
+        function offsetCO2() {
+            alert('🌱 CO₂ Offset: $0.08 for 50g CO₂\n\nThis will be implemented with real climate project funding in Phase 2!');
+        }
+
+        function plantTree() {
+            alert('🌳 Plant a Tree: $2.50\n\nThis will be implemented with real tree planting programs in Phase 2!');
+        }
+
+        function fundSolar() {
+            alert('🔋 Solar Fund: $5.00\n\nThis will be implemented with real solar energy projects in Phase 2!');
+        }
+
+        function cleanOcean() {
+            alert('🌊 Ocean Cleanup: $10.00\n\nThis will be implemented with real ocean cleanup initiatives in Phase 2!');
+        }
+
+        // Join SAP
+        function joinSAP(plan) {
+            if (plan === 'lifetime-beta') {
+                window.open('https://buy.stripe.com/4gMbJ22PT7R4gYC8Gu6kg00', '_blank');
+                return;
+            }
+            alert(`Thank you for your interest in the ${plan} plan! This will redirect to Stripe checkout in the full implementation.`);
+        }
+    </script>
+</body>
+</html>
+
