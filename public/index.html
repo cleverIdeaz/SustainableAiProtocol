@@ -4479,34 +4479,34 @@
                 <div class="code-block">
                     <div class="code-header">
                         <span class="code-title">SAP Dashboard Embed - One Line</span>
-                        <button class="copy-btn" onclick="copyCode('sap-dashboard-embed-code')">
+                        <button class="copy-btn" onclick="copyCode('sap-dashboard-embed-code', event)">
                             <i class="fa-solid fa-copy"></i>
                             Copy Code
                         </button>
                     </div>
-                    <pre class="code-content" id="sap-dashboard-embed-code"><code>&lt;!-- SAP Dashboard Embed - Gets live data, loggable when ready --&gt;
-&lt;script src="https://sustainableaiprotocol.com/sap-dashboard-embed.js"&gt;&lt;/script&gt;
+                    <pre class="code-content" id="sap-dashboard-embed-code"><code><!-- SAP Dashboard Embed - Gets live data, loggable when ready -->
+<script src="https://sustainableaiprotocol.com/sap-dashboard-embed.js"></script>
 
-&lt;!-- Usage: Call SAP.openDashboard() or openSAPDashboard() to open --&gt;
-&lt;button onclick="openSAPDashboard()"&gt;View SAP Dashboard&lt;/button&gt;</code></pre>
+<!-- Usage: Call SAP.openDashboard() or openSAPDashboard() to open -->
+<button onclick="openSAPDashboard()">View SAP Dashboard</button></code></pre>
                 </div>
 
                 <div class="code-block">
                     <div class="code-header">
                         <span class="code-title">SAP Button Embed - Auto-Hooks Send Buttons</span>
-                        <button class="copy-btn" onclick="copyCode('sap-button-embed-code')">
+                        <button class="copy-btn" onclick="copyCode('sap-button-embed-code', event)">
                             <i class="fa-solid fa-copy"></i>
                             Copy Code
                         </button>
                     </div>
-                    <pre class="code-content" id="sap-button-embed-code"><code>&lt;!-- SAP Button Embed - Rotation animation, auto-hooks to send buttons --&gt;
-&lt;script src="https://sustainableaiprotocol.com/sap-button-embed.js"&gt;&lt;/script&gt;
+                    <pre class="code-content" id="sap-button-embed-code"><code><!-- SAP Button Embed - Rotation animation, auto-hooks to send buttons -->
+<script src="https://sustainableaiprotocol.com/sap-button-embed.js"></script>
 
-&lt;!-- Button automatically appears, rotates on prompt sends --&gt;
-&lt;!-- Auto-hooks to: button[type="submit"], .send-button, etc. --&gt;
+<!-- Button automatically appears, rotates on prompt sends -->
+<!-- Auto-hooks to: button[type="submit"], .send-button, etc. -->
 
-&lt;!-- Custom Telemetry (optional) --&gt;
-&lt;script&gt;
+<!-- Custom Telemetry (optional) -->
+<script>
   // Track custom telemetry
   SAP.trackTelemetry({
     model: 'gpt-4',
@@ -4519,7 +4519,7 @@
       // Custom metadata
     }
   });
-&lt;/script&gt;</code></pre>
+</script></code></pre>
                 </div>
                 
                 <div class="dev-features">
@@ -5318,31 +5318,92 @@
         }
 
         // Copy code to clipboard
-        function copyCode(codeId) {
+        function copyCode(codeId, evt) {
+            // Get event from parameter or global event
+            const clickEvent = evt || window.event;
             const codeContent = document.getElementById(codeId);
+            
             if (!codeContent) {
                 console.error('Code block not found:', codeId);
+                alert('Code block not found. Please refresh the page.');
                 return;
             }
-            const codeText = codeContent.textContent;
             
-            navigator.clipboard.writeText(codeText).then(function() {
-                // Show success feedback
-                const copyBtn = event.target.closest('.copy-btn');
+            // Get the code element inside the pre tag
+            const codeElement = codeContent.querySelector('code') || codeContent;
+            let codeText = codeElement.textContent || codeElement.innerText;
+            
+            // Clean up the text
+            codeText = codeText.trim();
+            
+            // Function to get the copy button
+            function getCopyButton() {
+                if (clickEvent && clickEvent.target) {
+                    return clickEvent.target.closest('.copy-btn') || clickEvent.target;
+                }
+                // Fallback: find button by traversing from code block
+                const codeBlock = codeContent.closest('.code-block');
+                if (codeBlock) {
+                    return codeBlock.querySelector('.copy-btn');
+                }
+                return null;
+            }
+            
+            // Function to show success
+            function showSuccess() {
+                const copyBtn = getCopyButton();
                 if (copyBtn) {
                     const originalText = copyBtn.innerHTML;
+                    const originalBg = copyBtn.style.background || '';
                     copyBtn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
                     copyBtn.style.background = '#00A041';
                     
                     setTimeout(() => {
                         copyBtn.innerHTML = originalText;
-                        copyBtn.style.background = '#00C853';
+                        copyBtn.style.background = originalBg || '#00C853';
                     }, 2000);
                 }
-            }).catch(function(err) {
-                console.error('Failed to copy code: ', err);
-                alert('Failed to copy code. Please try again.');
-            });
+            }
+            
+            // Try modern clipboard API first
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(codeText).then(function() {
+                    showSuccess();
+                }).catch(function(err) {
+                    console.error('Clipboard API failed:', err);
+                    // Fallback to execCommand
+                    fallbackCopy();
+                });
+            } else {
+                // Fallback for older browsers
+                fallbackCopy();
+            }
+            
+            function fallbackCopy() {
+                const textarea = document.createElement('textarea');
+                textarea.value = codeText;
+                textarea.style.position = 'fixed';
+                textarea.style.opacity = '0';
+                textarea.style.left = '-9999px';
+                document.body.appendChild(textarea);
+                textarea.focus();
+                textarea.select();
+                textarea.setSelectionRange(0, codeText.length); // For mobile
+                
+                try {
+                    const success = document.execCommand('copy');
+                    document.body.removeChild(textarea);
+                    if (success) {
+                        showSuccess();
+                    } else {
+                        alert('Copy failed. Please select and copy manually.');
+                    }
+                } catch (err) {
+                    console.error('Fallback copy failed:', err);
+                    document.body.removeChild(textarea);
+                    alert('Copy not supported. Please select and copy manually.');
+                }
+            }
         }
 
         // Multi-Purpose SAP Button Behavior
