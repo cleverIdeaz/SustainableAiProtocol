@@ -9,11 +9,11 @@
 
     <!-- Meta Tags -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="SAP - Measuring AI's Energy Consumption">
-    <meta property="og:description" content="Open infrastructure for tracking AI energy use. Real data. Open standard. Early stage. Help us build this.">
+    <meta property="og:title" content="SAP - The Missing Button from Every AI Chat">
+    <meta property="og:description" content="Open infrastructure for tracking AI energy use. A button that makes AI's energy consumption visible. Real data. Open standard. Help us build this.">
     <meta property="og:image" content="https://sustainableaiprotocol.com/assets/SAPLogo.png">
 
-    <meta name="description" content="Open infrastructure for tracking AI energy use. Real data. Open standard. Early stage.">
+    <meta name="description" content="The button that makes AI energy visible. Open infrastructure for tracking AI consumption. Early stage.">
     <meta name="keywords" content="AI, energy, measurement, tracking, protocol, sustainability, open standard">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="assets/SAPLogo.png">
@@ -83,12 +83,42 @@
             }
         }
 
+        .nav {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .nav a {
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .nav a:hover {
+            color: #10b981;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .nav a {
+                color: #9ca3af;
+            }
+            .nav a:hover {
+                color: #10b981;
+            }
+        }
+
         .status {
-            font-size: 12px;
+            font-size: 11px;
             color: #10b981;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            padding: 4px 8px;
+            background: rgba(16, 185, 129, 0.1);
+            border-radius: 4px;
         }
 
         /* Hero */
@@ -137,6 +167,118 @@
 
         @media (prefers-color-scheme: dark) {
             .hero-subtitle {
+                color: #9ca3af;
+            }
+        }
+
+        /* SAP Button Demo */
+        .button-demo {
+            margin: 60px 0;
+            padding: 60px 40px;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(16, 185, 129, 0.02) 100%);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 16px;
+        }
+
+        .button-demo-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #10b981;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 32px;
+        }
+
+        .sap-button-main {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            transition: transform 0.2s ease;
+            position: relative;
+            display: inline-block;
+            width: 160px;
+            height: 160px;
+            margin-bottom: 24px;
+        }
+
+        .sap-button-main:hover {
+            transform: scale(1.05);
+        }
+
+        .sap-button-main:active {
+            transform: scale(0.95);
+        }
+
+        .sap-button-main.spinning {
+            animation: buttonSpin 0.6s ease-in-out;
+        }
+
+        @keyframes buttonSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .sap-button-wrapper {
+            position: relative;
+            width: 160px;
+            height: 160px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sap-button-bg {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 12px rgba(16, 185, 129, 0.3));
+        }
+
+        .sap-counter-display {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            font-weight: 800;
+            color: #10b981;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .prompt-button {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: #000;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .prompt-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .button-demo-text {
+            font-size: 14px;
+            color: #666;
+            margin-top: 24px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .button-demo-text {
                 color: #9ca3af;
             }
         }
@@ -606,12 +748,22 @@
             font-size: 14px;
             color: #666;
             line-height: 1.6;
-            margin-bottom: 24px;
+            margin-bottom: 16px;
         }
 
         @media (prefers-color-scheme: dark) {
             .demo-section p {
                 color: #9ca3af;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 36px;
+            }
+
+            .nav {
+                display: none;
             }
         }
     </style>
@@ -622,7 +774,12 @@
         <div class="container">
             <div class="header-content">
                 <div class="logo">SAP</div>
-                <div class="status">EARLY STAGE • BETA</div>
+                <div class="nav">
+                    <a href="#approach">Approach</a>
+                    <a href="#developers">Developers</a>
+                    <a href="#get-involved">Get Involved</a>
+                    <span class="status">EARLY STAGE</span>
+                </div>
             </div>
         </div>
     </header>
@@ -630,15 +787,36 @@
     <!-- Hero -->
     <section class="hero">
         <div class="container">
-            <span class="hero-label">THE PROBLEM</span>
-            <h1>AI Uses Energy.<br>We Don't Track It.<br>That's a Problem.</h1>
+            <span class="hero-label">THE MISSING BUTTON</span>
+            <h1>AI Uses Energy.<br>Let's Make It Visible.</h1>
             <p class="hero-subtitle">
-                Every AI interaction consumes measurable energy. But there's no standard way to measure or report it.
-                SAP is building the open infrastructure to change that.
+                Every AI interaction consumes measurable energy. But there's no button to track it.
+                SAP is building the universal button that makes AI's energy consumption transparent.
             </p>
-            <div class="cta-group">
-                <a href="#get-involved" class="btn btn-primary">Help Build This</a>
-                <a href="#approach" class="btn btn-secondary">See Our Approach</a>
+
+            <!-- SAP Button Demo -->
+            <div class="button-demo">
+                <div class="button-demo-label">Try the SAP Button</div>
+
+                <button class="sap-button-main" id="sap-button" onclick="incrementCounter()">
+                    <div class="sap-button-wrapper">
+                        <img src="assets/SAPButton.svg" alt="SAP" class="sap-button-bg" onerror="this.style.display='none'">
+                        <div class="sap-counter-display" id="sap-counter">0</div>
+                    </div>
+                </button>
+
+                <div style="margin-top: 24px;">
+                    <button class="prompt-button" onclick="simulatePrompt()">
+                        <i class="fa-solid fa-arrow-up"></i>
+                        I just prompted AI
+                    </button>
+                </div>
+
+                <p class="button-demo-text">
+                    <strong>This button should be in every AI chat interface.</strong>
+                    Click it when you prompt AI. Watch the counter. See your impact.
+                    Simple transparency that doesn't exist yet.
+                </p>
             </div>
 
             <!-- Live Stats -->
@@ -682,8 +860,8 @@
                     <p>Without real-world measurement data, we can't optimize, can't improve efficiency, and can't make informed decisions about AI usage.</p>
                 </div>
                 <div class="problem-card">
-                    <h3>No Accountability</h3>
-                    <p>AI companies can claim sustainability without proof. Users can't make informed choices. The environmental cost remains invisible.</p>
+                    <h3>No Button</h3>
+                    <p>The simplest solution—a universal tracking button—doesn't exist. Every AI chat should have one. None do.</p>
                 </div>
             </div>
         </div>
@@ -693,56 +871,57 @@
     <section id="approach">
         <div class="container">
             <h2>Our Approach</h2>
-            <p class="section-subtitle">We're building open infrastructure for AI energy measurement. Starting simple, validating everything, building credibility.</p>
+            <p class="section-subtitle">We're building open infrastructure for AI energy measurement. Starting with the button. Building credibility through transparency.</p>
 
             <div class="approach-grid">
                 <div class="approach-card">
+                    <div class="approach-icon">🔘</div>
+                    <h3>The Universal Button</h3>
+                    <p>One button. Every AI interface. Click to track. Spin animation. Global counter. Simple transparency.</p>
+                </div>
+                <div class="approach-card">
                     <div class="approach-icon">📊</div>
                     <h3>Open Tracking Protocol</h3>
-                    <p>Free SDK that any developer can integrate to track AI interactions. Open source, transparent methodology.</p>
+                    <p>Free SDK for developers. Open source. Transparent methodology. Privacy-first data collection.</p>
                 </div>
                 <div class="approach-card">
                     <div class="approach-icon">🔬</div>
                     <h3>Scientific Validation</h3>
                     <p>Partner with researchers to validate energy calculations. Publish methodology. Build credibility through peer review.</p>
                 </div>
-                <div class="approach-card">
-                    <div class="approach-icon">🌐</div>
-                    <h3>Crowd-Sourced Data</h3>
-                    <p>Aggregate anonymous data from all integrations. Build the largest dataset of real AI energy usage.</p>
-                </div>
             </div>
 
             <div class="demo-section">
                 <h3>What This Actually Is (Right Now)</h3>
                 <p>
-                    SAP is currently a <strong>beta tracking system</strong> that estimates AI energy usage based on rough industry averages.
-                    The calculations are <strong>not scientifically validated</strong>. The data is <strong>not comprehensive</strong>.
-                    This is <strong>early stage infrastructure</strong> that needs validation, research partnerships, and real-world testing.
+                    SAP is currently a <strong>beta tracking system</strong> with a button demo.
+                    The energy calculations are <strong>rough estimates based on industry averages</strong>, not scientifically validated measurements.
+                    The button works—you can integrate it today—but the data needs validation.
                 </p>
                 <p>
-                    We're not claiming to solve AI sustainability. We're trying to build the basic measurement tools that don't exist yet.
-                    That starts with honest data collection and transparent methodology.
+                    We're not claiming to solve AI sustainability. We're building the basic measurement tool (the button) that should exist in every AI chat interface.
+                    The concept is simple. The execution requires validation, research partnerships, and real-world testing.
                 </p>
             </div>
         </div>
     </section>
 
     <!-- For Developers -->
-    <section>
+    <section id="developers">
         <div class="container">
             <h2>For Developers</h2>
-            <p class="section-subtitle">Integrate SAP tracking into your AI applications. Help us collect real-world data.</p>
+            <p class="section-subtitle">Integrate the SAP button into your AI applications. Help us collect real-world data.</p>
 
             <div class="code-block">
                 <div class="code-header">
                     <span class="code-title">One-Line Integration</span>
                     <button class="copy-btn" onclick="copyToClipboard('integration-code')">Copy</button>
                 </div>
-                <pre class="code-content" id="integration-code"><code>&lt;!-- Add SAP tracking to any page --&gt;
+                <pre class="code-content" id="integration-code"><code>&lt;!-- Add SAP button to any AI interface --&gt;
 &lt;script src="https://sustainableaiprotocol.com/sap-embed.js"&gt;&lt;/script&gt;
 
-&lt;!-- Track custom interactions --&gt;
+&lt;!-- The button auto-appears and spins on AI interactions --&gt;
+&lt;!-- Track custom interactions manually --&gt;
 &lt;script&gt;
   SAP.track({
     model: 'gpt-4',
@@ -756,17 +935,17 @@
                 <div class="approach-card">
                     <div class="approach-icon">⚡</div>
                     <h3>Simple</h3>
-                    <p>One line of code. Auto-detects AI interactions. Works with any interface.</p>
+                    <p>One line of code. Button auto-appears. Spins on prompts. Works with any AI interface.</p>
                 </div>
                 <div class="approach-card">
                     <div class="approach-icon">🔒</div>
                     <h3>Privacy-First</h3>
-                    <p>Only tracks metadata. No prompt content. Anonymous by default.</p>
+                    <p>Only tracks metadata. No prompt content. Anonymous by default. Just counts.</p>
                 </div>
                 <div class="approach-card">
                     <div class="approach-icon">📈</div>
                     <h3>Open Data</h3>
-                    <p>Aggregated data available to all. Help build the standard.</p>
+                    <p>Aggregated data available to all. Contribute to the global counter. Help build the standard.</p>
                 </div>
             </div>
         </div>
@@ -776,15 +955,15 @@
     <section>
         <div class="container">
             <h2>For Researchers <span class="honest-badge">Help Needed</span></h2>
-            <p class="section-subtitle">We need scientific partnerships to validate our methodology and build credibility.</p>
+            <p class="section-subtitle">We need scientific partnerships to validate our energy calculations and build credibility.</p>
 
             <div class="status-grid">
                 <div class="status-card">
                     <span class="status-badge">SEEKING PARTNERS</span>
                     <h3>Energy Calculations</h3>
-                    <p>Our current estimates are based on industry averages and rough calculations. We need:</p>
+                    <p>Our current estimates are rough. We need validation:</p>
                     <ul>
-                        <li>Validation of energy-per-token estimates</li>
+                        <li>Energy-per-token measurements</li>
                         <li>Model-specific energy profiles</li>
                         <li>Regional carbon intensity data</li>
                         <li>Peer-reviewed methodology</li>
@@ -793,11 +972,11 @@
                 <div class="status-card">
                     <span class="status-badge">SEEKING PARTNERS</span>
                     <h3>Data Access</h3>
-                    <p>Access our aggregated dataset for research purposes:</p>
+                    <p>Access our aggregated dataset for research:</p>
                     <ul>
-                        <li>Anonymous interaction data</li>
-                        <li>Energy usage patterns</li>
-                        <li>Model comparisons</li>
+                        <li>Anonymous interaction counts</li>
+                        <li>Usage patterns over time</li>
+                        <li>Model comparison data</li>
                         <li>Real-world AI usage statistics</li>
                     </ul>
                 </div>
@@ -816,44 +995,44 @@
                     <span class="status-badge">✅ WORKING</span>
                     <h3>What We Have</h3>
                     <ul>
+                        <li>The SAP button (working demo)</li>
+                        <li>Spinning animation on interaction</li>
+                        <li>Global counter system</li>
                         <li>Beta tracking SDK</li>
-                        <li>Basic energy estimation</li>
-                        <li>Open source implementation</li>
-                        <li>Early demo data</li>
-                        <li>Developer documentation</li>
+                        <li>One-line integration code</li>
                     </ul>
                 </div>
                 <div class="status-card">
                     <span class="status-badge">⚠️ NEEDED</span>
                     <h3>What We Need</h3>
                     <ul>
-                        <li>Scientific validation</li>
+                        <li>Scientific validation of estimates</li>
                         <li>Research partnerships</li>
-                        <li>Real-world testing</li>
-                        <li>Model-specific data</li>
-                        <li>Peer review</li>
+                        <li>Real-world testing at scale</li>
+                        <li>Model-specific energy data</li>
+                        <li>Peer review of methodology</li>
                     </ul>
                 </div>
                 <div class="status-card">
                     <span class="status-badge">📋 NEXT</span>
                     <h3>What's Next</h3>
                     <ul>
+                        <li>Get 100 developers to integrate button</li>
                         <li>Validate energy calculations</li>
-                        <li>Build research partnerships</li>
-                        <li>Publish methodology</li>
-                        <li>Get early adopters</li>
-                        <li>Establish credibility</li>
+                        <li>Partner with research institutions</li>
+                        <li>Publish transparent methodology</li>
+                        <li>Build credibility through honesty</li>
                     </ul>
                 </div>
                 <div class="status-card">
                     <span class="status-badge">🎯 FUTURE</span>
                     <h3>Long-Term Vision</h3>
                     <ul>
+                        <li>SAP button in every AI chat</li>
                         <li>Industry standard protocol</li>
-                        <li>Universal AI energy reporting</li>
-                        <li>Verified, accurate data</li>
-                        <li>Real accountability</li>
-                        <li>Actual environmental impact</li>
+                        <li>Verified, accurate measurements</li>
+                        <li>Universal AI energy transparency</li>
+                        <li>Real accountability through visibility</li>
                     </ul>
                 </div>
             </div>
@@ -865,7 +1044,7 @@
         <div class="container">
             <div class="cta-banner">
                 <h2>Help Us Build This</h2>
-                <p>We're not promising to save the world. We're trying to build basic measurement tools that should exist. That requires real data, scientific validation, and honest methodology.</p>
+                <p>We're building a simple tool that should exist: a button that makes AI energy visible. That requires validation, partnerships, and honest development.</p>
                 <div class="cta-group">
                     <a href="https://github.com/cleverIdeaz/SustainableAiProtocol" class="btn btn-primary" target="_blank">View on GitHub</a>
                     <a href="mailto:cleverideazllc@gmail.com" class="btn btn-secondary">Partner With Us</a>
@@ -876,17 +1055,17 @@
                 <div class="approach-card">
                     <div class="approach-icon">👨‍💻</div>
                     <h3>Developers</h3>
-                    <p>Integrate SAP, contribute code, help improve the SDK, build applications on top of the data.</p>
+                    <p>Integrate the button, contribute code, help improve the SDK, build on the data.</p>
                 </div>
                 <div class="approach-card">
                     <div class="approach-icon">🔬</div>
                     <h3>Researchers</h3>
-                    <p>Validate methodology, access data, publish findings, help build scientific credibility.</p>
+                    <p>Validate methodology, access data, publish findings, build scientific credibility.</p>
                 </div>
                 <div class="approach-card">
                     <div class="approach-icon">🏢</div>
                     <h3>Organizations</h3>
-                    <p>Early adoption, integration support, data contribution, help establish the standard.</p>
+                    <p>Early adoption, integration support, help establish the standard.</p>
                 </div>
             </div>
         </div>
@@ -900,13 +1079,15 @@
                 <a href="/docs">Documentation</a>
                 <a href="mailto:cleverideazllc@gmail.com">Contact</a>
                 <a href="/dashboard">View Data</a>
+                <a href="#approach">Approach</a>
+                <a href="#developers">Developers</a>
             </div>
             <p class="footer-note">
-                SAP is early-stage infrastructure for measuring AI energy consumption. Current data is estimated and unvalidated.
-                We're building openly and honestly. No hype. Just measurement.
+                SAP is early-stage infrastructure for making AI energy visible through a universal button.
+                Current estimates are unvalidated. We're building openly and honestly. The button works. The data needs validation.
             </p>
             <p style="font-size: 13px; color: #999; margin-top: 16px;">
-                © 2025 Sustainable AI Protocol • Open infrastructure for AI energy measurement
+                © 2025 Sustainable AI Protocol • The universal button for AI energy transparency
             </p>
         </div>
     </footer>
@@ -917,11 +1098,58 @@
             ? 'http://localhost:3001'
             : 'https://sustainableaiprotocol.com';
 
+        let personalCount = parseInt(localStorage.getItem('sap_personal_counter') || '0');
+
         // Load stats on page load
         document.addEventListener('DOMContentLoaded', function() {
+            updateCounterDisplay();
             loadStats();
-            setInterval(loadStats, 10000); // Update every 10 seconds
+            setInterval(loadStats, 10000);
         });
+
+        // Update counter display
+        function updateCounterDisplay() {
+            const counter = document.getElementById('sap-counter');
+            if (counter) {
+                counter.textContent = personalCount;
+            }
+        }
+
+        // Increment counter with animation
+        function incrementCounter() {
+            personalCount++;
+            localStorage.setItem('sap_personal_counter', personalCount.toString());
+
+            const button = document.getElementById('sap-button');
+            const counter = document.getElementById('sap-counter');
+
+            button.classList.add('spinning');
+            counter.textContent = personalCount;
+
+            setTimeout(() => {
+                button.classList.remove('spinning');
+            }, 600);
+        }
+
+        // Simulate prompt button
+        function simulatePrompt() {
+            incrementCounter();
+
+            // Optionally track to server
+            try {
+                fetch(`${API_BASE_URL}/api/track`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        type: 'demo',
+                        model: 'demo',
+                        tokens: 100
+                    })
+                }).catch(err => console.log('Offline mode'));
+            } catch (e) {
+                // Offline mode
+            }
+        }
 
         // Load and display stats
         async function loadStats() {
@@ -930,15 +1158,9 @@
                 if (response.ok) {
                     const data = await response.json();
                     updateStats(data);
-                } else {
-                    // Fallback to localStorage
-                    const localData = JSON.parse(localStorage.getItem('sap-demo-data') || '{"total_count":0,"total_kwh":0,"total_co2":0}');
-                    updateStats(localData);
                 }
             } catch (error) {
-                console.log('Using local fallback data');
-                const localData = JSON.parse(localStorage.getItem('sap-demo-data') || '{"total_count":0,"total_kwh":0,"total_co2":0}');
-                updateStats(localData);
+                console.log('Using local mode');
             }
         }
 
@@ -971,7 +1193,7 @@
             });
         }
 
-        // Smooth scroll for anchor links
+        // Smooth scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
