@@ -30,7 +30,7 @@
     <meta name="description" content="The Missing Button from Every AI Chat Interface. One small button. Enormous change. The Sustainable AI Protocol (SAP) brings transparency and accountability to every AI interaction.">
     <meta name="keywords" content="AI, sustainability, energy, transparency, protocol, SAP, artificial intelligence, carbon footprint">
     <meta name="author" content="SAP Foundation">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -39,7 +39,7 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Instrument Sans', -apple-system, BlinkMacSystemFont, sans-serif;
             line-height: 1.6;
             color: #1a1a1a;
             background: #ffffff;
@@ -1407,7 +1407,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Instrument Sans', -apple-system, BlinkMacSystemFont, sans-serif;
             font-size: 20px;
             font-weight: 700;
             color: #00C853;
@@ -4302,6 +4302,116 @@
                 font-size: 18px;
             }
         }
+
+        /* ── Design Refinements ── */
+        body {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .hero-title {
+            font-size: clamp(2rem, 5.5vw, 3.8rem);
+            font-weight: 700;
+            letter-spacing: -1.5px;
+            line-height: 1.06;
+            text-shadow: none;
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            max-width: 540px;
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+        }
+
+        .power-control-title {
+            font-size: clamp(1.6rem, 4vw, 2.4rem);
+            font-weight: 700;
+            letter-spacing: -1px;
+            line-height: 1.15;
+        }
+
+        .power-control-subtitle {
+            font-size: 1.05rem;
+            font-weight: 400;
+            line-height: 1.7;
+            margin-bottom: 48px;
+        }
+
+        .feature-item h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: -0.2px;
+        }
+
+        .feature-item p {
+            font-size: 0.9rem;
+        }
+
+        .protocol-title,
+        .how-title,
+        .roadmap-title,
+        .ecosystem-title,
+        .section-title {
+            font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+            font-weight: 700;
+            letter-spacing: -0.75px;
+            line-height: 1.15;
+        }
+
+        .protocol-subtitle,
+        .ecosystem-subtitle {
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.7;
+        }
+
+        .section-subtitle {
+            font-size: 1rem;
+            line-height: 1.65;
+        }
+
+        .header {
+            padding: 14px 0;
+        }
+
+        .ecosystem-title {
+            font-style: italic;
+            font-weight: 600;
+        }
+
+        .sap-prompt-button {
+            border-radius: 8px;
+            font-size: 13px;
+            letter-spacing: 0.01em;
+        }
+
+        .ticker {
+            font-size: 12px;
+            letter-spacing: 0.01em;
+        }
+
+        .ticker-subline {
+            font-size: 10px;
+            opacity: 0.7;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .hero-subtitle {
+                color: #a1a1aa;
+            }
+            .power-control-subtitle {
+                color: #a1a1aa !important;
+            }
+            .feature-item p {
+                color: #71717a !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -4426,7 +4536,7 @@
             <div class="power-control-content">
                 <h2 class="power-control-title">Take Control of Your AI's Environmental Impact</h2>
                 <p class="power-control-subtitle">
-                    SAP gives users control over the invisible costs of AI — the power, data centers, and carbon behind every prompt.
+                    SAP gives users control over the invisible costs of AI: the power, data centers, and carbon behind every prompt.
                 </p>
                 
                 <div class="power-control-features">
@@ -4621,7 +4731,7 @@
     <!-- Ecosystem Section -->
     <section class="ecosystem-section" id="ecosystem">
         <div class="container">
-            <h2 class="ecosystem-title">Every AI platform will show its footprint — eventually.</h2>
+            <h2 class="ecosystem-title">Every AI platform will show its footprint. Eventually.</h2>
             <p class="ecosystem-subtitle">The SAP network grows stronger with every integration.</p>
             
             <div class="platforms-grid">
@@ -4830,7 +4940,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; Sustainable AI Protocol — Making AI measurable.</p>
+                <p>&copy; Sustainable AI Protocol. Making AI measurable.</p>
             </div>
         </div>
     </footer>
