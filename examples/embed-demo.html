@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAP Embed Demo - MCP Telemetry</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #00C853 0%, #00A041 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            color: #888;
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+        }
+        
+        .demo-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .demo-section h2 {
+            color: #00C853;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+        
+        .ticker {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: rgba(0, 200, 83, 0.1);
+            border: 1px solid rgba(0, 200, 83, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #00C853;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            color: #888;
+            font-size: 0.9rem;
+        }
+        
+        .recent-events {
+            margin-top: 20px;
+        }
+        
+        .event-item {
+            background: rgba(255, 255, 255, 0.03);
+            border-left: 3px solid #00C853;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        
+        .event-time {
+            color: #888;
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+        }
+        
+        .event-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            font-size: 0.9rem;
+        }
+        
+        .event-detail {
+            color: #ccc;
+        }
+        
+        .event-detail strong {
+            color: #00C853;
+        }
+        
+        button {
+            background: #00C853;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-right: 10px;
+            margin-top: 10px;
+        }
+        
+        button:hover {
+            background: #00A041;
+        }
+        
+        .loading {
+            color: #888;
+            font-style: italic;
+        }
+        
+        .error {
+            color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 3px solid #ff6b6b;
+        }
+        
+        code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #00C853;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌍 SAP MCP Telemetry Demo</h1>
+        <p class="subtitle">Live global AI sustainability metrics from the SAP Protocol</p>
+        
+        <div class="demo-section">
+            <h2>📊 Global Statistics</h2>
+            <div class="ticker" id="globalTicker">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalPrompts">-</div>
+                    <div class="stat-label">Total Prompts</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalEnergy">-</div>
+                    <div class="stat-label">Energy (kWh)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalCO2">-</div>
+                    <div class="stat-label">CO₂ (kg)</div>
+                </div>
+            </div>
+            <button onclick="loadTelemetry()">🔄 Refresh Data</button>
+        </div>
+        
+        <div class="demo-section">
+            <h2>📡 MCP Telemetry Resource</h2>
+            <p style="margin-bottom: 20px; color: #888;">
+                This data is pulled from the MCP-compliant endpoint: <code>GET /mcp/telemetry</code>
+            </p>
+            <div class="recent-events" id="recentEvents">
+                <div class="loading">Loading recent events...</div>
+            </div>
+        </div>
+        
+        <div class="demo-section">
+            <h2>🔧 Integration Example</h2>
+            <pre style="background: rgba(0, 0, 0, 0.3); padding: 20px; border-radius: 8px; overflow-x: auto;"><code>// Fetch MCP telemetry
+fetch('http://localhost:3001/mcp/telemetry')
+  .then(res => res.json())
+  .then(data => {
+    const stats = JSON.parse(data.contents[0].text);
+    console.log('Global stats:', stats.global_stats);
+    console.log('Recent events:', stats.recent_events);
+  });</code></pre>
+        </div>
+    </div>
+    
+    <script>
+        const API_BASE_URL = 'http://localhost:3001';
+        
+        async function loadTelemetry() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/mcp/telemetry`);
+                const data = await response.json();
+                
+                if (data.contents && data.contents[0]) {
+                    const telemetry = JSON.parse(data.contents[0].text);
+                    
+                    // Update global stats
+                    document.getElementById('totalPrompts').textContent = 
+                        telemetry.global_stats.total_prompts.toLocaleString();
+                    document.getElementById('totalEnergy').textContent = 
+                        telemetry.global_stats.total_energy_kwh.toFixed(3);
+                    document.getElementById('totalCO2').textContent = 
+                        telemetry.global_stats.total_co2_kg.toFixed(3);
+                    
+                    // Update recent events
+                    const eventsContainer = document.getElementById('recentEvents');
+                    if (telemetry.recent_events && telemetry.recent_events.length > 0) {
+                        eventsContainer.innerHTML = telemetry.recent_events.map(event => `
+                            <div class="event-item">
+                                <div class="event-time">${new Date(event.timestamp).toLocaleString()}</div>
+                                <div class="event-details">
+                                    <div class="event-detail"><strong>Model:</strong> ${event.model_id || 'unknown'}</div>
+                                    <div class="event-detail"><strong>Tokens:</strong> ${event.tokens_input} → ${event.tokens_output}</div>
+                                    <div class="event-detail"><strong>Energy:</strong> ${event.kwh_estimate.toFixed(6)} kWh</div>
+                                    <div class="event-detail"><strong>CO₂:</strong> ${event.co2_grams.toFixed(2)} g</div>
+                                </div>
+                            </div>
+                        `).join('');
+                    } else {
+                        eventsContainer.innerHTML = '<div class="loading">No recent events found</div>';
+                    }
+                }
+            } catch (error) {
+                document.getElementById('recentEvents').innerHTML = 
+                    `<div class="error">Error loading telemetry: ${error.message}</div>`;
+            }
+        }
+        
+        // Load on page load
+        loadTelemetry();
+        
+        // Auto-refresh every 30 seconds
+        setInterval(loadTelemetry, 30000);
+    </script>
+</body>
+</html>
+

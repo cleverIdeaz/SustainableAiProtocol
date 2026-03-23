@@ -15,6 +15,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
+app.use('/assets', express.static('assets'));
 
 // Configure multer for file uploads
 const storage = multer.memoryStorage();
@@ -288,6 +289,89 @@ app.get('/api/stats', async (req, res) => {
   } catch (error) {
     console.error('Error fetching stats:', error);
     res.json(globalStats);
+  }
+});
+
+// MCP-compliant telemetry endpoint
+app.get('/mcp/telemetry', async (req, res) => {
+  try {
+    // Get global stats
+    let stats = globalStats;
+    if (supabase) {
+      const { data } = await supabase
+        .from('global_stats')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .single();
+      
+      if (data) {
+        stats = {
+          totalPrompts: data.total_prompts || 0,
+          totalEnergy: data.total_energy || 0,
+          totalCO2: data.total_co2 || 0,
+          lastUpdated: data.created_at
+        };
+      }
+    }
+
+    // Get recent events for sample data
+    let recentEvents = [];
+    if (supabase) {
+      const { data } = await supabase
+        .from('events')
+        .select('model, tokens_input, tokens_output, timestamp, metadata')
+        .order('timestamp', { ascending: false })
+        .limit(10);
+      
+      if (data) {
+        recentEvents = data.map(event => ({
+          model_id: event.model,
+          timestamp: event.timestamp,
+          tokens_input: event.tokens_input || 0,
+          tokens_output: event.tokens_output || 0,
+          kwh_estimate: event.metadata?.estimated_kwh || 0,
+          co2_grams: event.metadata?.estimated_gco2 || 0,
+          session_id: event.metadata?.session_id || 'anonymous'
+        }));
+      }
+    }
+
+    // MCP-compliant response format
+    res.json({
+      resource: {
+        uri: 'sap://telemetry',
+        name: 'SAP Sustainability Telemetry',
+        description: 'Global AI sustainability metrics and per-prompt telemetry',
+        mimeType: 'application/json'
+      },
+      contents: [
+        {
+          uri: 'sap://telemetry/global',
+          mimeType: 'application/json',
+          text: JSON.stringify({
+            global_stats: {
+              total_prompts: stats.totalPrompts,
+              total_energy_kwh: stats.totalEnergy,
+              total_co2_kg: stats.totalCO2,
+              last_updated: stats.lastUpdated
+            },
+            recent_events: recentEvents,
+            metadata: {
+              version: '1.0.0',
+              provider: 'SAP Protocol',
+              timestamp: new Date().toISOString()
+            }
+          }, null, 2)
+        }
+      ]
+    });
+  } catch (error) {
+    console.error('Error fetching MCP telemetry:', error);
+    res.status(500).json({ 
+      error: 'Failed to fetch telemetry',
+      message: error.message 
+    });
   }
 });
 

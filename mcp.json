@@ -1,0 +1,74 @@
+{
+  "mcpVersion": "2024-11-05",
+  "name": "sap-sustainability",
+  "version": "1.0.0",
+  "description": "Sustainable AI Protocol (SAP) - Track AI energy consumption and environmental impact",
+  "author": "SAP Foundation",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "[PLACEHOLDER - Repository not yet public]"
+  },
+  "capabilities": {
+    "tools": {
+      "track_interaction": {
+        "description": "Track AI interaction with SAP sustainability metrics",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "model": { "type": "string", "description": "AI model name (e.g., gpt-4, claude-3)" },
+            "tokens_input": { "type": "number", "description": "Input tokens" },
+            "tokens_output": { "type": "number", "description": "Output tokens" },
+            "request_type": { "type": "string", "description": "Type of request (text, image, audio, video)" },
+            "prompt": { "type": "string", "description": "The prompt text" },
+            "user_id": { "type": "string", "description": "User identifier" }
+          },
+          "required": ["model", "tokens_input", "tokens_output"]
+        }
+      },
+      "get_environmental_context": {
+        "description": "Get current environmental data and sustainability context",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "location": { "type": "string", "description": "Location for environmental data (default: global)" }
+          }
+        }
+      },
+      "optimize_prompt": {
+        "description": "Optimize prompt for maximum sustainability and efficiency",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "prompt": { "type": "string", "description": "Original prompt to optimize" },
+            "model": { "type": "string", "description": "Target AI model" },
+            "preferences": { "type": "string", "description": "Optimization preferences (energy-focused, speed-focused, balanced)" }
+          },
+          "required": ["prompt", "model"]
+        }
+      },
+      "get_sustainability_score": {
+        "description": "Get sustainability score for current AI usage patterns",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "time_period": { "type": "string", "description": "Time period for analysis (hour, day, week)" }
+          }
+        }
+      }
+    },
+    "resources": {
+      "sap://telemetry": {
+        "name": "SAP Sustainability Telemetry",
+        "description": "Global AI sustainability metrics and per-prompt telemetry",
+        "mimeType": "application/json"
+      }
+    }
+  },
+  "endpoints": {
+    "telemetry": "/mcp/telemetry",
+    "track": "/api/track",
+    "stats": "/api/stats"
+  }
+}
+
