@@ -674,6 +674,10 @@
                         <span class="stat-row-key">Est. CO₂</span>
                         <span class="stat-row-val" id="p-co2">0 g</span>
                     </div>
+                    <div class="stat-row" id="p-sources-row" style="display:none;">
+                        <span class="stat-row-key">Sources</span>
+                        <span class="stat-row-val" id="p-sources" style="font-size:0.72rem;color:var(--text-dim);"></span>
+                    </div>
                     <div class="auth-nudge" id="auth-nudge">
                         <span id="auth-nudge-text">
                             <button onclick="openAuth()">Sign in</button> to sync across devices
@@ -965,10 +969,12 @@ fetch(<span class="code-str">'https://sustainableaiprotocol.com/api/stats'</span
             el.innerHTML = `<button onclick="openAuth()" style="background:none;border:1px solid var(--green-border);color:var(--green);padding:5px 14px;font-size:0.72rem;font-weight:600;cursor:pointer;" onmouseover="this.style.background='var(--green-dim)'" onmouseout="this.style.background='none'">Sign in</button>`;
             nudge.style.display = 'block';
             document.getElementById('personal-source').textContent = '(this session)';
+            updatePersonalUI(null);
         } else {
             el.innerHTML = `<span style="font-size:0.72rem;color:var(--text-dim);">${user.email?.split('@')[0] || 'signed in'} · <button onclick="signOut()" style="background:none;border:none;color:var(--text-dim);cursor:pointer;font-size:0.72rem;text-decoration:underline;">sign out</button></span>`;
             nudge.style.display = 'none';
             document.getElementById('personal-source').textContent = '(cloud synced)';
+            loadPersonalStats(user);
         }
     }
 
@@ -979,13 +985,48 @@ fetch(<span class="code-str">'https://sustainableaiprotocol.com/api/stats'</span
     }
 
     // ── Personal counter UI
-    function updatePersonalUI() {
-        const kwh = (personalCount * ENERGY_PER_PROMPT_KWH).toFixed(4);
-        const co2 = Math.round(personalCount * ENERGY_PER_PROMPT_KWH * CO2_PER_KWH_G);
-        document.getElementById('p-count').textContent = personalCount.toLocaleString();
-        document.getElementById('p-kwh').textContent = `${kwh} kWh`;
-        document.getElementById('p-co2').textContent = `${co2} g`;
+    function updatePersonalUI(real) {
+        if (real) {
+            document.getElementById('p-count').textContent = Number(real.total_events).toLocaleString();
+            document.getElementById('p-kwh').textContent = `${Number(real.total_kwh || 0).toFixed(4)} kWh`;
+            document.getElementById('p-co2').textContent = `${Math.round(real.total_co2_g || 0)} g`;
+            // Source breakdown
+            const parts = [];
+            if (real.intent_count > 0) parts.push(`intent ×${real.intent_count}`);
+            if (real.cli_count > 0) parts.push(`cli ×${real.cli_count}`);
+            if (real.styletree_count > 0) parts.push(`style ×${real.styletree_count}`);
+            if (real.external_count > 0) parts.push(`ext ×${real.external_count}`);
+            const srcRow = document.getElementById('p-sources-row');
+            if (parts.length > 0) {
+                document.getElementById('p-sources').textContent = parts.join(' · ');
+                srcRow.style.display = 'flex';
+            } else {
+                srcRow.style.display = 'none';
+            }
+        } else {
+            const kwh = (personalCount * ENERGY_PER_PROMPT_KWH).toFixed(4);
+            const co2 = Math.round(personalCount * ENERGY_PER_PROMPT_KWH * CO2_PER_KWH_G);
+            document.getElementById('p-count').textContent = personalCount.toLocaleString();
+            document.getElementById('p-kwh').textContent = `${kwh} kWh`;
+            document.getElementById('p-co2').textContent = `${co2} g`;
+            document.getElementById('p-sources-row').style.display = 'none';
+        }
         document.getElementById('sap-btn-count').textContent = sessionCount;
+    }
+
+    // ── Load personal stats from Supabase (when signed in)
+    async function loadPersonalStats(user) {
+        if (!user) return;
+        try {
+            const { data, error } = await _sb
+                .from('sap_my_stats')
+                .select('*')
+                .eq('user_id', user.id)
+                .maybeSingle();
+            if (!error && data) {
+                updatePersonalUI(data);
+            }
+        } catch { /* keep localStorage fallback */ }
     }
 
     // ── Track a prompt
@@ -1058,7 +1099,10 @@ fetch(<span class="code-str">'https://sustainableaiprotocol.com/api/stats'</span
         _sb.auth.onAuthStateChange((event, session) => {
             currentUser = session?.user ?? null;
             renderAuthNav(currentUser);
-            if (event === 'SIGNED_IN') closeAuth();
+            if (event === 'SIGNED_IN') {
+                closeAuth();
+                loadPersonalStats(currentUser);
+            }
         });
     }
 
