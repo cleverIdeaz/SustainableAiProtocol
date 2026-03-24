@@ -1,0 +1,57 @@
+{
+  "id": "p_1774322476784_0fc5530e",
+  "version": "0.1",
+  "entity": "SustainableAiProtocol",
+  "archetype": "product",
+  "created": "2026-03-24",
+  "updated": "2026-03-24",
+  "intent": {
+    "raw": "the sustainable ai protocol - The Sustainable AI Protocol (SAP) is an open standard for measuring and reporting AI usage — tokens, cost, and energy — per user, per session, per tool. Built into the PHEWSH ecosystem from day one. Every AI platform will show its footprint — eventually.",
+    "goal": "the sustainable ai protocol - The Sustainable AI Protocol (SAP) is an open standard for measuring and reporting AI usage — tokens, cost, and energy — per user, per session, per tool. Built into the PHEWSH ecosystem from day one.",
+    "success_criteria": [
+      "Every AI platform will show its footprint — eventually."
+    ],
+    "constraints": [],
+    "inputs": [],
+    "outputs": []
+  },
+  "tasks": [
+    {
+      "id": "t_001",
+      "text": "Refine the vision — complete vision.md",
+      "status": "open",
+      "type": "do",
+      "blocked_by": null
+    },
+    {
+      "id": "t_002",
+      "text": "Define Phase 1 — what is the smallest thing to ship?",
+      "status": "open",
+      "type": "do",
+      "blocked_by": null
+    },
+    {
+      "id": "t_003",
+      "text": "Identify the first blocker",
+      "status": "open",
+      "type": "do",
+      "blocked_by": null
+    }
+  ],
+  "state": {
+    "phase": "clarify",
+    "last_action": "2026-03-24",
+    "progress": 0
+  },
+  "assets": [],
+  "adapters": {
+    "anthropic": {
+      "project_id": null,
+      "last_synced": null
+    },
+    "openai": {
+      "project_id": null,
+      "last_synced": null
+    }
+  }
+}
