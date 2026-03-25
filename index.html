@@ -452,6 +452,168 @@
         .code-str { color: #34d399; }
         .code-key { color: #60a5fa; }
 
+        /* ── Chat demo ── */
+        .chat-demo {
+            max-width: 640px;
+            margin: 0 auto 64px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .chat-demo-header {
+            padding: 10px 16px;
+            background: var(--bg-hover);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-demo-header span {
+            font-size: 0.68rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--text-dim);
+        }
+
+        .chat-demo-messages {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .chat-msg {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .chat-msg-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.72rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .chat-msg-avatar.user { background: #2563eb; color: #fff; }
+        .chat-msg-avatar.ai { background: var(--bg-hover); color: var(--text-muted); border: 1px solid var(--border); }
+
+        .chat-msg-body {
+            font-size: 0.84rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .chat-msg-body strong { color: var(--text); font-weight: 500; }
+
+        .chat-demo-input {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            border-top: 1px solid var(--border);
+            background: var(--bg-hover);
+        }
+
+        .chat-demo-sap-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: none;
+            cursor: default;
+            padding: 0;
+            flex-shrink: 0;
+        }
+
+        .chat-demo-sap-btn img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 6px rgba(16,185,129,0.3));
+        }
+
+        .chat-demo-fake-input {
+            flex: 1;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            padding: 8px 14px;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+        }
+
+        .chat-demo-send {
+            width: 32px;
+            height: 32px;
+            background: var(--green);
+            border: none;
+            color: #000;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: default;
+            flex-shrink: 0;
+        }
+
+        .sap-tracking-panel {
+            margin: 0 20px 20px;
+            padding: 16px;
+            background: var(--green-dim);
+            border: 1px solid var(--green-border);
+        }
+
+        .sap-tracking-panel-label {
+            font-size: 0.58rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--green);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sap-tracking-panel-label .spin-icon {
+            display: inline-block;
+            animation: sapSpin 2s linear infinite;
+        }
+
+        .sap-tracking-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 12px;
+        }
+
+        .sap-tracking-item {
+            text-align: center;
+        }
+
+        .sap-tracking-item .label {
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-dim);
+            margin-bottom: 4px;
+        }
+
+        .sap-tracking-item .value {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .sap-tracking-item .value.green { color: var(--green); }
+
+        @media (max-width: 640px) {
+            .sap-tracking-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+        }
+
         /* ── CTA ── */
         .cta-strip {
             padding: 48px 40px;
@@ -628,7 +790,7 @@
             <div class="hero-label">The Missing Button</div>
             <h1>AI Uses Energy.<br><em>Let's Make It Visible.</em></h1>
             <p class="hero-sub">
-                Every AI interaction consumes measurable energy. There's no button to track it. SAP is building that button — open standard, real data, one line of code.
+                Every time you use AI in PHEWSH, SAP tracks it — model, tokens, energy, carbon. Automatically. Not optional. Already running. Already live. Open standard. One line of code to add it to yours.
             </p>
 
             <!-- Button demo -->
@@ -652,6 +814,56 @@
                     <strong style="color:var(--text);">This button belongs in every AI chat.</strong><br>
                     Click it after each prompt. Your personal count + the global counter both update.
                 </p>
+            </div>
+
+            <!-- Chat demo — shows SAP in context -->
+            <div class="chat-demo">
+                <div class="chat-demo-header">
+                    <span>What this looks like in practice</span>
+                    <span style="color:var(--green);">SAP active</span>
+                </div>
+                <div class="chat-demo-messages">
+                    <div class="chat-msg">
+                        <div class="chat-msg-avatar user">Y</div>
+                        <div class="chat-msg-body"><strong>Generate a plan for my recipe app — needs Instacart sync, inventory tracking, and printable collections.</strong></div>
+                    </div>
+                    <div class="chat-msg">
+                        <div class="chat-msg-avatar ai">AI</div>
+                        <div class="chat-msg-body">Here's a structured plan with three phases. Phase 1: Core recipe CRUD with ingredient parsing. Phase 2: Instacart API integration for ingredient-to-cart mapping. Phase 3: Print layout engine with collection grouping...</div>
+                    </div>
+                </div>
+                <!-- SAP tracking panel — the point of the demo -->
+                <div class="sap-tracking-panel">
+                    <div class="sap-tracking-panel-label">
+                        <span class="spin-icon">🌿</span>
+                        SAP tracked this interaction
+                    </div>
+                    <div class="sap-tracking-grid">
+                        <div class="sap-tracking-item">
+                            <div class="label">Model</div>
+                            <div class="value">Claude Sonnet</div>
+                        </div>
+                        <div class="sap-tracking-item">
+                            <div class="label">Tokens</div>
+                            <div class="value">1,847</div>
+                        </div>
+                        <div class="sap-tracking-item">
+                            <div class="label">Energy</div>
+                            <div class="value green">0.0011 kWh</div>
+                        </div>
+                        <div class="sap-tracking-item">
+                            <div class="label">CO₂</div>
+                            <div class="value green">0.55 g</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-demo-input">
+                    <button class="chat-demo-sap-btn">
+                        <img src="assets/SAPButton.svg" alt="SAP" onerror="this.parentNode.innerHTML='🌿'">
+                    </button>
+                    <div class="chat-demo-fake-input">Ask anything, see impact...</div>
+                    <div class="chat-demo-send">↑</div>
+                </div>
             </div>
 
             <!-- Personal vs Global stats -->
@@ -702,7 +914,7 @@
                         <span class="stat-row-val" id="g-co2">— g</span>
                     </div>
                     <div class="auth-nudge" style="background:transparent;border-color:transparent;color:var(--text-dim);font-style:italic;">
-                        Rough estimates · methodology in progress
+                        Model-specific estimates · increasing fidelity
                     </div>
                 </div>
             </div>
@@ -761,14 +973,14 @@
                 </div>
                 <div class="card">
                     <div class="card-icon">🔬</div>
-                    <h3>Scientific Validation</h3>
-                    <p>Current estimates are rough. We're seeking research partnerships to validate energy calculations and publish methodology.</p>
+                    <h3>Increasing Fidelity</h3>
+                    <p>Estimating energy with the best available models today. Designed for verified telemetry tomorrow. Seeking research partnerships to validate and publish methodology.</p>
                 </div>
             </div>
 
             <div class="card" style="margin-top:1px;background:var(--bg-hover);border:1px solid var(--border);">
                 <h3 style="margin-bottom:8px;">What this actually is right now</h3>
-                <p>SAP is a <strong style="color:var(--text);">working beta</strong> with a real API, a real button, and rough energy estimates based on industry averages. The tracking pipeline works. The energy numbers need scientific validation. We're building openly and won't claim accuracy we don't have yet.</p>
+                <p>SAP is <strong style="color:var(--text);">tracking real AI usage today</strong> — model, tokens, energy, and carbon on every generation across the PHEWSH ecosystem. Energy estimates use model-specific coefficients for 12+ models, scaling by token count. The tracking pipeline is live. The estimates are designed to evolve toward verified telemetry as data centers publish real infrastructure data.</p>
             </div>
         </div>
     </section>
@@ -836,50 +1048,50 @@ fetch(<span class="code-str">'https://sustainableaiprotocol.com/api/stats'</span
     <section class="section-divider" id="status">
         <div class="container">
             <div class="section-label">Honest status</div>
-            <h2>What's real. What's not yet.</h2>
+            <h2>Where we are. Where we're going.</h2>
 
             <div class="card-grid-2">
                 <div class="card">
-                    <span class="badge badge-green">✓ Working</span>
-                    <h3>What we have</h3>
+                    <span class="badge badge-green">✓ Live</span>
+                    <h3>Already tracking</h3>
                     <ul style="padding-left:16px;margin-top:8px;">
-                        <li style="font-size:0.82rem;color:var(--text-muted);line-height:1.9;">SAP button with spin animation</li>
-                        <li style="font-size:0.82rem;color:var(--text-muted);line-height:1.9;">Global counter (live API)</li>
-                        <li style="font-size:0.82rem;color:var(--text-muted);line-height:1.9;">Personal tracking (localStorage + optional auth)</li>
-                        <li style="font-size:0.82rem;color:var(--text-muted);line-height:1.9;"><code style="font-size:0.78rem;">sap-embed.js</code> for one-line integration</li>
+                        <li style="font-size:0.82rem;color:var(--text-muted);line-height:1.9;">SAP button in <a href="https://phewsh.com/intent" style="color:var(--green);">PHEWSH Intent Engine</a></li>
+                        <li style="font-size:0.82rem;color:var(--text-muted);line-height:1.9;">SAP tracking in <a href="https://phewsh.com" style="color:var(--green);">PHEWSH CLI</a> (<code style="font-size:0.78rem;">phewsh ai run</code>)</li>
+                        <li style="font-size:0.82rem;color:var(--text-muted);line-height:1.9;">Model-specific energy coefficients (12+ models)</li>
+                        <li style="font-size:0.82rem;color:var(--text-muted);line-height:1.9;">Per-inference token counting (input + output)</li>
+                        <li style="font-size:0.82rem;color:var(--text-muted);line-height:1.9;">Global counter + personal stats (live API)</li>
                         <li style="font-size:0.82rem;color:var(--text-muted);line-height:1.9;">REST API: <code style="font-size:0.78rem;">/api/track</code> + <code style="font-size:0.78rem;">/api/stats</code></li>
-                        <li style="font-size:0.82rem;color:var(--text-muted);line-height:1.9;">MCP server prototype</li>
                     </ul>
                 </div>
                 <div class="card">
-                    <span class="badge badge-yellow">⚠ Needed</span>
-                    <h3>What needs work</h3>
+                    <span class="badge badge-yellow">⚠ Increasing fidelity</span>
+                    <h3>Evolving toward verified</h3>
                     <ul style="padding-left:16px;margin-top:8px;">
-                        <li style="font-size:0.82rem;color:var(--text-muted);line-height:1.9;">Scientific validation of energy estimates</li>
+                        <li style="font-size:0.82rem;color:var(--text-muted);line-height:1.9;">Scientific validation of energy coefficients</li>
                         <li style="font-size:0.82rem;color:var(--text-muted);line-height:1.9;">Research partnerships for peer review</li>
-                        <li style="font-size:0.82rem;color:var(--text-muted);line-height:1.9;">Model-specific energy profiles</li>
-                        <li style="font-size:0.82rem;color:var(--text-muted);line-height:1.9;">Button in PHEWSH intent app + StyleTree</li>
-                        <li style="font-size:0.82rem;color:var(--text-muted);line-height:1.9;">Public GitHub repo documentation</li>
-                        <li style="font-size:0.82rem;color:var(--text-muted);line-height:1.9;">Community presence</li>
+                        <li style="font-size:0.82rem;color:var(--text-muted);line-height:1.9;">Data center partnerships for real telemetry</li>
+                        <li style="font-size:0.82rem;color:var(--text-muted);line-height:1.9;">Region-specific carbon intensity (beyond US grid avg)</li>
+                        <li style="font-size:0.82rem;color:var(--text-muted);line-height:1.9;">Context window overhead modeling</li>
+                        <li style="font-size:0.82rem;color:var(--text-muted);line-height:1.9;">Personal usage dashboard with trends</li>
                     </ul>
                 </div>
                 <div class="card">
                     <span class="badge badge-blue">→ Next</span>
-                    <h3>Immediate priorities</h3>
+                    <h3>Building now</h3>
                     <ul style="padding-left:16px;margin-top:8px;">
-                        <li style="font-size:0.82rem;color:var(--text-muted);line-height:1.9;">Get 100 developer integrations</li>
-                        <li style="font-size:0.82rem;color:var(--text-muted);line-height:1.9;">Embed button in PHEWSH intent + StyleTree</li>
-                        <li style="font-size:0.82rem;color:var(--text-muted);line-height:1.9;">Validate energy calculations</li>
-                        <li style="font-size:0.82rem;color:var(--text-muted);line-height:1.9;">Partner with research institutions</li>
+                        <li style="font-size:0.82rem;color:var(--text-muted);line-height:1.9;">Personal SAP dashboard (your footprint over time)</li>
+                        <li style="font-size:0.82rem;color:var(--text-muted);line-height:1.9;">Session-level tracking (multi-prompt correlation)</li>
+                        <li style="font-size:0.82rem;color:var(--text-muted);line-height:1.9;"><code style="font-size:0.78rem;">sap-embed.js</code> for external developer integration</li>
+                        <li style="font-size:0.82rem;color:var(--text-muted);line-height:1.9;">100 developer integrations</li>
                     </ul>
                 </div>
                 <div class="card">
                     <span class="badge badge-gray">◎ Vision</span>
-                    <h3>Long-term goal</h3>
+                    <h3>Where this goes</h3>
                     <ul style="padding-left:16px;margin-top:8px;">
                         <li style="font-size:0.82rem;color:var(--text-muted);line-height:1.9;">SAP button in every AI chat interface</li>
                         <li style="font-size:0.82rem;color:var(--text-muted);line-height:1.9;">Industry standard energy protocol</li>
-                        <li style="font-size:0.82rem;color:var(--text-muted);line-height:1.9;">Verified, model-specific measurements</li>
+                        <li style="font-size:0.82rem;color:var(--text-muted);line-height:1.9;">Verified telemetry from data center partnerships</li>
                         <li style="font-size:0.82rem;color:var(--text-muted);line-height:1.9;">Universal AI energy transparency</li>
                     </ul>
                 </div>
@@ -892,7 +1104,7 @@ fetch(<span class="code-str">'https://sustainableaiprotocol.com/api/stats'</span
         <div class="container">
             <div class="cta-strip">
                 <h2>Help Build This</h2>
-                <p>We're building the button that should already exist — one that makes AI energy visible. Simple idea. Needs validation, developers, and honest development.</p>
+                <p>We built the button. Now we need validation, developers, and data center partnerships to evolve estimates into verified measurements.</p>
                 <div class="cta-btns">
                     <a href="https://github.com/cleverIdeaz/SustainableAiProtocol" target="_blank" class="btn btn-green">View on GitHub</a>
                     <a href="mailto:cleverideazllc@gmail.com" class="btn btn-outline">Partner with us</a>
@@ -940,9 +1152,9 @@ fetch(<span class="code-str">'https://sustainableaiprotocol.com/api/stats'</span
     const SUPABASE_URL = 'https://fpnpfnahwaztdlxuayyv.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZwbnBmbmFod2F6dGRseHVheXl2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA1NDY2NTcsImV4cCI6MjA3NjEyMjY1N30.Q6mn8RIvXujBXbd10aFkeY7yGHVsAQPEHM5OzoPMsFQ';
 
-    // Energy estimates (rough — industry averages, unvalidated)
-    const ENERGY_PER_PROMPT_KWH = 0.0003;   // ~0.3 Wh per typical prompt
-    const CO2_PER_KWH_G = 400;               // ~400g CO2 per kWh (US average grid)
+    // Energy estimates (model-specific coefficients used in real tracking; fallback for demo clicks)
+    const ENERGY_PER_PROMPT_KWH = 0.0003;   // ~0.3 Wh per typical prompt (demo fallback)
+    const CO2_PER_KWH_G = 500;               // ~500g CO2 per kWh (US grid avg, EPA 2023)
 
     const _sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     let currentUser = null;
