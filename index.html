@@ -463,6 +463,7 @@
 
         <div class="sb-group">Getting started</div>
         <a href="#introduction" class="active">Introduction</a>
+        <a href="#why-integrate">Why integrate</a>
         <a href="#quick-start">Quick start</a>
 
         <div class="sb-group">Protocol</div>
@@ -490,27 +491,40 @@
 
             <p>Think of it like analytics for AI usage. Every time your application calls an AI model, SAP records what happened: which model, how many tokens, and what that costs in estimated energy. The data aggregates into personal stats (per user) and global stats (across all integrations).</p>
 
-            <p>SAP is currently tracking real usage in production across the <a href="https://phewsh.com">PHEWSH</a> ecosystem. The protocol is open and designed for any application to integrate.</p>
+            <p>SAP is currently tracking real AI usage in production across the <a href="https://phewsh.com">PHEWSH</a> ecosystem, with support for external integrations. Optionally, it exposes usage to end users via a small UI component — sometimes called "the missing button" in AI interfaces.</p>
+
+            <p>Personal stats are scoped to a user or session. Global stats aggregate all events across all integrations.</p>
 
             <h3>What it does</h3>
             <ul>
                 <li>Records one event per AI inference (model, tokens, estimated energy, CO&#8322;, water)</li>
                 <li>Aggregates usage at the personal, session, daily, and global level</li>
                 <li>Provides a standard event schema and API for any application</li>
-                <li>Optionally surfaces usage data to end users via a UI component</li>
+                <li>Optionally surfaces usage data to end users via the SAP button component</li>
             </ul>
 
             <h3>What it does not do</h3>
             <ul>
                 <li>It does not capture prompt content — only metadata</li>
                 <li>It does not require authentication — anonymous tracking works</li>
-                <li>It does not claim perfect accuracy — energy estimates use published coefficients and are designed to improve over time</li>
+                <li>It does not claim perfect accuracy — energy values are model-based estimates designed for relative comparison, with support for integrating real telemetry as it becomes available</li>
             </ul>
 
             <div class="note">
-                <p><strong>Honest about estimates.</strong> SAP's energy numbers are based on model-specific coefficients from published research, not direct measurement. They are useful for relative comparison and awareness. As infrastructure providers publish real telemetry data, SAP is designed to incorporate verified numbers.</p>
+                <p><strong>Honest about estimates.</strong> SAP uses model-based estimates derived from published research, not direct measurement from data centers. No AI provider currently exposes per-request energy data. SAP is designed for increasing fidelity — estimates today, verified telemetry when infrastructure providers publish real numbers.</p>
             </div>
         </section>
+
+        <!-- ═══ WHY INTEGRATE ═══ -->
+        <h2 id="why-integrate">Why integrate SAP</h2>
+
+        <ul>
+            <li><strong>Standardizes AI usage tracking</strong> across models and providers — one event format, one aggregation model</li>
+            <li><strong>Provides immediate analytics</strong> without building custom pipelines — token counts, energy estimates, usage trends</li>
+            <li><strong>Enables optional user-facing transparency</strong> via the SAP button ("the missing button") — builds user trust</li>
+            <li><strong>Creates a foundation</strong> for cost optimization, efficiency feedback, and future compliance tooling</li>
+            <li><strong>Minimal integration cost</strong> — one API call per inference, fire-and-forget, never blocks your app</li>
+        </ul>
 
 
         <!-- ═══ QUICK START ═══ -->
@@ -628,8 +642,10 @@
             <tr><td>Water (mL)</td><td><code>kwh * 1800</code></td><td>Data center evaporative cooling estimate</td></tr>
         </table>
 
+        <p>Water estimates represent cooling usage based on evaporative data center systems and are directional, not exact. Not all data centers use evaporative cooling — some use closed-loop or air cooling systems that consume significantly less water.</p>
+
         <div class="note note-warn">
-            <p><strong>These are estimates.</strong> Actual energy varies by data center, hardware, load, region, and cooling system. SAP is designed for increasing fidelity — estimates today, verified telemetry when infrastructure providers publish real data.</p>
+            <p><strong>These are estimates.</strong> Actual energy varies by data center, hardware, load, region, and cooling system. No AI provider currently exposes per-request energy or water data. SAP is designed for increasing fidelity — estimates today, verified telemetry when infrastructure providers publish real numbers.</p>
         </div>
 
 
@@ -724,8 +740,10 @@
 
         <p>This is sometimes called "the missing button" — a piece of UI that arguably should exist in every AI chat interface but currently doesn't.</p>
 
+        <p>This is not required for integration. Most apps integrate SAP backend-only. The UI is for apps that want to give users visibility.</p>
+
         <div class="demo-box">
-            <div class="demo-header">Reference implementation — try it</div>
+            <div class="demo-header">Reference UI (optional) — try it</div>
             <div class="demo-body">
                 <div class="demo-row">
                     <button class="demo-sap-btn" id="sap-btn" onclick="openDashboard()" title="Open SAP dashboard">
@@ -840,6 +858,14 @@
                         <div class="val" id="dash-global-kwh">&mdash;</div>
                         <div class="label">kWh</div>
                     </div>
+                    <div class="sap-dash-stat">
+                        <div class="val" id="dash-global-co2">&mdash;</div>
+                        <div class="label">g CO&#8322;</div>
+                    </div>
+                    <div class="sap-dash-stat">
+                        <div class="val" id="dash-global-water">&mdash;</div>
+                        <div class="label">mL water</div>
+                    </div>
                 </div>
             </div>
 
@@ -908,12 +934,16 @@
 
     // ── Global stats (real data from Supabase)
     function loadGlobalStats() {
-        fetch('https://fpnpfnahwaztdlxuayyv.supabase.co/rest/v1/global_stats?select=total_count,total_kwh&id=eq.1', {
+        fetch('https://fpnpfnahwaztdlxuayyv.supabase.co/rest/v1/global_stats?select=total_count,total_kwh,total_co2,total_water&id=eq.1', {
             headers: { 'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZwbnBmbmFod2F6dGRseHVheXl2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA1NDY2NTcsImV4cCI6MjA3NjEyMjY1N30.Q6mn8RIvXujBXbd10aFkeY7yGHVsAQPEHM5OzoPMsFQ' }
         }).then(r => r.json()).then(d => {
             if (d[0]) {
                 document.getElementById('dash-global-count').textContent = Number(d[0].total_count || 0).toLocaleString();
                 document.getElementById('dash-global-kwh').textContent = Number(d[0].total_kwh || 0).toFixed(2);
+                const co2 = Number(d[0].total_co2 || 0);
+                document.getElementById('dash-global-co2').textContent = co2 < 1000 ? Math.round(co2) : (co2 / 1000).toFixed(1) + 'k';
+                const water = Number(d[0].total_water || 0);
+                document.getElementById('dash-global-water').textContent = water < 1000 ? Math.round(water) : (water / 1000).toFixed(1) + 'k';
             }
         }).catch(() => {});
     }
