@@ -298,8 +298,8 @@ MIT License - see LICENSE file for details.
 ## 🆘 Support
 
 For support, please contact:
-- Email: support@sustainableaiprotocol.com
-- GitHub Issues: [Create an issue](https://github.com/your-org/sap-protocol/issues)
+- Email: hello@phewsh.com
+- GitHub Issues: [Create an issue](https://github.com/cleverIdeaz/SustainableAiProtocol/issues)
 
 ## 🌟 Community
 

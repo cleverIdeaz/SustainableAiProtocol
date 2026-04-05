@@ -520,7 +520,7 @@
 
         <ul>
             <li><strong>Standardizes AI usage tracking</strong> across models and providers — one event format, one aggregation model</li>
-            <li><strong>Provides immediate analytics</strong> without building custom pipelines — token counts, energy estimates, usage trends</li>
+            <li><strong>Provides immediate usage analytics</strong> without building custom pipelines</li>
             <li><strong>Enables optional user-facing transparency</strong> via the SAP button ("the missing button") — builds user trust</li>
             <li><strong>Creates a foundation</strong> for cost optimization, efficiency feedback, and future compliance tooling</li>
             <li><strong>Minimal integration cost</strong> — one API call per inference, fire-and-forget, never blocks your app</li>
@@ -551,7 +551,7 @@
   })
 });</code></pre>
 
-        <p>That's it. One call per inference. The backend atomically updates global, daily, and hourly rollups. No additional setup required.</p>
+        <p>That's it. One call per inference. The call is designed to be fire-and-forget and should never block your application or user experience. The backend atomically updates global, daily, and hourly rollups. No additional setup required.</p>
 
         <p>If you don't want to calculate energy estimates yourself, you can omit <code>p_kwh</code>, <code>p_co2_g</code>, and <code>p_water_ml</code> — the database function uses sensible defaults (0.0004 kWh, 0.2g CO&#8322;, 0.72 mL water).</p>
 
@@ -565,7 +565,7 @@
             <tr><th>Column</th><th>Type</th><th>Description</th></tr>
             <tr><td><code>id</code></td><td>UUID</td><td>Auto-generated primary key</td></tr>
             <tr><td><code>user_id</code></td><td>UUID</td><td>Authenticated user (optional, null for anonymous)</td></tr>
-            <tr><td><code>session_id</code></td><td>TEXT</td><td>Client-generated session identifier</td></tr>
+            <tr><td><code>session_id</code></td><td>TEXT</td><td>Client-generated session ID (per tab or per session, used to group related interactions)</td></tr>
             <tr><td><code>source</code></td><td>TEXT</td><td><code>intent</code> | <code>cli</code> | <code>styletree</code> | <code>external</code></td></tr>
             <tr><td><code>model</code></td><td>TEXT</td><td>Full model slug (e.g. <code>anthropic/claude-sonnet-4</code>)</td></tr>
             <tr><td><code>prompt_tokens</code></td><td>INTEGER</td><td>Input token count</td></tr>
@@ -652,7 +652,7 @@
         <!-- ═══ AGGREGATION ═══ -->
         <h2 id="aggregation">Aggregation</h2>
 
-        <p>Every call to <code>track_sap_event</code> atomically updates three aggregation layers:</p>
+        <p>Aggregation is handled entirely server-side. Clients only send events. Every call to <code>track_sap_event</code> atomically updates three aggregation layers:</p>
 
         <ul>
             <li><strong>Global</strong> — single row in <code>global_stats</code>, tracks totals across all users and sources</li>
@@ -728,13 +728,13 @@
   <span class="k">return</span> <span class="f">onSapTrack</span>((n) => <span class="f">setCount</span>(n));
 }, []);</code></pre>
 
-        <p>The session ID persists for the lifetime of the browser tab. When a user authenticates, events are attributed to their user ID for personal stats.</p>
+        <p>The session ID persists for the lifetime of the browser tab. When a user authenticates, all session activity can be attributed to their account, enabling persistent personal usage tracking over time. Anonymous usage works instantly; login enhances it.</p>
 
 
         <!-- ═══ OPTIONAL UI ═══ -->
         <h2 id="optional-ui">Optional UI</h2>
 
-        <p>The core of SAP is backend measurement. The UI is optional but encouraged — it gives end users visibility into their AI usage, which most interfaces don't provide.</p>
+        <p>The core of SAP is backend measurement. The UI is optional but encouraged — it gives end users visibility into their AI usage, which most interfaces don't provide. It can be embedded, customized, or omitted entirely depending on the application.</p>
 
         <p>The reference implementation is a small button that sits in the chat interface. It shows a session generation count. Clicking it opens a dashboard popup with personal and global stats. The button spins briefly each time an inference is tracked — a subtle signal that measurement is happening.</p>
 
@@ -778,7 +778,7 @@
 
         <h3>Live</h3>
         <ul>
-            <li>Tracking real AI usage in production (PHEWSH Intent Engine, PHEWSH CLI)</li>
+            <li>Tracking real AI inference usage in production (PHEWSH Intent Engine, PHEWSH CLI)</li>
             <li>Model-specific energy coefficients for 12+ models</li>
             <li>Per-inference token counting (input + output)</li>
             <li>Global + personal + daily + hourly aggregation</li>
@@ -804,7 +804,7 @@
 
         <hr>
 
-        <p>SAP is open source. <a href="https://github.com/cleverIdeaz/SustainableAiProtocol">View on GitHub</a> &middot; <a href="mailto:cleverideazllc@gmail.com">Contact</a> &middot; A <a href="https://phewsh.com">PHEWSH</a> open standard.</p>
+        <p>SAP is open source. <a href="https://github.com/cleverIdeaz/SustainableAiProtocol">View on GitHub</a> &middot; <a href="mailto:hello@phewsh.com">Contact</a> &middot; A <a href="https://phewsh.com">PHEWSH</a> open standard.</p>
 
     </main>
 
