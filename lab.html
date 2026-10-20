@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>SAP Lab — Compare AI execution paths</title>
+<meta name="description" content="An interactive, local-only demonstration of Sustainable AI Protocol's environmental, human, and economic decision layer.">
+<style>
+:root{font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;color-scheme:dark;background:#09110f;color:#e8f2ec}
+*{box-sizing:border-box}body{margin:0;line-height:1.5}a{color:#9be6bd}
+header{border-bottom:1px solid #274033;padding:16px max(20px,calc((100vw - 1050px)/2));display:flex;justify-content:space-between;align-items:center;gap:12px}
+header a{text-decoration:none;font-weight:700}header small{color:#91afa0}
+main{max-width:1050px;margin:auto;padding:32px 20px 70px}
+.badge{display:inline-block;background:#163226;color:#a1f3c2;border:1px solid #39664d;border-radius:100px;padding:6px 12px;font-size:12px;font-weight:700;letter-spacing:.06em}
+h1{font-size:clamp(30px,5vw,54px);line-height:1.08;letter-spacing:-.035em;margin:18px 0}
+.lead{max-width:770px;color:#b5c9be;font-size:18px}
+.warning{background:#3b2a16;border:1px solid #796037;border-radius:12px;padding:14px 18px;color:#ffe1ab;margin:24px 0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:25px}
+.panel{background:#111c17;border:1px solid #324839;border-radius:16px;padding:22px}
+.panel h2{margin:0 0 16px;font-size:19px}
+.controls{display:flex;gap:9px;flex-wrap:wrap}
+button,select{font:inherit}
+.mode{padding:11px 17px;border-radius:10px;border:1px solid #4a6958;background:#15271d;color:#d5e8dc;cursor:pointer}
+.mode[aria-pressed=true]{background:#a7efbd;color:#102417;border-color:#a7efbd;font-weight:800}
+select{width:100%;padding:12px;margin:4px 0 16px;border-radius:9px;border:1px solid #42614c;background:#0a130e;color:#eaf5ed}
+label.checkbox{display:flex;gap:10px;align-items:center;margin:18px 0;cursor:pointer}
+input[type=checkbox]{accent-color:#8ddeac;inline-size:18px;block-size:18px}
+input[type=range]{width:100%;accent-color:#88e8ae}
+.sub{font-size:13px;color:#95ad9d}
+#result{margin-top:20px;border-left:3px solid #87e1a9;padding-left:15px}
+#result strong{font-size:23px}
+#result .sub{margin:7px 0}
+.cards{display:grid;gap:12px}
+.card{border:1px solid #3c5748;border-radius:12px;padding:15px;background:#101a14}
+.card.selected{border-color:#9ceaac;background:#193524}
+.card.rejected{opacity:.58}
+.cardhead{display:flex;justify-content:space-between;gap:8px}
+.tag{font-size:11px;border-radius:99px;padding:3px 9px;background:#274936}
+.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin-top:13px}
+.stats span{font-size:13px;color:#c6d5c9}
+.stats strong{color:#e6f4eb}
+.details{margin-top:22px}
+details{margin-top:15px;border-top:1px solid #314a3a;padding-top:14px}
+summary{cursor:pointer;font-weight:700}
+pre{overflow-x:auto;white-space:pre-wrap;overflow-wrap:anywhere;color:#a7dcb8;font-size:12px;background:#07110b;padding:15px;border-radius:9px}
+footer{margin-top:44px;border-top:1px solid #2c4536;padding-top:20px;font-size:14px;color:#a0b8a9}
+@media(max-width:760px){.grid{grid-template-columns:1fr}header small{display:none}main{padding:24px 15px}.panel{padding:18px}}
+</style>
+</head>
+<body>
+<header><a href="./index.html">◉ SAP <span style="font-weight:400">Sustainable AI Protocol</span></a><small>Invisible by default · transparent on demand · actionable by choice</small></header>
+<main>
+<span class="badge">EXPERIMENTAL · LOCAL-ONLY DEMONSTRATION</span>
+<h1>What if every AI task had a better way?</h1>
+<p class="lead">Sustainability includes the planet, the people using intelligence, and the long-term economics of computing. This sandbox lets you compare available execution paths rather than assuming that local or cloud AI always wins.</p>
+<div class="warning"><strong>Illustrative scenarios only.</strong> No AI requests are executed. Quality, cost and energy values below are fictional examples for testing the decision logic—not real benchmarks, provider measurements, or carbon claims. This page does not transmit or store your choices.</div>
+<div class="grid">
+<section class="panel" aria-labelledby="controlsTitle">
+<h2 id="controlsTitle">1 · Define what matters</h2>
+<label for="scenario">Illustrative workload</label>
+<select id="scenario">
+<option value="summary">Summarize a private document</option>
+<option value="research">Research a technical question</option>
+<option value="routine">Classify a routine message</option>
+</select>
+<div class="sub" style="margin-bottom:10px">Preferred execution approach</div>
+<div class="controls" role="group" aria-label="Execution preference">
+<button type="button" class="mode" data-mode="balanced" aria-pressed="true">Balanced</button>
+<button type="button" class="mode" data-mode="eco" aria-pressed="false">Eco</button>
+<button type="button" class="mode" data-mode="performance" aria-pressed="false">Performance</button>
+</div>
+<label class="checkbox"><input id="local" type="checkbox">Keep all processing local</label>
+<label for="quality">Minimum acceptable quality proxy: <strong id="qLabel">75%</strong></label>
+<input id="quality" type="range" min="50" max="99" step="1" value="75">
+<p class="sub">Quality is an illustrative external evaluation score, not a promise that an actual model would meet it.</p>
+<div id="result" role="status" aria-live="polite"></div>
+</section>
+<section class="panel" aria-labelledby="pathTitle">
+<h2 id="pathTitle">2 · Compare possible paths</h2>
+<div id="cards" class="cards"></div>
+</section>
+</div>
+<div class="grid details">
+<section class="panel">
+<h2>3 · See why</h2>
+<p>SAP's experimental core accepts declared requirements, evidence-labeled metrics, and available execution options. It returns an explainable choice, flags incomplete measurements, and never treats unknown energy use as zero.</p>
+<details><summary>Inspect the machine-readable plan</summary><pre id="plan"></pre></details>
+<details><summary>Inspect the draft execution receipt</summary><pre id="receipt"></pre><p class="sub">Planned does not mean executed; executed does not mean verified. SAP Core does not independently measure AI workloads.</p></details>
+</section>
+<section class="panel">
+<h2>What this demonstrates—and what it doesn't</h2>
+<p><strong>Planet:</strong> compare available environmental evidence, with explicit uncertainty.</p>
+<p><strong>People:</strong> preserve a local-only choice and the ability to see how a decision was made.</p>
+<p><strong>Economics:</strong> compare known operating costs without claiming universal savings.</p>
+<p class="sub">This is a voluntary reference design. An AI platform must integrate the core into its actual model and tool execution path before these preferences can affect real behavior.</p>
+<p><a href="./index.html">Read the original SAP documentation ↗</a> · <a href="https://github.com/cleverIdeaz/SustainableAiProtocol">Source code ↗</a></p>
+</section>
+</div>
+<footer>SAP is an open experiment. No central account, mandatory telemetry, prompt harvesting, or remote inference is required for this demo.</footer>
+</main>
+<script src="./sap-core.js"></script>
+<script>
+(function(){
+"use strict";
+var scenarios={
+summary:[
+{id:"local_small",label:"Small local model",location:"local",quality:.82,costUSD:0.005,latencyMs:1500,energyKwh:.00045,energyEvidence:"measured",energyNote:"Fictional example only"},
+{id:"cloud_small",label:"Small cloud model",location:"remote",quality:.88,costUSD:.002,latencyMs:700,energyKwh:.0003,energyEvidence:"estimated",energyNote:"Fictional example only"},
+{id:"cloud_large",label:"Large cloud model",location:"remote",quality:.97,costUSD:.018,latencyMs:1600,energyKwh:null,energyEvidence:"unknown"}],
+research:[
+{id:"local_research",label:"Local research agent",location:"local",quality:.72,costUSD:.012,latencyMs:4500,energyKwh:.002,energyEvidence:"measured",energyNote:"Fictional example only"},
+{id:"cloud_research",label:"Cloud research agent",location:"remote",quality:.92,costUSD:.045,latencyMs:2200,energyKwh:.006,energyEvidence:"estimated",energyNote:"Fictional example only"},
+{id:"hybrid_research",label:"Hybrid tool-assisted research",location:"hybrid",quality:.89,costUSD:.022,latencyMs:2800,energyKwh:null,energyEvidence:"unknown"}],
+routine:[
+{id:"rule",label:"Local deterministic rule",location:"local",quality:.79,costUSD:0,latencyMs:12,energyKwh:.00001,energyEvidence:"estimated",energyNote:"Fictional example only"},
+{id:"local_model",label:"Small local model",location:"local",quality:.89,costUSD:.001,latencyMs:480,energyKwh:.00025,energyEvidence:"measured",energyNote:"Fictional example only"},
+{id:"remote_model",label:"Cloud classifier",location:"remote",quality:.94,costUSD:.003,latencyMs:430,energyKwh:null,energyEvidence:"unknown"}]
+};
+var mode="balanced";
+var els={scenario:document.getElementById("scenario"),local:document.getElementById("local"),quality:document.getElementById("quality"),qLabel:document.getElementById("qLabel"),result:document.getElementById("result"),cards:document.getElementById("cards"),plan:document.getElementById("plan"),receipt:document.getElementById("receipt")};
+function fmt(n,digits){return n===null?"Unknown":Number(n).toFixed(digits);}
+function render(){
+ var candidates=scenarios[els.scenario.value],policy={mode:mode,localOnly:els.local.checked,minimumQuality:Number(els.quality.value)/100};
+ var plan=SAPCore.evaluate(candidates,policy);
+ els.qLabel.textContent=els.quality.value+"%";
+ els.result.replaceChildren();
+ var title=document.createElement("strong");title.textContent=plan.selected?plan.selected.label:"No qualifying execution path";
+ var why=document.createElement("p");why.className="sub";why.textContent=plan.reason+(plan.provisional?" Provisional: available evidence is incomplete.":"");
+ els.result.append(title,why);
+ els.cards.replaceChildren();
+ candidates.forEach(function(c){
+ var rejected=plan.rejected.find(function(r){return r.id===c.id;});
+ var card=document.createElement("article");card.className="card"+(plan.selected&&plan.selected.id===c.id?" selected":"")+(rejected?" rejected":"");
+ var hd=document.createElement("div");hd.className="cardhead";
+ var nm=document.createElement("strong");nm.textContent=c.label;
+ var tag=document.createElement("span");tag.className="tag";tag.textContent=rejected?"Not eligible":plan.selected&&plan.selected.id===c.id?"Selected":c.location;
+ hd.append(nm,tag);
+ var st=document.createElement("div");st.className="stats";
+ [["Quality proxy",Math.round(c.quality*100)+"%"],["Cost / task",c.costUSD===null?"Unknown":"$"+fmt(c.costUSD,3)],["Energy / task",c.energyKwh===null?"Unknown":fmt(c.energyKwh,5)+" kWh"],["Energy evidence",c.energyEvidence]].forEach(function(row){var sp=document.createElement("span");sp.textContent=row[0]+": ";var b=document.createElement("strong");b.textContent=row[1];sp.append(b);st.append(sp);});
+ card.append(hd,st);if(rejected){var e=document.createElement("p");e.className="sub";e.textContent=rejected.reasons.join("; ");card.append(e);}els.cards.append(card);
+ });
+ var receipt=plan.selected?SAPCore.makeReceipt(plan.selected,{demo:true,status:"planned"}):null;
+ els.plan.textContent=JSON.stringify({policy:plan.policy,selected:plan.selected?plan.selected.id:null,provisional:plan.provisional,reason:plan.reason,rejected:plan.rejected},null,2);
+ els.receipt.textContent=receipt?JSON.stringify(receipt,null,2):"No eligible planned execution.";
+}
+document.querySelectorAll(".mode").forEach(function(b){b.addEventListener("click",function(){mode=b.dataset.mode;document.querySelectorAll(".mode").forEach(function(x){x.setAttribute("aria-pressed",String(x===b));});render();});});
+[els.scenario,els.local,els.quality].forEach(function(el){el.addEventListener("change",render);el.addEventListener("input",render);});render();
+})();
+</script>
+</body>
+</html>
