@@ -45,6 +45,10 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
+// Side-effect-free SAP Core execution comparison demo
+app.get('/lab', (req, res) => res.sendFile(path.join(__dirname, 'lab.html')));
+app.get('/sap-core.js', (req, res) => res.sendFile(path.join(__dirname, 'sap-core.js')));
+
 // Universal Embed Popup Widget
 app.get('/embed', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'sap-embeddable-dashboard.html'));
