@@ -22,6 +22,15 @@ SAP is an **experimental, open-source effort**, not an industry-ratified protoco
 
 **Try the [interactive SAP Lab](./lab.html)** — a fully local, zero-account demo comparing hypothetical execution alternatives under Balanced, Eco, and Performance preferences. The sample numbers are **fictional**, not real-world benchmarks.
 
+## Verified standards interoperability pilot
+
+An independent-app proof is available at [integrations/](integrations/README.md):
+
+- **OpenTelemetry:** Real SDK instrumentation and OTLP/HTTP JSON transport from a local-model producer into a privacy-minimizing SAP receiver. Provider tokens and client duration are carried forward; energy remains unknown.
+- **Green Software Foundation Impact Framework:** An executable manifest invokes the official IF Multiply, Sum and Sci plugins. CI runs the real IF engine on **fictional** energy/grid/embodied inputs to verify compatibility, not actual AI emissions.
+- **No hosted API or measured impact claim:** Actual Ollama inference can be run locally by a developer. Grid feeds, power meters, full SCI for AI lifecycle coverage, and OSF integration remain unconnected.
+
+These adapters complement existing standards rather than redefine them. This does not imply endorsement by OpenTelemetry or the Green Software Foundation.
 ## Current implementation
 
 - \`sap-core.js\`: dependency-free, side-effect-free evaluation of declared execution alternatives, explicit unknown metrics, and draft execution receipts.
