@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#07150f">
+<title>SAP Interchange — Working Protocol Draft</title>
+<meta name="description" content="Test the Sustainable AI Protocol impact-envelope interchange. Versioned wire format, strict evidence semantics, validation suites, and independent-language examples.">
+<link rel="icon" href="../sap-mark.svg" type="image/svg+xml">
+<style>
+:root{color-scheme:dark;font-family:Inter,ui-sans-serif,system-ui,sans-serif;background:#07150f;color:#e7f1e9}
+*{box-sizing:border-box}body{margin:0;line-height:1.65}a{color:#ace6b8}a:focus-visible{outline:3px solid #bcefb2;outline-offset:4px}
+.wrap{max-width:990px;margin:auto;padding:0 24px}.top{border-bottom:1px solid #294132;background:#0c1c13}
+.top .wrap{min-height:73px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.home{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:800}.home img{width:35px}
+.subnav{display:flex;gap:18px;flex-wrap:wrap;font-size:13px}
+main{padding:55px 0 85px}
+.chip{display:inline-block;border:1px solid #6c5d31;color:#e7d8a0;background:#292414;border-radius:100px;padding:6px 13px;font-size:12px;font-weight:700}
+h1{font-weight:580;font-size:clamp(39px,6vw,69px);letter-spacing:-.057em;line-height:1.12;margin:21px 0}
+h2{margin:0 0 13px;font-size:29px;letter-spacing:-.035em;font-weight:620}
+.lead{font-size:18px;color:#bad0be;max-width:760px;margin-bottom:34px}
+.warn{background:#261f13;border:1px solid #695a2c;border-radius:14px;padding:18px 21px;color:#e6d59b;margin:28px 0}
+.buttons{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-block;background:#beecb2;color:#0e2616;border-radius:100px;padding:12px 20px;font-weight:750;text-decoration:none}
+.btn.alt{background:transparent;color:#d3eed5;border:1px solid #5d8467}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:30px 0 45px}
+.card{border:1px solid #35533f;background:linear-gradient(165deg,#12291b,#102017);padding:22px;border-radius:16px}
+.card small{font-family:ui-monospace,monospace;font-size:12px;color:#84ce9a}.card h3{font-size:20px;margin:11px 0 9px}.card p{font-size:14px;color:#a9c4ad;margin:0}
+.section{border-top:1px solid #2f4937;padding-top:39px;margin-top:47px}
+ul{padding-left:19px}li{margin:9px 0;color:#b4cbb8}
+pre{background:#091c11;border:1px solid #325641;border-radius:14px;padding:21px;overflow-x:auto;color:#c2edc6;font-size:13px;line-height:1.7}
+.paths{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.path{border:1px solid #2a4b37;border-radius:12px;padding:18px}
+.path a{font-weight:700}.path p{font-size:13px;color:#acc4b2;margin-bottom:0}
+.foot{border-top:1px solid #2b4936;color:#91ae96;padding:28px 0;font-size:13px}
+@media(max-width:700px){.grid,.paths{grid-template-columns:1fr}.top .wrap{align-items:flex-start;padding-top:15px;padding-bottom:15px;flex-direction:column;gap:7px}main{padding-top:37px}h1{font-size:40px}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap"><a href="../" class="home"><img alt="" src="../sap-mark.svg">SAP · Sustainable AI Protocol</a><nav class="subnav"><a href="../integrate.html">Integrate</a><a href="../lab.html">Lab</a><a href="https://github.com/cleverIdeaz/SustainableAiProtocol" target="_blank" rel="noopener noreferrer">GitHub ↗</a></nav></div></header>
+<main class="wrap">
+<span class="chip">2026-10-21 · PUBLIC WORKING DRAFT</span>
+<h1>Make consequences<br>interoperable.</h1>
+<p class="lead">SAP proposes a small, inspectable way for independent AI applications to exchange execution options, important constraints, and what actually happened—while preserving environmental measurement uncertainty and human choice.</p>
+<div class="buttons"><a class="btn" href="./schema/envelope-2026-10-21.schema.json">Machine-readable JSON Schema ↗</a><a class="btn alt" href="./SPECIFICATION.md">Read normative draft ↗</a></div>
+<div class="warn"><strong>This is not a ratified standard.</strong> The conformance suite checks draft structure and limited cross-document policy semantics. It does not certify model providers, verify energy/carbon reports, grant permission to execute, or imply official endorsement by MCP, OpenTelemetry, or GSF.</div>
+<div class="grid">
+ <article class="card"><small>01 · sap.offer</small><h3>What are the options?</h3><p>Declare an execution path, locality, available human review, and evidence-labeled quality, cost, energy, carbon, and latency.</p></article>
+ <article class="card"><small>02 · sap.decision</small><h3>What can we choose?</h3><p>Record constraints and the selected offer, or explicitly abstain when eligible options or evidence are missing.</p></article>
+ <article class="card"><small>03 · sap.receipt</small><h3>What happened?</h3><p>Distinguish intended, reported, and independently checked outcomes. Unknown metrics must remain unknown.</p></article>
+</div>
+<section class="section"><h2>Open conformance, not a trust badge</h2>
+<p>Validating an envelope is deterministic and offline. SAP includes the same positive and negative fixtures for independent JavaScript and Python JSON Schema engines, plus strict cross-record reference and locality tests.</p>
+<pre><code>npm --prefix protocol install
+node protocol/validate.cjs --fixtures
+
+python -m pip install jsonschema
+python protocol/validate.py
+
+node --test examples/sap-exchange.test.cjs
+node --test integrations/test-envelope.cjs</code></pre>
+<p>The tests demonstrate format interoperability and reject invalid evidence semantics, invalid units, policy violations, and fabricated verification status. Environmental test numbers are fictional.</p>
+</section>
+<section class="section"><h2>Adapt. Don't duplicate.</h2>
+<p>OpenTelemetry already measures and transfers operational telemetry. The Green Software Foundation Impact Framework already performs environmental calculations. SAP's interchange layer aims to carry decision-relevant results and uncertainty between them and execution hosts.</p>
+<p>See the <a href="../integrations/README.md">instrumented interoperability pilot</a> for real SDK and Impact Framework testing. No real power meter or grid feed is configured by default.</p>
+<div class="paths">
+<div class="path"><a href="./SECURITY.md">Security and trust boundaries ↗</a><p>Unauthorized execution, prompt leakage, false provenance, record replays, and unsafe defaults.</p></div>
+<div class="path"><a href="./GOVERNANCE.md">Open governance proposal ↗</a><p>Review, version changes, independent adopters, and the path from a working draft to a stable standard.</p></div>
+<div class="path"><a href="../examples/SAP_EXCHANGE.md">Cross-language exchange example ↗</a><p>A standalone Python offer producer and JavaScript decision consumer, no centralized server.</p></div>
+<div class="path"><a href="../docs/PROTOCOL_STATUS.md">Verified vs. missing ↗</a><p>Explicitly tracked limits, external validation requirements, and responsible next milestones.</p></div>
+</div>
+</section>
+<section class="section"><h2>Try it. Challenge it. Improve it.</h2>
+<p>A protocol becomes important because independent teams choose it to solve a recurring problem—not because its creator calls it universal. We welcome alternate implementations, contradictions, benchmarks, and cases where the better answer is an extension to an existing standard.</p>
+<a class="btn" href="https://github.com/cleverIdeaz/SustainableAiProtocol/issues" target="_blank" rel="noopener noreferrer">Propose an interoperability test ↗</a>
+</section>
+</main>
+<footer class="foot"><div class="wrap">SAP is an experimental, open-source interchange proposal. Invisible by default · Transparent on demand · Actionable by choice.</div></footer>
+</body></html>
