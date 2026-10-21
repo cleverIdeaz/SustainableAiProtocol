@@ -1,0 +1,17 @@
+{
+  "name": "Sustainable AI Protocol",
+  "status": "working-draft",
+  "spec_version": "2026-10-21-draft",
+  "schema": "./schema/envelope-2026-10-21.schema.json",
+  "specification": "./SPECIFICATION.md",
+  "governance": "./GOVERNANCE.md",
+  "conformance": "./conformance/",
+  "phases": [
+    "sap.offer",
+    "sap.decision",
+    "sap.receipt"
+  ],
+  "constraints": "host-enforced",
+  "energy_measurement": "not-provided",
+  "claim": "syntax-only, not ratification or certification"
+}
