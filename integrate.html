@@ -73,12 +73,21 @@ const receipt = SAP.makeReceipt(plan.selected, {
 <li>Local-only and required human review are explicit selection constraints; real enforcement remains the application's responsibility.</li>
 <li>The current core does not track prompts, maintain profiles, or communicate with a central SAP server.</li>
 </ul>
-<h2>3. Test and challenge the contract</h2>
+<h2>Working interchange specification and conformance</h2>
+<p>SAP now has a <strong>transport-independent working draft</strong> for exchanging execution offers, policy decisions, and outcome receipts. It includes a <a href="./protocol/schema/envelope-2026-10-21.schema.json">JSON Schema 2020-12 wire contract</a>, <a href="./protocol/SPECIFICATION.md">normative draft</a>, and adversarial test fixtures.</p>
+<p>Validation is available in JavaScript and Python. A standalone Python producer and JavaScript consumer exchange this format directly without relying on a SAP-specific server.</p>
+<pre><code>npm --prefix protocol install
+node protocol/validate.cjs --fixtures
+python -m pip install jsonschema
+python protocol/validate.py
+node --test examples/sap-exchange.test.cjs</code></pre>
+<p><a href="https://github.com/cleverIdeaz/SustainableAiProtocol/tree/main/examples" rel="noopener noreferrer" target="_blank">Run the cross-language example ↗</a> · <a href="./protocol/GOVERNANCE.md">Governance proposal</a> · <a href="./docs/PROTOCOL_STATUS.md">Verified status</a></p>
+<p><strong>Not yet ratified:</strong> Third-party adoption, real hardware measurements, independent security assessment and broader ecosystem interoperability are still open research milestones.</p><h2>3. Test and challenge the contract</h2>
 <pre><code>node --test test-sap-core.js test-homepage.cjs</code></pre>
 <p>The project also includes the <a href="https://github.com/cleverIdeaz/SustainableAiProtocol/blob/main/docs/SAP_V02_DRAFT.md" target="_blank" rel="noopener noreferrer">draft technical specification</a>, an <a href="https://github.com/cleverIdeaz/SustainableAiProtocol/blob/main/docs/LIVING_SYSTEM_VISION.md" target="_blank" rel="noopener noreferrer">architectural vision</a>, and a <a href="./lab.html">hands-on lab</a>.</p>
 <div class="section">
 <h2>Tested interoperability pilot</h2><p>Two independent local apps now exchange standard <strong>OpenTelemetry OTLP JSON traces</strong> through a SAP adapter. A Green Software Foundation <strong>Impact Framework</strong> manifest runs through the real IF engine in automated tests. These tests use fictional environmental inputs and do <strong>not</strong> establish real-world energy or carbon savings.</p><p><a href="https://github.com/cleverIdeaz/SustainableAiProtocol/tree/main/integrations" target="_blank" rel="noopener noreferrer">Inspect the tested adapters and run instructions ↗</a></p><p>Actual whole-workload energy metering, live carbon-intensity feeds, and an OSF integration remain pending. This pilot is not a hosted SAP API.</p><h2>What's next?</h2>
-<p>Our proposed direction is an evidence-carrying impact envelope, interoperable with existing environmental, observability, model-routing, and human-authorization systems. The real telemetry and IF adapters are implemented in the local pilot; broader runtime, environmental data, and ecosystem integrations are future work.</p>
+<p>Our working-draft format implements evidence-carrying offers, decisions and receipts. Proving its incremental value against existing standards remains an explicit research goal. The real telemetry and IF adapters are implemented in the local pilot; broader runtime, environmental data, and ecosystem integrations are future work.</p>
 <p>Help evaluate the need for a new standard, bring measured examples, or point us to an existing system we should integrate instead of rebuilding.</p>
 <a class="button" href="https://github.com/cleverIdeaz/SustainableAiProtocol/issues" target="_blank" rel="noopener noreferrer">Propose an integration ↗</a>
 </div>
