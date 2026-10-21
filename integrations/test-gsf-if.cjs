@@ -6,7 +6,7 @@ const tmp=fs.mkdtempSync(path.join(os.tmpdir(),"sap-if-"));
 try{
  const r=toImpactManifest({energyKwh:.002,gridIntensityGPerKwh:300,embodiedGco2e:.2,timestamp:"2026-10-21T09:00:00Z",durationS:1,source:{energy:"CI-FICTIONAL",grid:"CI-FICTIONAL",embodied:"CI-FICTIONAL"}});
  const f=path.join(tmp,"manifest.yml");fs.writeFileSync(f,r.manifest);
- const p=cp.spawnSync("if-run",["--manifest",f],{encoding:"utf8",timeout:120000,maxBuffer:1024*1024});
+ const p=cp.spawnSync("if-run",["--manifest",f],{encoding:"utf8",timeout:120000,maxBuffer:1024*1024,cwd:tmp});
  if(p.error)throw p.error;
  if(p.status!==0)throw Error("IF CLI failure: "+(p.stderr||p.stdout).slice(0,4000));
  const out=p.stdout;
