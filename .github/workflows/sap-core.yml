@@ -23,7 +23,7 @@ jobs:
           node protocol/validate.cjs --fixtures
           python protocol/validate.py
       - name: Exchange between independent Python producer and JS consumer
-        run: node --test examples/sap-exchange.test.cjs
+        run: node --test examples/sap-exchange.test.cjs integrations/test-envelope.cjs
   core-and-otel:
     runs-on: ubuntu-latest
     steps:
