@@ -1,14 +1,30 @@
-name: SAP Core and Site
+name: SAP Core, Site and Interoperability
 on:
   push:
     branches: [main, "feat/**"]
   pull_request:
 jobs:
-  test:
+  core-and-otel:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - run: node --test test-sap-core.js test-homepage.cjs
+      - run: node --test test-sap-core.js test-homepage.cjs integrations/test-interop.cjs
+      - name: Run real OTel SDK exporter against SAP receiver
+        run: |
+          cd integrations
+          npm install --no-audit --no-fund
+          node --test test-otel-sdk.cjs
+  impact-framework:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install official Green Software Foundation IF CLI
+        run: npm install --global @grnsft/if --no-audit --no-fund
+      - name: Execute IF builtins on synthetic test inputs
+        run: node integrations/test-gsf-if.cjs
