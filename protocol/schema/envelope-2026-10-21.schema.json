@@ -1,0 +1,503 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://phewsh.com/sustainableaiprotocol/protocol/schema/envelope-2026-10-21.schema.json",
+  "title": "SAP execution impact envelope — experimental draft",
+  "description": "Transport-independent offer, decision, and receipt records. Schema validation does not verify truth or grant execution authority.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "sap_version",
+    "kind",
+    "id",
+    "exchange_id",
+    "created_at",
+    "operation",
+    "payload"
+  ],
+  "properties": {
+    "sap_version": {
+      "const": "2026-10-21-draft"
+    },
+    "kind": {
+      "enum": [
+        "sap.offer",
+        "sap.decision",
+        "sap.receipt"
+      ]
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9._:-]{1,128}$"
+    },
+    "exchange_id": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9._:-]{1,128}$"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "operation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "task_class",
+        "sensitivity"
+      ],
+      "properties": {
+        "task_class": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "sensitivity": {
+          "enum": [
+            "public",
+            "internal",
+            "confidential",
+            "unknown"
+          ]
+        }
+      }
+    },
+    "payload": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/offer"
+        },
+        {
+          "$ref": "#/$defs/decision"
+        },
+        {
+          "$ref": "#/$defs/receipt"
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "sap.offer"
+          }
+        },
+        "required": [
+          "kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "$ref": "#/$defs/offer"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "sap.decision"
+          }
+        },
+        "required": [
+          "kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "$ref": "#/$defs/decision"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "sap.receipt"
+          }
+        },
+        "required": [
+          "kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "$ref": "#/$defs/receipt"
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "metric": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "value",
+        "unit",
+        "basis",
+        "source",
+        "scope"
+      ],
+      "properties": {
+        "value": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "unit": {
+          "type": "string",
+          "enum": [
+            "kWh",
+            "gCO2e",
+            "USD",
+            "ms",
+            "ratio"
+          ]
+        },
+        "basis": {
+          "type": "string",
+          "enum": [
+            "measured",
+            "estimated",
+            "provider_reported",
+            "unknown"
+          ]
+        },
+        "source": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 180
+            }
+          ]
+        },
+        "scope": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 180
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "basis": {
+                "const": "unknown"
+              }
+            },
+            "required": [
+              "basis"
+            ]
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "null"
+              },
+              "source": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "value": {
+                "type": "number"
+              },
+              "source": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "energy_kwh",
+        "carbon_gco2e",
+        "cost_usd",
+        "latency_ms",
+        "quality_proxy"
+      ],
+      "properties": {
+        "energy_kwh": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/metric"
+            },
+            {
+              "properties": {
+                "unit": {
+                  "const": "kWh"
+                }
+              }
+            }
+          ]
+        },
+        "carbon_gco2e": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/metric"
+            },
+            {
+              "properties": {
+                "unit": {
+                  "const": "gCO2e"
+                }
+              }
+            }
+          ]
+        },
+        "cost_usd": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/metric"
+            },
+            {
+              "properties": {
+                "unit": {
+                  "const": "USD"
+                }
+              }
+            }
+          ]
+        },
+        "latency_ms": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/metric"
+            },
+            {
+              "properties": {
+                "unit": {
+                  "const": "ms"
+                }
+              }
+            }
+          ]
+        },
+        "quality_proxy": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/metric"
+            },
+            {
+              "properties": {
+                "unit": {
+                  "const": "ratio"
+                },
+                "value": {
+                  "type": [
+                    "number",
+                    "null"
+                  ],
+                  "maximum": 1
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "offer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "option_id",
+        "locality",
+        "human_review_available",
+        "metrics"
+      ],
+      "properties": {
+        "option_id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9._:-]{1,128}$"
+        },
+        "locality": {
+          "enum": [
+            "on_device",
+            "on_prem",
+            "remote",
+            "hybrid",
+            "unknown"
+          ]
+        },
+        "human_review_available": {
+          "type": "boolean"
+        },
+        "metrics": {
+          "$ref": "#/$defs/metrics"
+        }
+      }
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode",
+        "min_quality",
+        "local_only",
+        "human_review_required"
+      ],
+      "properties": {
+        "mode": {
+          "enum": [
+            "balanced",
+            "eco",
+            "performance"
+          ]
+        },
+        "min_quality": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "local_only": {
+          "type": "boolean"
+        },
+        "human_review_required": {
+          "type": "boolean"
+        }
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "selected_offer_id",
+        "policy",
+        "reason_code",
+        "provisional"
+      ],
+      "properties": {
+        "selected_offer_id": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9._:-]{1,128}$"
+            }
+          ]
+        },
+        "policy": {
+          "$ref": "#/$defs/policy"
+        },
+        "reason_code": {
+          "enum": [
+            "selected",
+            "no_eligible_offer",
+            "insufficient_evidence",
+            "user_choice"
+          ]
+        },
+        "provisional": {
+          "type": "boolean"
+        }
+      }
+    },
+    "receipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "offer_id",
+        "status",
+        "metrics",
+        "verification"
+      ],
+      "properties": {
+        "offer_id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9._:-]{1,128}$"
+        },
+        "status": {
+          "enum": [
+            "planned",
+            "attempted",
+            "reported",
+            "verified",
+            "failed",
+            "unknown"
+          ]
+        },
+        "metrics": {
+          "$ref": "#/$defs/metrics"
+        },
+        "verification": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/verification"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "verified"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "verification": {
+                "$ref": "#/$defs/verification"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "verification": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "verification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "method",
+        "reference"
+      ],
+      "properties": {
+        "method": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 80
+        },
+        "reference": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 180
+        }
+      }
+    }
+  }
+}
