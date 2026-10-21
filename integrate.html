@@ -74,7 +74,7 @@ const receipt = SAP.makeReceipt(plan.selected, {
 <li>The current core does not track prompts, maintain profiles, or communicate with a central SAP server.</li>
 </ul>
 <h2>Working interchange specification and conformance</h2>
-<p>SAP now has a <strong>transport-independent working draft</strong> for exchanging execution offers, policy decisions, and outcome receipts. It includes a <a href="./protocol/schema/envelope-2026-10-21.schema.json">JSON Schema 2020-12 wire contract</a>, <a href="./protocol/SPECIFICATION.md">normative draft</a>, and adversarial test fixtures.</p>
+<p>SAP now has a <strong>transport-independent working draft</strong> for exchanging execution offers, policy decisions, and outcome receipts. It includes a <a href="./protocol/schema/envelope-2026-10-21.schema.json">JSON Schema 2020-12 wire contract</a>, <a href="./protocol/">interactive protocol documentation</a>, and adversarial test fixtures.</p>
 <p>Validation is available in JavaScript and Python. A standalone Python producer and JavaScript consumer exchange this format directly without relying on a SAP-specific server.</p>
 <pre><code>npm --prefix protocol install
 node protocol/validate.cjs --fixtures
