@@ -4,7 +4,7 @@
  * Whitelists metadata; never copies prompts, content, or arbitrary attributes.
  */
 const HEX = /^[0-9a-f]{16,32}$/i;
-const SAFE = /^[\w.\/-]{1,128}$/;
+const SAFE = /^[\w.:\/-]{1,128}$/;
 function attributes(items) {
   const out = Object.create(null);
   for (const a of Array.isArray(items) ? items : []) {
