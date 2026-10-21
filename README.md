@@ -26,7 +26,7 @@ SAP is an **experimental, open-source effort**, not an industry-ratified protoco
 
 SAP now has a **public, machine-readable interchange draft** (2026-10-21-draft) with three messages: offer, decision, and receipt. It carries explicit metric evidence, non-negotiable host policy constraints, and outcome-verification status across unrelated applications.
 
-- **[Normative working draft](protocol/SPECIFICATION.md)** · **[JSON Schema 2020-12](protocol/schema/envelope-2026-10-21.schema.json)** · **[Security threat model](protocol/SECURITY.md)**
+- **[Published protocol docs](protocol/)** · **[Normative working draft](protocol/SPECIFICATION.md)** · **[JSON Schema 2020-12](protocol/schema/envelope-2026-10-21.schema.json)** · **[Security threat model](protocol/SECURITY.md)**
 - **[Adversarial conformance vectors](protocol/conformance/)** — 5 accepted and 9 rejected fixtures independently checked in JavaScript and Python.
 - **[Cross-language exchange](examples/SAP_EXCHANGE.md)** — standalone Python offer producer and JS decision consumer. No model inference is faked.
 - **[Proposed governance](protocol/GOVERNANCE.md)** · **[Verified vs. missing status](docs/PROTOCOL_STATUS.md)**
