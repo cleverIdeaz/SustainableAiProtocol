@@ -4,6 +4,26 @@ on:
     branches: [main, "feat/**"]
   pull_request:
 jobs:
+  conformance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install schema validators
+        run: |
+          npm --prefix protocol install --no-audit --no-fund
+          python -m pip install jsonschema
+      - name: Validate draft schema from independent language implementations
+        run: |
+          node protocol/validate.cjs --fixtures
+          python protocol/validate.py
+      - name: Exchange between independent Python producer and JS consumer
+        run: node --test examples/sap-exchange.test.cjs
   core-and-otel:
     runs-on: ubuntu-latest
     steps:
