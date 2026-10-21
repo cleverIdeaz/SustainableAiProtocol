@@ -10,7 +10,7 @@ The **living system** metaphor gives the project its name: sap transports the ma
 
 **Vision:** [Living System Vision](docs/LIVING_SYSTEM_VISION.md). **Technical draft:** [SAP v0.2](docs/SAP_V02_DRAFT.md). **Earlier telemetry approach:** [Archived documentation](docs/legacy-telemetry.html).
 
-> Lab numbers are fictional. The library makes no model calls, environmental measurements, or implicit enforcement. Real integrations and validations remain future work.
+> Lab numbers are fictional. The library makes no model calls, environmental measurements, or implicit enforcement. OpenTelemetry and Impact Framework code-level integration tests now pass; real environmental measurement and independent adoption remain future work.
 
 ---
 
@@ -21,6 +21,25 @@ The **living system** metaphor gives the project its name: sap transports the ma
 SAP is an **experimental, open-source effort**, not an industry-ratified protocol. We are exploring an interoperable language for the tradeoffs surrounding AI execution: quality, resource usage, privacy, human agency, and cost.
 
 **Try the [interactive SAP Lab](./lab.html)** — a fully local, zero-account demo comparing hypothetical execution alternatives under Balanced, Eco, and Performance preferences. The sample numbers are **fictional**, not real-world benchmarks.
+
+## Working interchange draft — wire format and conformance
+
+SAP now has a **public, machine-readable interchange draft** (2026-10-21-draft) with three messages: offer, decision, and receipt. It carries explicit metric evidence, non-negotiable host policy constraints, and outcome-verification status across unrelated applications.
+
+- **[Normative working draft](protocol/SPECIFICATION.md)** · **[JSON Schema 2020-12](protocol/schema/envelope-2026-10-21.schema.json)** · **[Security threat model](protocol/SECURITY.md)**
+- **[Adversarial conformance vectors](protocol/conformance/)** — 5 accepted and 9 rejected fixtures independently checked in JavaScript and Python.
+- **[Cross-language exchange](examples/SAP_EXCHANGE.md)** — standalone Python offer producer and JS decision consumer. No model inference is faked.
+- **[Proposed governance](protocol/GOVERNANCE.md)** · **[Verified vs. missing status](docs/PROTOCOL_STATUS.md)**
+
+Run the conformance checks:
+
+    npm --prefix protocol install
+    node protocol/validate.cjs --fixtures
+    python -m pip install jsonschema
+    python protocol/validate.py
+    node --test examples/sap-exchange.test.cjs
+
+This is a **working draft**, not a ratified standard, implementation certification, guaranteed policy enforcement, or evidence of real carbon savings. Independent maintainers and field data are needed before stable release.
 
 ## Verified standards interoperability pilot
 
