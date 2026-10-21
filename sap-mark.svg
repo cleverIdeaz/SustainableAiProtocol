@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-labelledby="title desc">
+<title id="title">SAP — Sustainable AI Protocol</title>
+<desc id="desc">A sap droplet intertwined with a branching tree and circuit nodes</desc>
+<defs><linearGradient id="g" x1="0" y1="1" x2="1" y2="0"><stop stop-color="#4ac99c"/><stop offset="1" stop-color="#d9efab"/></linearGradient></defs>
+<rect x="2" y="2" width="96" height="96" rx="27" fill="#0a2116"/>
+<path d="M50 10C39 28 21 45 21 60a29 29 0 0 0 58 0C79 45 61 28 50 10Z" fill="#0f3827" stroke="url(#g)" stroke-width="3"/>
+<path d="M50 80V40M50 56L34 41M50 55L66 37M50 67L34 64M50 70L67 64" fill="none" stroke="#a7e7b2" stroke-width="3" stroke-linecap="round"/>
+<circle cx="34" cy="41" r="4" fill="#ecdfa7"/><circle cx="66" cy="37" r="4" fill="#ecdfa7"/>
+<circle cx="34" cy="64" r="3.5" fill="#6bd6ae"/><circle cx="67" cy="64" r="3.5" fill="#6bd6ae"/>
+<path d="M50 80L42 87M50 80L59 87" stroke="#82d8a6" stroke-width="2" stroke-linecap="round"/>
+</svg>
