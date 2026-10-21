@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#081711">
+<title>Integrate SAP — Developer quick start</title><meta name="description" content="A practical, transparent guide to trying the SAP v0.2 execution-comparison core.">
+<link rel="icon" href="./sap-mark.svg" type="image/svg+xml">
+<style>
+:root{color-scheme:dark;font-family:Inter,ui-sans-serif,system-ui,sans-serif;background:#07150f;color:#e7f2e9}
+*{box-sizing:border-box}body{margin:0;line-height:1.65}a{color:#b1eabb}a:focus-visible{outline:2px solid #b1eabb;outline-offset:4px}
+.container{max-width:900px;margin:0 auto;padding:26px}
+header{border-bottom:1px solid #294434}.header{display:flex;justify-content:space-between;gap:20px;align-items:center}.logo{display:flex;gap:12px;align-items:center;font-weight:800;text-decoration:none}.logo img{width:40px}
+main{padding-top:45px;padding-bottom:85px}h1{font-size:clamp(38px,6vw,60px);letter-spacing:-.05em;line-height:1.1;margin:12px 0 20px}
+h2{font-size:25px;letter-spacing:-.03em;margin-top:50px}.lead{font-size:18px;color:#b5cbb9;max-width:760px}
+.tag{display:inline-block;color:#b1eabb;border:1px solid #376a4e;border-radius:25px;padding:4px 11px;font-size:12px;letter-spacing:.13em;text-transform:uppercase}
+.warn{padding:17px 20px;background:#2b2615;border:1px solid #68582f;border-radius:10px;color:#f6dfa8;margin:29px 0}
+pre{border:1px solid #2a4e3a;border-radius:12px;padding:21px;overflow:auto;white-space:pre;color:#afe9c3;background:#071b10;line-height:1.6}
+code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}ul{padding-left:21px}li{margin:8px 0;color:#b8ceb9}
+.section{border-top:1px solid #31503b;padding-top:22px;margin-top:48px}
+a.button{display:inline-flex;text-decoration:none;background:#b6eeb8;color:#092718;border-radius:60px;padding:12px 18px;font-weight:700;margin-top:10px}
+footer{border-top:1px solid #2a4537;padding:30px 0;color:#8eaa99;font-size:13px}
+</style></head>
+<body><header><div class="container header"><a class="logo" href="./"><img src="./sap-mark.svg" alt="">SAP <span style="font-weight:400;color:#9db9a2">/ Developers</span></a><a href="./lab.html">Interactive lab ↗</a></div></header>
+<main class="container">
+<span class="tag">v0.2 research preview</span>
+<h1>Connect to the idea.<br>Don't join another silo.</h1>
+<p class="lead">SAP's first working primitive compares declared AI execution alternatives against constraints that matter: task quality, local-only privacy, optional human review, disclosed cost, and energy evidence. The integration is voluntary and local-first.</p>
+<div class="warn"><strong>Scope:</strong> This is a prototype decision helper, not a ratified protocol, energy meter, model router, or automatic enforcement layer. You must provide options and evidence, connect the result to your own execution code, and independently verify real outcomes.</div>
+<h2>1. Use the zero-dependency core</h2>
+<p>For JavaScript applications, download <a href="./sap-core.js">sap-core.js</a> or copy it from <a href="https://github.com/cleverIdeaz/SustainableAiProtocol" target="_blank" rel="noopener noreferrer">GitHub</a>. No API key, account, build step, or network permission is required.</p>
+<pre><code>const SAP = require("./sap-core");
+
+const options = [
+  {
+    id: "local",
+    location: "local",
+    quality: 0.85,        // application-supplied proxy
+    costUSD: 0.01,
+    latencyMs: 1300,
+    energyKwh: null,     // do not invent measurements
+    energyEvidence: "unknown"
+  },
+  {
+    id: "cloud",
+    location: "remote",
+    quality: 0.92,
+    costUSD: 0.005,
+    latencyMs: 600,
+    energyKwh: null,
+    energyEvidence: "unknown"
+  }
+];
+
+const plan = SAP.evaluate(options, {
+  mode: "balanced",
+  minimumQuality: 0.8,
+  localOnly: true
+});
+
+console.log(plan.selected?.id); // "local"
+console.log(plan.reason);
+// No remote call has been made.</code></pre>
+<p>The same file can be loaded in a browser with a normal script tag, where it exposes <code>window.SAPCore</code>.</p>
+<h2>2. Distinguish truth from assumptions</h2>
+<pre><code>// A receipt can describe a plan, not prove success.
+const receipt = SAP.makeReceipt(plan.selected, {
+  status: "planned",
+  demo: false
+});
+
+// Never mark an outcome "verified" without
+// an external verification reference.</code></pre>
+<ul>
+<li>Energy measurements must carry their evidence class: <code>measured</code>, <code>estimated</code>, <code>provider_reported</code>, or <code>unknown</code>.</li>
+<li>Missing values stay unknown. Local does not automatically mean lower-carbon or lower-cost.</li>
+<li>Local-only and required human review are explicit selection constraints; real enforcement remains the application's responsibility.</li>
+<li>The current core does not track prompts, maintain profiles, or communicate with a central SAP server.</li>
+</ul>
+<h2>3. Test and challenge the contract</h2>
+<pre><code>node --test test-sap-core.js test-homepage.cjs</code></pre>
+<p>The project also includes the <a href="https://github.com/cleverIdeaz/SustainableAiProtocol/blob/main/docs/SAP_V02_DRAFT.md" target="_blank" rel="noopener noreferrer">draft technical specification</a>, an <a href="https://github.com/cleverIdeaz/SustainableAiProtocol/blob/main/docs/LIVING_SYSTEM_VISION.md" target="_blank" rel="noopener noreferrer">architectural vision</a>, and a <a href="./lab.html">hands-on lab</a>.</p>
+<div class="section">
+<h2>What's next?</h2>
+<p>Our proposed direction is an evidence-carrying impact envelope, interoperable with existing environmental, observability, model-routing, and human-authorization systems. Those integrations are future work—not shipped features.</p>
+<p>Help evaluate the need for a new standard, bring measured examples, or point us to an existing system we should integrate instead of rebuilding.</p>
+<a class="button" href="https://github.com/cleverIdeaz/SustainableAiProtocol/issues" target="_blank" rel="noopener noreferrer">Propose an integration ↗</a>
+</div>
+</main>
+<footer><div class="container">Sustainable AI Protocol · Open research · <a href="./">Back to SAP</a> · <a href="./docs/legacy-telemetry.html">Earlier telemetry prototype documentation</a></div></footer>
+</body></html>

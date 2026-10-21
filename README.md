@@ -1,5 +1,19 @@
 # Sustainable AI Protocol · SAP
 
+**Helping intelligence grow without exhausting what sustains it.**
+
+SAP is an open, experimental connective layer for sustainable intelligence—not a replacement for existing standards, and not a ratified industry protocol.
+
+The **living system** metaphor gives the project its name: sap transports the materials that sustain a growing tree. Similarly, SAP aims to connect evidence and execution choices across three sustainability dimensions—**people, planet, and prosperity**—without becoming a central authority or collecting private prompts.
+
+**Current live pages:** [SAP home](https://phewsh.com/sustainableaiprotocol/), [interactive lab](https://phewsh.com/sustainableaiprotocol/lab.html), and [developer quick start](https://phewsh.com/sustainableaiprotocol/integrate.html).
+
+**Vision:** [Living System Vision](docs/LIVING_SYSTEM_VISION.md). **Technical draft:** [SAP v0.2](docs/SAP_V02_DRAFT.md). **Earlier telemetry approach:** [Archived documentation](docs/legacy-telemetry.html).
+
+> Lab numbers are fictional. The library makes no model calls, environmental measurements, or implicit enforcement. Real integrations and validations remain future work.
+
+---
+
 **Sustainable intelligence for the planet, people, and the economics of computing.**
 
 **Principle:** Invisible by default · transparent on demand · actionable by choice.
@@ -14,7 +28,10 @@ SAP is an **experimental, open-source effort**, not an industry-ratified protoco
 - \`lab.html\`: standalone human-facing demo; all decisions run within your browser with no backend.
 - \`test-sap-core.js\`: regression tests for policy constraints, uncertainty, and privacy guarantees (\`node --test test-sap-core.js\`).
 - \`docs/SAP_V02_DRAFT.md\`: evolving draft semantics and limits.
-- \`index.html\`: legacy telemetry documentation and SAP UI prototype retained for continuity.
+- \`index.html\`: living-system landing page (people, planet, prosperity).
+- \`integrate.html\`: developer on-ramp.
+- \`sap-mark.svg\`: open vector identity.
+- \`docs/legacy-telemetry.html\`: preserved historical telemetry prototype documentation with archival disclaimer.
 - \`sap-server.js\`, \`sap-mcp-server.js\`, \`sap-sdk.js\`: older prototypes **not yet production-security audited** and not included in the v0.2 experiment.
 
 ## Scope and truthfulness

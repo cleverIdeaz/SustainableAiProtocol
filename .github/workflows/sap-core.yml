@@ -1,4 +1,4 @@
-name: SAP Core
+name: SAP Core and Site
 on:
   push:
     branches: [main, "feat/**"]
@@ -11,4 +11,4 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - run: node --test test-sap-core.js
+      - run: node --test test-sap-core.js test-homepage.cjs

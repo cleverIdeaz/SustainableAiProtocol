@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAP — Sustainable AI Protocol</title>
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="SAP — Sustainable AI Protocol">
+    <meta property="og:description" content="An open protocol for measuring AI usage across applications. Tokens, energy, carbon.">
+    <meta property="og:image" content="https://phewsh.com/assets/og/sustainableAIProtocol.png">
+    <meta property="og:url" content="https://phewsh.com/sustainableaiprotocol">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://phewsh.com/assets/og/sustainableAIProtocol.png">
+    <meta name="description" content="Archived documentation for an earlier SAP telemetry prototype; API and environmental claims not independently validated.">
+    <link rel="icon" type="image/png" href="assets/SAPLogo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #0a0a0a;
+            --bg-sidebar: #0e0e0e;
+            --bg-code: #111;
+            --bg-note: #141414;
+            --text: #d4d4d4;
+            --text-secondary: #a3a3a3;
+            --text-dim: #737373;
+            --border: #262626;
+            --accent: #10b981;
+            --accent-dim: rgba(16,185,129,0.1);
+            --blue: #60a5fa;
+            --yellow: #fbbf24;
+            --sidebar-w: 200px;
+            --h-color: #f5f5f5;
+            --h-secondary-color: #e5e5e5;
+            --code-text: #d1d5db;
+        }
+
+        @media (prefers-color-scheme: light) {
+            :root {
+                --bg: #fafafa;
+                --bg-sidebar: #f5f5f5;
+                --bg-code: #f9f9f9;
+                --bg-note: #f0f0f0;
+                --text: #2a2a2a;
+                --text-secondary: #4a4a4a;
+                --text-dim: #909090;
+                --border: #e0e0e0;
+                --accent: #059669;
+                --accent-dim: rgba(5,150,105,0.1);
+                --blue: #2563eb;
+                --yellow: #d97706;
+                --h-color: #1a1a1a;
+                --h-secondary-color: #333333;
+                --code-text: #374151;
+            }
+
+            code:not(pre code) {
+                background: rgba(0,0,0,0.06);
+            }
+
+            .sidebar a:hover {
+                background: rgba(0,0,0,0.04);
+            }
+
+            td {
+                border-bottom: 1px solid rgba(0,0,0,0.04);
+            }
+        }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.75;
+            font-size: 15px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        /* ── Sidebar ── */
+        .sidebar {
+            position: fixed;
+            top: 44px;
+            left: 0;
+            width: var(--sidebar-w);
+            height: calc(100vh - 44px);
+            overflow-y: auto;
+            padding: 20px 12px;
+            border-right: 1px solid var(--border);
+            background: var(--bg-sidebar);
+            z-index: 50;
+        }
+
+        .sb-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0 6px;
+            margin-bottom: 4px;
+        }
+
+        .sb-logo img { width: 20px; height: 20px; }
+        .sb-logo span { font-size: 13px; font-weight: 700; color: var(--accent); }
+
+        .sb-sub {
+            font-size: 11px;
+            color: var(--text-dim);
+            padding: 0 6px;
+            margin-bottom: 20px;
+        }
+
+        .sb-group {
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--text-dim);
+            padding: 16px 6px 4px;
+        }
+
+        .sidebar a {
+            display: block;
+            font-size: 13px;
+            color: var(--text-secondary);
+            padding: 4px 8px;
+            border-radius: 3px;
+            text-decoration: none;
+        }
+
+        .sidebar a:hover { color: var(--text); background: rgba(255,255,255,0.04); text-decoration: none; }
+        .sidebar a.active { color: var(--accent); background: var(--accent-dim); }
+
+        /* ── Content ── */
+        .content {
+            margin-left: var(--sidebar-w);
+            max-width: 720px;
+            padding: 44px 40px 100px;
+            padding-top: 88px;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            line-height: 1.2;
+            margin-bottom: 12px;
+            color: var(--h-color);
+        }
+
+        h2 {
+            font-size: 20px;
+            font-weight: 600;
+            margin: 48px 0 8px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+            color: var(--h-color);
+        }
+
+        h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin: 28px 0 6px;
+            color: var(--h-secondary-color);
+        }
+
+        p { margin: 0 0 14px; color: var(--text-secondary); }
+
+        .lead {
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+
+        hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+
+        /* ── Code ── */
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+        }
+
+        code:not(pre code) {
+            background: rgba(255,255,255,0.06);
+            padding: 1px 5px;
+            border-radius: 3px;
+            color: var(--accent);
+        }
+
+        pre {
+            background: var(--bg-code);
+            border: 1px solid var(--border);
+            padding: 14px 16px;
+            margin: 10px 0 20px;
+            overflow-x: auto;
+            line-height: 1.6;
+        }
+
+        pre code { color: var(--code-text); }
+        .c { color: #6b7280; }
+        .k { color: #60a5fa; }
+        .s { color: #34d399; }
+        .n { color: #fbbf24; }
+        .f { color: #f472b6; }
+
+        /* ── Tables ── */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0 20px;
+            font-size: 14px;
+        }
+
+        th {
+            text-align: left;
+            padding: 8px 12px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-dim);
+            border-bottom: 1px solid var(--border);
+        }
+
+        td {
+            padding: 8px 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            color: var(--text-secondary);
+        }
+
+        /* ── Lists ── */
+        ul, ol { margin: 0 0 14px; padding-left: 20px; color: var(--text-secondary); }
+        li { margin-bottom: 4px; font-size: 14px; }
+
+        /* ── Notes ── */
+        .note {
+            padding: 12px 16px;
+            border-left: 3px solid var(--accent);
+            background: var(--bg-note);
+            margin: 16px 0;
+            font-size: 14px;
+        }
+
+        .note p { margin: 0; color: var(--text-secondary); }
+        .note strong { color: var(--text); }
+
+        .note-warn { border-left-color: var(--yellow); }
+        .note-info { border-left-color: var(--blue); }
+
+        /* ── Demo ── */
+        .demo-box {
+            border: 1px solid var(--border);
+            margin: 16px 0 24px;
+            overflow: hidden;
+        }
+
+        .demo-header {
+            padding: 8px 14px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-dim);
+            border-bottom: 1px solid var(--border);
+            background: rgba(255,255,255,0.02);
+        }
+
+        .demo-body { padding: 20px; }
+
+        .demo-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 14px;
+        }
+
+        .demo-sap-btn {
+            width: 44px;
+            height: 44px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            transition: transform 0.15s;
+            position: relative;
+        }
+
+        .demo-sap-btn:hover { transform: scale(1.06); }
+
+        .demo-sap-btn img { width: 100%; height: 100%; object-fit: contain; }
+
+        .demo-sap-btn.spinning { animation: spin 0.6s cubic-bezier(0.4,0,0.2,1); }
+
+        @keyframes spin {
+            0% { transform: rotate(0) scale(1); }
+            40% { transform: rotate(200deg) scale(1.06); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+
+        .demo-sap-badge {
+            position: absolute;
+            top: -3px;
+            right: -3px;
+            min-width: 14px;
+            height: 14px;
+            border-radius: 7px;
+            background: #166534;
+            border: 1px solid #4ade80;
+            color: #4ade80;
+            font-size: 9px;
+            font-weight: 700;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            padding: 0 3px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .demo-count-area {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .demo-count-area strong {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .demo-send-btn {
+            background: var(--accent);
+            color: #000;
+            border: none;
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .demo-send-btn:hover { background: #059669; }
+
+        .demo-stats-row {
+            display: flex;
+            gap: 24px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border);
+            font-size: 13px;
+            color: var(--text-dim);
+        }
+
+        .demo-stats-row span { color: var(--text-secondary); font-weight: 500; }
+
+        /* ── Dashboard popup ── */
+        .sap-dashboard-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(3px);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sap-dashboard-overlay.open { display: flex; }
+
+        .sap-dashboard {
+            background: var(--bg-sidebar);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            width: 320px;
+            max-width: 90vw;
+            padding: 20px;
+            position: relative;
+        }
+
+        .sap-dashboard-close {
+            position: absolute;
+            top: 10px;
+            right: 12px;
+            background: none;
+            border: none;
+            color: var(--text-dim);
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .sap-dashboard-close:hover { color: var(--text); }
+
+        .sap-dashboard h4 {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .sap-dashboard h4 img { width: 16px; height: 16px; }
+
+        .sap-dash-section {
+            margin-bottom: 14px;
+        }
+
+        .sap-dash-label {
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-dim);
+            margin-bottom: 6px;
+        }
+
+        .sap-dash-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .sap-dash-stat {
+            padding: 8px 10px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 4px;
+        }
+
+        .sap-dash-stat .val {
+            font-size: 16px;
+            font-weight: 700;
+            color: #f5f5f5;
+        }
+
+        .sap-dash-stat .label {
+            font-size: 10px;
+            color: var(--text-dim);
+        }
+
+        .sap-dash-note {
+            font-size: 11px;
+            color: var(--text-dim);
+            line-height: 1.5;
+            margin-top: 12px;
+            padding-top: 10px;
+            border-top: 1px solid var(--border);
+        }
+
+        /* ── Footer ── */
+        footer {
+            margin-left: var(--sidebar-w);
+            padding: 24px 40px;
+            border-top: 1px solid var(--border);
+            font-size: 12px;
+            color: var(--text-dim);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        footer a { color: var(--text-dim); }
+        footer a:hover { color: var(--text-secondary); }
+        .footer-links { display: flex; gap: 16px; }
+
+        /* ── Mobile ── */
+        .mobile-nav { display: none; }
+
+        @media (max-width: 700px) {
+            .sidebar { transform: translateX(-100%); transition: transform 0.2s; z-index: 100; }
+            .sidebar.open { transform: translateX(0); }
+            .mobile-nav {
+                display: block;
+                position: fixed;
+                top: 52px;
+                left: 10px;
+                z-index: 60;
+                background: var(--bg-sidebar);
+                border: 1px solid var(--border);
+                color: var(--text-dim);
+                padding: 5px 10px;
+                font-size: 12px;
+                cursor: pointer;
+            }
+            .content { margin-left: 0; padding: 64px 18px 80px; }
+            footer { margin-left: 0; padding: 20px 18px; }
+            .demo-stats-row { flex-wrap: wrap; gap: 12px; }
+        }
+    </style>
+</head>
+<body>
+    <script src="/assets/nav.js" data-page="sap" defer></script>
+
+    <button class="mobile-nav" onclick="document.querySelector('.sidebar').classList.toggle('open')">Docs</button>
+
+    <nav class="sidebar">
+        <div class="sb-logo">
+            <img src="assets/SAPButton.svg" alt="" onerror="this.style.display='none'">
+            <span>SAP</span>
+        </div>
+        <div class="sb-sub">Sustainable AI Protocol</div>
+
+        <div class="sb-group">Getting started</div>
+        <a href="#introduction" class="active">Introduction</a>
+        <a href="#why-integrate">Why integrate</a>
+                <a href="./lab.html">Execution Lab (new)</a>
+        <a href="#quick-start">Quick start</a>
+
+        <div class="sb-group">Protocol</div>
+        <a href="#event-schema">Event schema</a>
+        <a href="#api">API</a>
+        <a href="#energy-estimates">Energy estimates</a>
+        <a href="#aggregation">Aggregation</a>
+
+        <div class="sb-group">Integration</div>
+        <a href="#backend">Backend</a>
+        <a href="#frontend">Frontend</a>
+        <a href="#optional-ui">Optional UI</a>
+
+        <div class="sb-group">Project</div>
+        <a href="#status">Status</a>
+        <a href="https://github.com/cleverIdeaz/SustainableAiProtocol" target="_blank">GitHub</a>
+    </nav>
+
+    <main class="content">
+
+        <!-- ═══ INTRODUCTION ═══ -->
+        <section id="introduction">
+            <h1>Introduction</h1>
+ <div class="note" style="border:2px solid #f59e0b;padding:15px;margin:16px 0"><strong>ARCHIVED PROTOTYPE DOCUMENTATION.</strong> This page preserves SAP’s earlier telemetry approach for reference. Historical claims of live coverage, estimates, privacy behavior, and API availability have not been independently validated for this release. For the current experiment, see <a href="../">SAP home</a>, <a href="../lab.html">Lab</a>, and <a href="../integrate.html">Developer quick start</a>. Do not interpret fixed example coefficients as measured per-request impact.</div>
+        <div style="border:1px solid #10b981;padding:18px;border-radius:12px;margin:16px 0;background:rgba(16,185,129,.08)"><strong>Explore SAP 0.2 — Planet · People · Economics</strong><p>Our new <a href="./lab.html">interactive execution comparison lab →</a> is local-only, uses fictional example numbers, and demonstrates uncertainty-aware choices with no account or telemetry collection. This original page documents the legacy telemetry implementation; the new protocol proposal remains experimental.</p></div>
+            <p class="lead">SAP (Sustainable AI Protocol) is an open protocol for measuring AI usage across applications. It provides a standard way to capture, store, and aggregate telemetry data — tokens, estimated energy, and carbon — for every AI inference.</p>
+
+            <p>Think of it like analytics for AI usage. Every time your application calls an AI model, SAP records what happened: which model, how many tokens, and what that costs in estimated energy. The data aggregates into personal stats (per user) and global stats (across all integrations).</p>
+
+            <p>SAP is currently tracking real AI usage in production across the <a href="https://phewsh.com">PHEWSH</a> ecosystem, with support for external integrations. Optionally, it exposes usage to end users via a small UI component — sometimes called "the missing button" in AI interfaces.</p>
+
+            <p>Personal stats are scoped to a user or session. Global stats aggregate all events across all integrations.</p>
+
+            <h3>What it does</h3>
+            <ul>
+                <li>Records one event per AI inference (model, tokens, estimated energy, CO&#8322;, water)</li>
+                <li>Aggregates usage at the personal, session, daily, and global level</li>
+                <li>Provides a standard event schema and API for any application</li>
+                <li>Optionally surfaces usage data to end users via the SAP button component</li>
+            </ul>
+
+            <h3>What it does not do</h3>
+            <ul>
+                <li>It does not capture prompt content — only metadata</li>
+                <li>It does not require authentication — anonymous tracking works</li>
+                <li>It does not claim perfect accuracy — energy values are model-based estimates designed for relative comparison, with support for integrating real telemetry as it becomes available</li>
+            </ul>
+
+            <div class="note">
+                <p><strong>Honest about estimates.</strong> SAP uses model-based estimates derived from published research, not direct measurement from data centers. No AI provider currently exposes per-request energy data. SAP is designed for increasing fidelity — estimates today, verified telemetry when infrastructure providers publish real numbers.</p>
+            </div>
+        </section>
+
+        <!-- ═══ WHY INTEGRATE ═══ -->
+        <h2 id="why-integrate">Why integrate SAP</h2>
+
+        <ul>
+            <li><strong>Standardizes AI usage tracking</strong> across models and providers — one event format, one aggregation model</li>
+            <li><strong>Provides immediate usage analytics</strong> without building custom pipelines</li>
+            <li><strong>Enables optional user-facing transparency</strong> via the SAP button ("the missing button") — builds user trust</li>
+            <li><strong>Creates a foundation</strong> for cost optimization, efficiency feedback, and future compliance tooling</li>
+            <li><strong>Minimal integration cost</strong> — one API call per inference, fire-and-forget, never blocks your app</li>
+        </ul>
+
+
+        <!-- ═══ QUICK START ═══ -->
+        <h2 id="quick-start">Quick start</h2>
+
+        <p>The simplest integration is a single API call after each AI inference. This example uses the Supabase RPC endpoint that SAP runs on:</p>
+
+<pre><code><span class="c">// After your AI call completes, fire and forget:</span>
+<span class="f">fetch</span>(<span class="s">'https://fpnpfnahwaztdlxuayyv.supabase.co/rest/v1/rpc/track_sap_event'</span>, {
+  <span class="k">method</span>: <span class="s">'POST'</span>,
+  <span class="k">headers</span>: {
+    <span class="s">'Content-Type'</span>: <span class="s">'application/json'</span>,
+    <span class="s">'apikey'</span>: YOUR_SUPABASE_ANON_KEY,
+    <span class="s">'Authorization'</span>: <span class="s">`Bearer ${YOUR_SUPABASE_ANON_KEY}`</span>
+  },
+  <span class="k">body</span>: JSON.stringify({
+    <span class="k">p_source</span>: <span class="s">'external'</span>,
+    <span class="k">p_model</span>: <span class="s">'anthropic/claude-sonnet-4'</span>,
+    <span class="k">p_prompt_tokens</span>: <span class="n">450</span>,
+    <span class="k">p_completion_tokens</span>: <span class="n">820</span>,
+    <span class="k">p_kwh</span>: <span class="n">0.00076</span>,
+    <span class="k">p_co2_g</span>: <span class="n">0.38</span>,
+    <span class="k">p_water_ml</span>: <span class="n">1.37</span>
+  })
+});</code></pre>
+
+        <p>That's it. One call per inference. The call is designed to be fire-and-forget and should never block your application or user experience. The backend atomically updates global, daily, and hourly rollups. No additional setup required.</p>
+
+        <p>If you don't want to calculate energy estimates yourself, you can omit <code>p_kwh</code>, <code>p_co2_g</code>, and <code>p_water_ml</code> — the database function uses sensible defaults (0.0004 kWh, 0.2g CO&#8322;, 0.72 mL water).</p>
+
+
+        <!-- ═══ EVENT SCHEMA ═══ -->
+        <h2 id="event-schema">Event schema</h2>
+
+        <p>Each AI inference produces one row in the <code>sap_events</code> table:</p>
+
+        <table>
+            <tr><th>Column</th><th>Type</th><th>Description</th></tr>
+            <tr><td><code>id</code></td><td>UUID</td><td>Auto-generated primary key</td></tr>
+            <tr><td><code>user_id</code></td><td>UUID</td><td>Authenticated user (optional, null for anonymous)</td></tr>
+            <tr><td><code>session_id</code></td><td>TEXT</td><td>Client-generated session ID (per tab or per session, used to group related interactions)</td></tr>
+            <tr><td><code>source</code></td><td>TEXT</td><td><code>intent</code> | <code>cli</code> | <code>styletree</code> | <code>external</code></td></tr>
+            <tr><td><code>model</code></td><td>TEXT</td><td>Full model slug (e.g. <code>anthropic/claude-sonnet-4</code>)</td></tr>
+            <tr><td><code>prompt_tokens</code></td><td>INTEGER</td><td>Input token count</td></tr>
+            <tr><td><code>completion_tokens</code></td><td>INTEGER</td><td>Output token count</td></tr>
+            <tr><td><code>estimated_kwh</code></td><td>DECIMAL</td><td>Estimated energy (kilowatt-hours)</td></tr>
+            <tr><td><code>estimated_co2_g</code></td><td>DECIMAL</td><td>Estimated CO&#8322; (grams)</td></tr>
+            <tr><td><code>estimated_water_ml</code></td><td>DECIMAL</td><td>Estimated cooling water (milliliters)</td></tr>
+            <tr><td><code>created_at</code></td><td>TIMESTAMPTZ</td><td>Event timestamp</td></tr>
+        </table>
+
+        <div class="note note-info">
+            <p><strong>Privacy.</strong> No prompt content is captured. Only metadata: which model, how many tokens, when. Events are anonymous by default — user attribution only happens when the user is explicitly authenticated.</p>
+        </div>
+
+
+        <!-- ═══ API ═══ -->
+        <h2 id="api">API</h2>
+
+        <p>SAP uses Supabase RPC and REST endpoints.</p>
+
+        <h3>Track an event</h3>
+        <p><code>POST /rest/v1/rpc/track_sap_event</code></p>
+        <p>Records a single inference event and atomically updates all aggregation tables. Returns the event UUID.</p>
+
+        <table>
+            <tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr>
+            <tr><td><code>p_user_id</code></td><td>UUID</td><td>No</td><td>Authenticated user ID</td></tr>
+            <tr><td><code>p_session_id</code></td><td>TEXT</td><td>No</td><td>Client session ID</td></tr>
+            <tr><td><code>p_source</code></td><td>TEXT</td><td>No</td><td>App identifier (default: <code>intent</code>)</td></tr>
+            <tr><td><code>p_model</code></td><td>TEXT</td><td>No</td><td>Model slug</td></tr>
+            <tr><td><code>p_prompt_tokens</code></td><td>INTEGER</td><td>No</td><td>Input tokens</td></tr>
+            <tr><td><code>p_completion_tokens</code></td><td>INTEGER</td><td>No</td><td>Output tokens</td></tr>
+            <tr><td><code>p_kwh</code></td><td>DECIMAL</td><td>No</td><td>Energy estimate (default: 0.0004)</td></tr>
+            <tr><td><code>p_co2_g</code></td><td>DECIMAL</td><td>No</td><td>CO&#8322; estimate (default: 0.2)</td></tr>
+            <tr><td><code>p_water_ml</code></td><td>DECIMAL</td><td>No</td><td>Water estimate (default: 0.72)</td></tr>
+        </table>
+
+        <p>Headers required: <code>apikey</code> (Supabase anon key), <code>Authorization: Bearer {key}</code>, <code>Content-Type: application/json</code>.</p>
+
+        <h3>Read global stats</h3>
+        <p><code>GET /rest/v1/global_stats?select=*&id=eq.1</code></p>
+        <p>Returns a single row: <code>total_count</code>, <code>total_kwh</code>, <code>total_co2</code>, <code>total_water</code>, <code>sap_tracked_count</code>.</p>
+
+        <h3>Read personal stats</h3>
+        <p><code>GET /rest/v1/sap_my_stats?select=*&user_id=eq.{id}</code></p>
+        <p>Requires user JWT. Returns: <code>total_events</code>, <code>total_kwh</code>, <code>total_co2_g</code>, <code>total_water_ml</code>, per-source breakdown, <code>avg_tokens</code>, date range.</p>
+
+
+        <!-- ═══ ENERGY ESTIMATES ═══ -->
+        <h2 id="energy-estimates">Energy estimates</h2>
+
+        <p>SAP uses model-specific coefficients to estimate energy per inference. These are based on published benchmarks (Patterson et al. 2021, ML CO2 Impact, MLCommons estimates) and are conservative.</p>
+
+        <h3>Model coefficients</h3>
+        <p>Base kWh per ~1000-token inference:</p>
+
+        <table>
+            <tr><th>Model</th><th>kWh</th></tr>
+            <tr><td><code>google/gemini-flash</code></td><td>0.00020</td></tr>
+            <tr><td><code>anthropic/claude-3-haiku</code></td><td>0.00025</td></tr>
+            <tr><td><code>deepseek/deepseek-chat</code></td><td>0.00030</td></tr>
+            <tr><td><code>moonshotai/kimi-k2</code></td><td>0.00040</td></tr>
+            <tr><td><code>anthropic/claude-sonnet-4</code></td><td>0.00060</td></tr>
+            <tr><td><code>anthropic/claude-opus-4</code></td><td>0.00200</td></tr>
+        </table>
+
+        <h3>Scaling</h3>
+<pre><code>kwh = base_coefficient * clamp(total_tokens / 1000, 0.5, 4.0)</code></pre>
+
+        <h3>Derived metrics</h3>
+        <table>
+            <tr><th>Metric</th><th>Formula</th><th>Source</th></tr>
+            <tr><td>CO&#8322; (grams)</td><td><code>kwh * 500</code></td><td>US grid average (EPA 2023)</td></tr>
+            <tr><td>Water (mL)</td><td><code>kwh * 1800</code></td><td>Data center evaporative cooling estimate</td></tr>
+        </table>
+
+        <p>Water estimates represent cooling usage based on evaporative data center systems and are directional, not exact. Not all data centers use evaporative cooling — some use closed-loop or air cooling systems that consume significantly less water.</p>
+
+        <div class="note note-warn">
+            <p><strong>These are estimates.</strong> Actual energy varies by data center, hardware, load, region, and cooling system. No AI provider currently exposes per-request energy or water data. SAP is designed for increasing fidelity — estimates today, verified telemetry when infrastructure providers publish real numbers.</p>
+        </div>
+
+
+        <!-- ═══ AGGREGATION ═══ -->
+        <h2 id="aggregation">Aggregation</h2>
+
+        <p>Aggregation is handled entirely server-side. Clients only send events. Every call to <code>track_sap_event</code> atomically updates three aggregation layers:</p>
+
+        <ul>
+            <li><strong>Global</strong> — single row in <code>global_stats</code>, tracks totals across all users and sources</li>
+            <li><strong>Daily</strong> — one row per day in <code>sap_daily_stats</code></li>
+            <li><strong>Hourly</strong> — one row per date + hour in <code>sap_hourly_stats</code></li>
+        </ul>
+
+        <p>Personal stats are computed on read via the <code>sap_my_stats</code> view, which aggregates all events for a given <code>user_id</code> with per-source breakdowns.</p>
+
+
+        <!-- ═══ BACKEND ═══ -->
+        <h2 id="backend">Backend integration</h2>
+
+        <p>Backend-only integration is the primary pattern. No UI required. Call the API after each inference.</p>
+
+        <h3>TypeScript</h3>
+<pre><code><span class="k">import</span> { trackSapEvent, estimateKwh } <span class="k">from</span> <span class="s">'@/lib/sap'</span>;
+
+<span class="c">// After your AI call:</span>
+<span class="f">trackSapEvent</span>({
+  userId: user?.id,
+  source: <span class="s">'external'</span>,
+  model: <span class="s">'anthropic/claude-sonnet-4'</span>,
+  promptTokens: <span class="n">450</span>,
+  completionTokens: <span class="n">820</span>,
+});</code></pre>
+
+        <p>The <code>trackSapEvent</code> function is fire-and-forget — it calculates energy estimates, sends the event, and never throws. It won't block your application or surface errors to users.</p>
+
+        <h3>Python</h3>
+<pre><code><span class="k">import</span> requests, threading
+
+<span class="k">def</span> <span class="f">track_sap_event</span>(model, prompt_tokens, completion_tokens, source=<span class="s">"external"</span>):
+    total = prompt_tokens + completion_tokens
+    kwh = <span class="n">0.0004</span> * max(<span class="n">0.5</span>, min(<span class="n">4</span>, total / <span class="n">1000</span>))
+
+    <span class="k">def</span> <span class="f">_send</span>():
+        <span class="k">try</span>:
+            requests.post(
+                <span class="s">"https://fpnpfnahwaztdlxuayyv.supabase.co/rest/v1/rpc/track_sap_event"</span>,
+                json={
+                    <span class="s">"p_source"</span>: source, <span class="s">"p_model"</span>: model,
+                    <span class="s">"p_prompt_tokens"</span>: prompt_tokens,
+                    <span class="s">"p_completion_tokens"</span>: completion_tokens,
+                    <span class="s">"p_kwh"</span>: kwh, <span class="s">"p_co2_g"</span>: kwh * <span class="n">500</span>,
+                    <span class="s">"p_water_ml"</span>: kwh * <span class="n">1800</span>,
+                },
+                headers={
+                    <span class="s">"apikey"</span>: ANON_KEY,
+                    <span class="s">"Authorization"</span>: f<span class="s">"Bearer {ANON_KEY}"</span>,
+                    <span class="s">"Content-Type"</span>: <span class="s">"application/json"</span>,
+                },
+                timeout=<span class="n">5</span>,
+            )
+        <span class="k">except</span>: <span class="k">pass</span>
+
+    threading.Thread(target=_send).start()</code></pre>
+
+        <h3>Any language</h3>
+        <p>SAP is just a POST to a REST endpoint. Any language that can make HTTP requests can integrate. The pattern is always the same: after your AI call completes, fire off the tracking call in the background.</p>
+
+
+        <!-- ═══ FRONTEND ═══ -->
+        <h2 id="frontend">Frontend integration</h2>
+
+        <p>For browser-based apps, SAP provides a session tracking module that generates a per-tab session ID, maintains a counter, and lets UI components subscribe to tracking events.</p>
+
+<pre><code><span class="k">import</span> { getSapSessionCount, onSapTrack } <span class="k">from</span> <span class="s">'@/lib/sap'</span>;
+
+<span class="k">const</span> [count, setCount] = <span class="f">useState</span>(<span class="f">getSapSessionCount</span>());
+
+<span class="f">useEffect</span>(() => {
+  <span class="k">return</span> <span class="f">onSapTrack</span>((n) => <span class="f">setCount</span>(n));
+}, []);</code></pre>
+
+        <p>The session ID persists for the lifetime of the browser tab. When a user authenticates, all session activity can be attributed to their account, enabling persistent personal usage tracking over time. Anonymous usage works instantly; login enhances it.</p>
+
+
+        <!-- ═══ OPTIONAL UI ═══ -->
+        <h2 id="optional-ui">Optional UI</h2>
+
+        <p>The core of SAP is backend measurement. The UI is optional but encouraged — it gives end users visibility into their AI usage, which most interfaces don't provide. It can be embedded, customized, or omitted entirely depending on the application.</p>
+
+        <p>The reference implementation is a small button that sits in the chat interface. It shows a session generation count. Clicking it opens a dashboard popup with personal and global stats. The button spins briefly each time an inference is tracked — a subtle signal that measurement is happening.</p>
+
+        <p>This is sometimes called "the missing button" — a piece of UI that arguably should exist in every AI chat interface but currently doesn't.</p>
+
+        <p>This is not required for integration. Most apps integrate SAP backend-only. The UI is for apps that want to give users visibility.</p>
+
+        <div class="demo-box">
+            <div class="demo-header">Reference UI (optional) — try it</div>
+            <div class="demo-body">
+                <div class="demo-row">
+                    <button class="demo-sap-btn" id="sap-btn" onclick="openDashboard()" title="Open SAP dashboard">
+                        <img src="assets/SAPButton.svg" alt="SAP" onerror="this.parentElement.textContent='SAP'">
+                        <span class="demo-sap-badge" id="sap-badge">0</span>
+                    </button>
+                    <div class="demo-count-area">
+                        <strong id="demo-count">0</strong> interactions tracked
+                    </div>
+                    <button class="demo-send-btn" onclick="trackDemo()">I just prompted AI</button>
+                </div>
+                <div class="demo-stats-row" id="demo-stats" style="display:none;">
+                    Energy: <span id="d-kwh">0</span> kWh
+                    &nbsp;&middot;&nbsp;
+                    CO&#8322;: <span id="d-co2">0</span>g
+                    &nbsp;&middot;&nbsp;
+                    Water: <span id="d-water">0</span> mL
+                </div>
+            </div>
+        </div>
+
+        <p>Click <strong>"I just prompted AI"</strong> to simulate a tracked inference. Click the <strong>SAP button</strong> to open the dashboard popup — the same experience users would see in a real integration.</p>
+
+        <p>For non-React apps, an embeddable script is available:</p>
+
+<pre><code><span class="c">&lt;!-- Auto-attaches to prompt inputs, adds SAP button --&gt;</span>
+&lt;script src=<span class="s">"https://phewsh.com/SustainableAiProtocol/sap-embed.js"</span>&gt;&lt;/script&gt;</code></pre>
+
+
+        <!-- ═══ STATUS ═══ -->
+        <h2 id="status">Status</h2>
+
+        <h3>Live</h3>
+        <ul>
+            <li>Tracking real AI inference usage in production (PHEWSH Intent Engine, PHEWSH CLI)</li>
+            <li>Model-specific energy coefficients for 12+ models</li>
+            <li>Per-inference token counting (input + output)</li>
+            <li>Global + personal + daily + hourly aggregation</li>
+            <li>Supabase RPC API — open to external integrations</li>
+            <li>Anonymous and authenticated tracking</li>
+        </ul>
+
+        <h3>In progress</h3>
+        <ul>
+            <li>Personal dashboard (usage over time)</li>
+            <li>Embeddable widget for third-party apps</li>
+            <li>Usage budgeting (daily/monthly limits)</li>
+            <li>Efficiency feedback per prompt</li>
+        </ul>
+
+        <h3>Future</h3>
+        <ul>
+            <li>Region-specific carbon intensity (beyond US grid average)</li>
+            <li>Research partnerships for coefficient validation</li>
+            <li>Data center partnerships for verified telemetry</li>
+            <li>Compute abstraction layer (beyond AI workloads)</li>
+        </ul>
+
+        <hr>
+
+        <p>SAP is open source. <a href="https://github.com/cleverIdeaz/SustainableAiProtocol">View on GitHub</a> &middot; <a href="mailto:hello@phewsh.com">Contact</a> &middot; A <a href="https://phewsh.com">PHEWSH</a> open standard.</p>
+
+    </main>
+
+    <footer>
+        <div>SAP &mdash; Sustainable AI Protocol &copy; 2026</div>
+        <div class="footer-links">
+            <a href="https://github.com/cleverIdeaz/SustainableAiProtocol">GitHub</a>
+            <a href="https://phewsh.com">PHEWSH</a>
+        </div>
+    </footer>
+
+    <!-- Dashboard popup overlay -->
+    <div class="sap-dashboard-overlay" id="sap-overlay" onclick="if(event.target===this)closeDashboard()">
+        <div class="sap-dashboard">
+            <button class="sap-dashboard-close" onclick="closeDashboard()">&times;</button>
+            <h4>
+                <img src="assets/SAPButton.svg" alt="" onerror="this.style.display='none'">
+                Sustainable AI Protocol
+            </h4>
+
+            <div class="sap-dash-section">
+                <div class="sap-dash-label">This session</div>
+                <div class="sap-dash-grid">
+                    <div class="sap-dash-stat">
+                        <div class="val" id="dash-count">0</div>
+                        <div class="label">interactions</div>
+                    </div>
+                    <div class="sap-dash-stat">
+                        <div class="val" id="dash-kwh">0</div>
+                        <div class="label">kWh</div>
+                    </div>
+                    <div class="sap-dash-stat">
+                        <div class="val" id="dash-co2">0</div>
+                        <div class="label">g CO&#8322;</div>
+                    </div>
+                    <div class="sap-dash-stat">
+                        <div class="val" id="dash-water">0</div>
+                        <div class="label">mL water</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sap-dash-section">
+                <div class="sap-dash-label">Global (all users)</div>
+                <div class="sap-dash-grid">
+                    <div class="sap-dash-stat">
+                        <div class="val" id="dash-global-count">&mdash;</div>
+                        <div class="label">interactions</div>
+                    </div>
+                    <div class="sap-dash-stat">
+                        <div class="val" id="dash-global-kwh">&mdash;</div>
+                        <div class="label">kWh</div>
+                    </div>
+                    <div class="sap-dash-stat">
+                        <div class="val" id="dash-global-co2">&mdash;</div>
+                        <div class="label">g CO&#8322;</div>
+                    </div>
+                    <div class="sap-dash-stat">
+                        <div class="val" id="dash-global-water">&mdash;</div>
+                        <div class="label">mL water</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sap-dash-note">
+                Every AI inference is tracked for model, tokens, and estimated energy. No prompt content is captured. Sign in to <a href="https://phewsh.com/intent">PHEWSH</a> to see your personal footprint over time.
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // ── Demo state
+    let demoCount = 0;
+    const KWH_PER = 0.0006;
+
+    function trackDemo() {
+        demoCount++;
+        updateDemoUI();
+
+        // Spin the button
+        const btn = document.getElementById('sap-btn');
+        btn.classList.add('spinning');
+        setTimeout(() => btn.classList.remove('spinning'), 650);
+    }
+
+    function updateDemoUI() {
+        const kwh = demoCount * KWH_PER;
+        const co2 = kwh * 500;
+        const water = kwh * 1800;
+
+        document.getElementById('demo-count').textContent = demoCount;
+
+        // Show badge
+        const badge = document.getElementById('sap-badge');
+        badge.style.display = 'flex';
+        badge.textContent = demoCount;
+
+        // Show stats row
+        const statsRow = document.getElementById('demo-stats');
+        if (demoCount > 0) statsRow.style.display = 'flex';
+        document.getElementById('d-kwh').textContent = kwh.toFixed(4);
+        document.getElementById('d-co2').textContent = co2 < 1 ? co2.toFixed(2) : Math.round(co2);
+        document.getElementById('d-water').textContent = water < 10 ? water.toFixed(1) : Math.round(water);
+
+        // Update dashboard if open
+        updateDashboard();
+    }
+
+    // ── Dashboard popup
+    function openDashboard() {
+        updateDashboard();
+        loadGlobalStats();
+        document.getElementById('sap-overlay').classList.add('open');
+    }
+
+    function closeDashboard() {
+        document.getElementById('sap-overlay').classList.remove('open');
+    }
+
+    function updateDashboard() {
+        const kwh = demoCount * KWH_PER;
+        document.getElementById('dash-count').textContent = demoCount;
+        document.getElementById('dash-kwh').textContent = kwh.toFixed(4);
+        document.getElementById('dash-co2').textContent = (kwh * 500) < 1 ? (kwh * 500).toFixed(2) : Math.round(kwh * 500);
+        document.getElementById('dash-water').textContent = (kwh * 1800) < 10 ? (kwh * 1800).toFixed(1) : Math.round(kwh * 1800);
+    }
+
+    // ── Global stats (real data from Supabase)
+    function loadGlobalStats() {
+        fetch('https://fpnpfnahwaztdlxuayyv.supabase.co/rest/v1/global_stats?select=total_count,total_kwh,total_co2,total_water&id=eq.1', {
+            headers: { 'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZwbnBmbmFod2F6dGRseHVheXl2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA1NDY2NTcsImV4cCI6MjA3NjEyMjY1N30.Q6mn8RIvXujBXbd10aFkeY7yGHVsAQPEHM5OzoPMsFQ' }
+        }).then(r => r.json()).then(d => {
+            if (d[0]) {
+                document.getElementById('dash-global-count').textContent = Number(d[0].total_count || 0).toLocaleString();
+                document.getElementById('dash-global-kwh').textContent = Number(d[0].total_kwh || 0).toFixed(2);
+                const co2 = Number(d[0].total_co2 || 0);
+                document.getElementById('dash-global-co2').textContent = co2 < 1000 ? Math.round(co2) : (co2 / 1000).toFixed(1) + 'k';
+                const water = Number(d[0].total_water || 0);
+                document.getElementById('dash-global-water').textContent = water < 1000 ? Math.round(water) : (water / 1000).toFixed(1) + 'k';
+            }
+        }).catch(() => {});
+    }
+
+    // ── Sidebar active state
+    const obs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active'));
+                const link = document.querySelector('.sidebar a[href="#' + e.target.id + '"]');
+                if (link) link.classList.add('active');
+            }
+        });
+    }, { rootMargin: '-15% 0px -75% 0px' });
+
+    document.querySelectorAll('[id]').forEach(el => {
+        if (el.tagName === 'SECTION' || el.tagName === 'H2') obs.observe(el);
+    });
+
+    document.querySelectorAll('.sidebar a[href^="#"]').forEach(a => {
+        a.addEventListener('click', () => document.querySelector('.sidebar').classList.remove('open'));
+    });
+    </script>
+</body>
+</html>
